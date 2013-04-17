@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8>
+    <title>Нарисуй мне. Регистрация.</title>
+      <link rel="stylesheet" href="/public/css/style.css"/>
+      <script src="/public/js/jquery-1.8.2.min.js"></script>
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="/public/js/registration.js"></script>
+
+  </head>
+  <body>
+  {{-modules.header}}
+  <div class="main">
+    <div class="registration-full">
+        <h1>Присоединяйтесь к нам сегодня.</h1>
+        <div class="prompt user">
+            <div class="field-name">Имя и фамилия</div>
+                <p class="source">  Введите ваше имя и фамилию.</p>
+                <p class="isok">    Превосходное имя!</p>
+                <p class="iserror"> Необходимо указать имя!</p>
+            <input id="user" value="" name="user" type="text" autocomplete="off" class="general-input"  spellcheck="false" >
+        </div>
+        <div class="prompt">
+            <div class="field-name">Электронная почта</div>
+                <p class="source">Укажите адрес электронной почты.</p>
+                <p class="isok">    Вам будет выслано подтверждение.</p>
+                <p class="check">   Проверка...</p>
+                <p class="iserror"> Необходимо указать адрес электронной почты!</p>
+                <p class="iserror"> Данный адрес электронной почты уже зарегистрирован. Хотите <a href="/login">войти</a> или <a href="/account/resend_password">восстановить пароль</a>?</p>
+            <input id="email" value="" name="email" type="email" autocomplete="off" class="general-input"  spellcheck="false">
+        </div>
+        <div class="prompt">
+            <div class="field-name">Создать пароль</div>
+                <p class="source">6 знаков или больше! Будьте хитрее.</p>
+                <p class="isok">    Хороший пароль!</p>
+                <p class="iserror"> Необходимо ввести пароль!</p>
+            <input id="password" value="" name="email" type="password" autocomplete="off" class="general-input"  spellcheck="false">
+        </div>
+        <div class="prompt">
+            <div class="field-name">Выберите имя пользователя</div>
+                <p class="source">  Не беспокойтесь, вы можете изменить его позже.</p>
+                <p class="isok">    Имя свободно. Это можно изменить позже</p>
+                <p class="check">   Проверка...</p>
+                <p class="iserror"> Необходимо указать имя пользователя! Это можно изменить позже</p>
+                <p class="iserror"> Это имя уже занято!</p>
+            <input id="login" value="" name="login" type="text" autocomplete="off" class="general-input" spellcheck="false" >
+        </div>
+
+        <input id="submit" type="submit" value="Создать учётную запись">
+    </div>
+
+  {{-modules.footer}}
+  </div>	
+  </body>
+</html>

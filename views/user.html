@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>{{=dataUser.user}}</title>
+  <link rel="stylesheet" href="/public/css/style.css"/>
+  <link rel="stylesheet" href="/public/css/themes.css"/>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/public/js/jquery-1.8.2.min.js"></script>
+	<script src="/public/js/colorpicker.js"></script>
+	<script src="/public/js/scripts.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="main">
+
+  {{-modules.header}}
+  <div class="user">
+      <div class="data-field">
+          <hgroup>
+            <h1>{{=dataUser.name}} {{=dataUser.surname}}</h1>
+            <img src='/public/images/face/{{=dataUser.face}}'>
+          </hgroup>
+
+          <aside>
+              <div id="sliderSize"></div>
+              <div id="sliderOpacity"></div>
+              <div id="color-picker" class="cp-small"></div>
+              <div id="demoPicker"></div>
+              <button id="clear">clear</button>
+          </aside>
+      </div>
+      <div class="canvas-field">
+          <article>
+              <div id="placeCanvas"><!-- our canvas will be inserted here--></div>
+          </article>
+      </div>
+
+  </div>
+  {{-modules.footer}}
+  </div>
+</body>
+</html>

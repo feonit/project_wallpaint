@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html image-background>
+<head>
+<meta charset=utf-8>
+<title>Нарисуй мне. Регистрация.</title>
+    <link rel="stylesheet" href="/public/css/style.css"/>
+    <script src="/public/js/jquery-1.8.2.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/public/js/registration.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+    <script src="http://yandex.st/jquery/cookie/1.0/jquery.cookie.min.js" type="text/javascript"></script>
+
+
+</head>
+<body class="image-background">
+  <div class="main">
+      {{-modules.header}}
+  <div class="index">
+    <div class="intro">
+    <h1>Добро пожаловать!</h1>
+    <p>Рисуйте друг другу!</p>
+
+    <img class="example" height="100" width="140" src="/public/images/example.png"></div>
+
+    <div class="registration">
+      <div class="content">
+          <p><span>Впервые здесь? <span>Присоединяйтесь</span></span></p>
+          <form action="/registration">
+              <input id="user" value="" name="user" type="text" autocomplete="off" class="general-input" placeholder="Имя и фамилия" spellcheck="false" ">
+              <input id="email" value="" name="email" type="email" autocomplete="off" class="general-input" placeholder="Адрес электронной почты" spellcheck="false">
+              <input id="submit" title="" type="submit" value="Регистрация">
+          </form>
+      </div>
+    </div>
+  </div>
+    {{-modules.footer}}
+  </div>
+</body>
+</html>

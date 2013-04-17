@@ -1,0 +1,279 @@
+*{
+    font-family: Arial,sans-serif;
+    margin:0;
+    padding: 0;
+    border:0;
+}
+html{
+    height: 100%;
+}
+body{
+    height: 100%;
+}
+
+.image-background{
+    background: url('/public/images/background/colour-rainbow.jpg') no-repeat center center fixed;
+    /*http://sitear.ru/material/css-background-rastyanut*/
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+h1{
+    font: 35px Arial,sans-serif;
+}
+h2{
+    font: 25px Arial,sans-serif;
+}
+h3{
+    font: 15px Arial,sans-serif;
+}
+
+a{
+    text-decoration: none;
+}
+li{
+    list-style: none;
+}
+.main {
+    min-height: 100%;
+    position: relative;
+}
+header {
+    position: relative;
+    display: block;
+    color: #fe00c0;
+    background: rgba(0,0,0,0.5);
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.5);
+}
+footer {
+    height: 20px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+input{
+    outline: none;
+}
+img {
+   height: 100px;
+    width: 100px;
+    border-radius: 100px;
+}
+nav {
+    position: absolute;
+    right: 0;
+    top:0;
+}
+canvas {
+    background: rgba(0,0,0,0);
+}
+#sliderSize{
+    width: 10%;
+}
+#sliderOpacity{
+    width: 10%;
+}
+#placeCanvas{
+    background: #ffffff;
+}
+.data-field{
+    position: absolute;
+    left: 0;
+    top:0;
+}
+.canvas-field{
+}
+.canvasLayer{
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+nav ul li{
+    float: left;
+}
+.index{
+    position: relative;
+    padding: 5%;
+}
+.intro{
+    position: absolute;
+    width: 50%;
+    left:5%;
+    background: rgba(255,255,255,0);
+
+    border-radius: 5px;
+    padding: 20px;
+}
+.intro p{
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    text-shadow: rgb(0, 0, 0) 0px 1px 2px;
+    color:#ddd;
+}
+.registration{
+    position: absolute;
+    left:65%;
+    border-radius: 5px;
+    background: rgb(255,252,252); /* Old browsers */
+    background: rgb(255,252,252); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(255,252,252,1) 0%, rgba(245,247,249,1) 42%, rgba(229,235,238,1) 82%, rgba(215,222,227,1) 96%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,252,252,1)), color-stop(42%,rgba(245,247,249,1)), color-stop(82%,rgba(229,235,238,1)), color-stop(96%,rgba(215,222,227,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(255,252,252,1) 0%,rgba(245,247,249,1) 42%,rgba(229,235,238,1) 82%,rgba(215,222,227,1) 96%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(255,252,252,1) 0%,rgba(245,247,249,1) 42%,rgba(229,235,238,1) 82%,rgba(215,222,227,1) 96%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(255,252,252,1) 0%,rgba(245,247,249,1) 42%,rgba(229,235,238,1) 82%,rgba(215,222,227,1) 96%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(255,252,252,1) 0%,rgba(245,247,249,1) 42%,rgba(229,235,238,1) 82%,rgba(215,222,227,1) 96%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fffcfc', endColorstr='#d7dee3',GradientType=0 ); /* IE6-9 */
+}
+.registration h1{
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    text-shadow: rgb(0, 0, 0) 0px 1px 2px;
+    color:white;
+}
+.registration p{
+    padding: 0.5em;
+    box-shadow: 0px 1px 0px white;
+    border-bottom: 1px solid #d7dee3;
+}
+.registration span{
+    font-weight: bold;
+    font-size: 0.9em;
+}
+.registration span span{
+    font-weight: normal;
+    font-size: 0.9em;
+}
+
+.registration .content{
+    position: relative;
+    height: 200px;
+}
+.registration #submit{
+    width: 163px;
+    margin: 0.5em;
+    position: absolute;
+    font-family: Calibri;
+    font-size: 24px;
+    right: 0;
+}
+#submit{
+    height: 40px;
+    padding: 0 0.5em;
+    font-size: 1em;
+    line-height: 38px;
+    text-align: center;
+    color: #121112;
+    font-weight: bold;
+    font-family: Arial;
+    font-style: normal;
+    text-shadow: 0px 1px 1px white;
+    border-radius: 4px;
+    box-shadow: 0px 2px 2px white;
+    border: 1px solid #fd9b10;
+    background: rgb(254,229,76); /* Old browsers */
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZlZTU0YyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZDliMTAiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgba(254,229,76,1) 0%, rgba(253,155,16,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(254,229,76,1)), color-stop(100%,rgba(253,155,16,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(254,229,76,1) 0%,rgba(253,155,16,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(254,229,76,1) 0%,rgba(253,155,16,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(254,229,76,1) 0%,rgba(253,155,16,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(254,229,76,1) 0%,rgba(253,155,16,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fee54c', endColorstr='#fd9b10',GradientType=0 ); /* IE6-8 */
+
+}
+#submit:focus,#submit:hover{
+    box-shadow: 0 0 3px orange;
+}
+.registration input{
+    display: block;
+    width: 220px;
+    margin: 1em;
+}
+.general-input{
+    height: 24px;
+    padding: 4px 5px;
+    width: 350px;
+    border: 1px solid #c9d0d5;
+    color: #777;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 4px;
+    box-shadow: 0px 1px 1px #d7dee3 inset, 0px 0px 1px white;
+
+}
+.general-input:focus{
+    box-shadow: 0px 0px 7px #008cff;
+    border: 1px solid #008cff;
+}
+
+.registration-full{
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 2em 5em;
+    padding: 0em 8em;
+}
+.registration-full .prompt{
+    position: relative;
+}
+
+.registration-full #submit{
+    font-size: 0.8em;
+    width: 360px;
+}
+.registration-full h1{
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 2em 0;
+}
+.registration-full .field-name{
+    font-weight: bold;
+    font-size: 0.8em;
+    color:#333;
+    width: 250px;
+}
+
+.registration-full p{
+    font-size: 0.9em;
+    position: absolute;
+    padding-left: 20px;
+    left: 402px;
+    top:2em;
+    width: 250px;
+}
+
+.registration-full input{
+    margin: 0.2em 0 1.5em 0;
+}
+.visible{
+    visibility:visible;
+}
+.hidden{
+    visibility:hidden;
+}
+
+.source{
+    color:#999;
+}
+.isok{
+    background-image: url('/public/images/accept.png') ;
+    background-position: center left;
+    background-repeat: no-repeat;
+
+    color: #390;
+}
+
+.iserror{
+    background-image: url(./public/images/error.png);
+    background-position: center left;
+    background-repeat: no-repeat;
+    color: #c33;
+}
