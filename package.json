@@ -13,10 +13,10 @@
     "socket.io": "0.9.14",
     "mysql": "2.0.0-alpha7",
     "ejs": "0.8.3",
-    "nodemailer": "0.4.1",
+    "nodemailer": "0.4.1"
   },
   "engines": {
-    "node": "0.10.4",
-    "npm": "1.2.18"
+    "node": "0.10.x",
+    "npm": "1.2.x"
   }
 }
