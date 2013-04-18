@@ -53,7 +53,9 @@ footer {
     bottom: 0;
     width: 100%;
 }
-
+aside{
+    z-index: 1000;
+}
 input{
     outline: none;
 }
@@ -263,17 +265,16 @@ nav ul li{
 .source{
     color:#999;
 }
-.isok{
-    background-image: url('/public/images/accept.png') ;
-    background-position: center left;
-    background-repeat: no-repeat;
-
+.ok{
+    background: url('/public/images/accept.png') no-repeat center left;
     color: #390;
 }
+.check{
+    background: url('/public/images/spinner-small.gif') no-repeat center left;
+    color: #999;
+}
 
-.iserror{
-    background-image: url(./public/images/error.png);
-    background-position: center left;
-    background-repeat: no-repeat;
+.error{
+    background: url('/public/images/error.png') no-repeat center left;
     color: #c33;
 }

@@ -1,10 +1,22 @@
 {
-  "name": "wall-paint",
-  "description": "hello world test app",
+  "name": "wallpaint",
   "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "start": "node app"
+  },
   "dependencies": {
-    "express": "3.1.0",
-    "mysql": "2.0.0-alpha7"
+    "express": "3.2.0",
+    "mysql": "2.0.0-alpha7",
+    "canvas": "1.0.2",
+    "connect": "2.7.6",
+    "socket.io": "0.9.14",
+    "mysql": "2.0.0-alpha7",
+    "ejs": "0.8.3",
+    "nodemailer": "0.4.1",
+  },
+  "engines": {
+    "node": "0.10.4",
+    "npm": "1.2.18"
   }
 }

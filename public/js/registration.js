@@ -1,25 +1,27 @@
 (function ($,io) {
 
-    var permitUser = undefined;
-    var permitEmail = undefined;
+  var permitUser = undefined;
+  var permitEmail = undefined;
 
-    function log(str) {
-        console.log("[ log ] " + str);
-    }
-    function warn(str) {
-        console.warn("[ warn ] " + str);
-    }
-    function error(str) {
-        console.error("[ error ] " + str);
-    }
-    var regExp = {
-        isValidEmail : function(email) {
-            return (/^([a-z0-9_-]+.)*[a-z0-9_-]+@([a-z0-9][a-z0-9-]*[a-z0-9].)+\.[a-z]{2,4}$/i).test(email);
-        },
-        isValidName : function(user) {
-            return (/^[A-Za-z]{3,15}$/i).test(user);
-        }
-    }
+  function log(str) {
+      console.log("[ log ] " + str);
+  }
+  function warn(str) {
+      console.warn("[ warn ] " + str);
+  }
+  function error(str) {
+      console.error("[ error ] " + str);
+  }
+  function read (obj){  for (var k in obj) {    if (obj.hasOwnProperty(k)){      log("[ read ] " + k + " : " + obj[k])    }  }};
+
+  var regExp = {
+      name :  (/^[A-Za-z]{1,30}$/i)
+      ,email : (/^([a-z0-9_-]+.)*[a-z0-9_-]+@([a-z0-9][a-z0-9-]*[a-z0-9].)+\.[a-z]{2,4}$/i)
+      ,password : (/^[A-Za-z]{6,30}$/i)
+      ,user : (/^[A-Za-z]{1,30}$/i)
+  }
+
+
 
   $(document).ready(function() {
 
@@ -27,11 +29,42 @@
 
 
         $(".prompt input").bind("click", function(){
-            $("p.source",$(this.parentNode)).removeClass("hidden")
+            setStat(this, "source");
         });
 
-        $(".prompt.user input")[0].onkeyup = function(){
-          log(this.value)
+        $("#name")[0].onkeyup = function(){
+          if(event.keyCode==9)return setStat(this, "source");
+          if(regExp.name.test(this.value)){
+            setStat(this, "ok");
+          }else{
+            setStat(this, "error");
+          }
+        }
+        $("#email")[0].onkeyup = function(event){
+          if(event.keyCode==9)return setStat(this, "source");
+          if(regExp.email.test(this.value)){
+            setStat(this, "ok");
+            socket.emit('searchEmail', {email:this.value});
+          }else{
+            setStat(this, "error");
+          }
+        }
+        $("#password")[0].onkeyup = function(){
+          if(event.keyCode==9)return setStat(this, "source");
+          if(regExp.password.test(this.value)){
+            setStat(this, "ok");
+          }else{
+            setStat(this, "error");
+          }
+        }
+        $("#user")[0].onkeyup = function(){
+          if(event.keyCode==9)return setStat(this, "source");
+          if(regExp.user.test(this.value)){
+            setStat(this, "ok");
+            socket.emit('searchUser', {user:this.value});
+          }else{
+            setStat(this, "error");
+          }
         }
 /*
         kk = function(){
@@ -79,18 +112,13 @@
 
     socket.on('searchUserAnswer', function(data){
         permitUser = !data.answer;
-        var bUser = $("#user");
-        var check = (data.answer) ? "К сожалению, это имя уже занято" : "Имя свободно";
-        bUser.tooltip({ content: check ,position: { my: "left+15 center", at: "right center" } });
-        bUser.tooltip('open');
-      $( document ).tooltip();
+        var input = $("#user")[0];
+        (data.answer)?setStat(input, "error", "exist"):setStat(input, "ok");
     });
     socket.on('searchEmailAnswer', function(data){
         permitEmail = !data.answer;
-        var bEmail = $("#email");
-        var check = (data.answer) ? "К сожалению, этот емаил уже зарегистрирован" : "Емаил свободен";
-        bEmail.tooltip({ content: check ,position: { my: "left+15 center", at: "right center" }});
-        bEmail.tooltip('open');
+      var input = $("#email")[0];
+      (data.answer)?setStat(input, "error", "exist"):setStat(input, "ok");
     });
     socket.on("responseForAddUser", function(err){
       var response = undefined;
@@ -134,3 +162,10 @@
 
 })($,io);
 
+function setStat(input, stat, exist){
+  var field = $(input.parentNode);
+  var p = (exist)?"p."+stat+"."+exist : "p."+stat;
+  if(stat == "source")$(input).unbind("click");
+  $("p",field).addClass("hidden");
+  $(p, field).eq(0).removeClass("hidden");
+}
