@@ -1,12 +1,26 @@
 (function(){
 
   var mysql = require('mysql');
+///*
+  var host = 'mysql.hostinger.ru';
+  var user = 'u413402242_root';
+  var password = 'pe104767';
+  var database = 'u413402242_nastene';
+//*/
+
+/*
+  var host = 'localhost';
+  var user = 'root';
+  var password = 'pe104767';
+  var database = 'test';
+*/
+
   var connection = mysql.createConnection({
-    host:'localhost',
+    host:host,
     port:'3306', //Default
-    user:'root',
-    password:'pe104767',
-    db:'test',
+    user:user,
+    password:password,
+    db:database,
     charset:'UTF8_GENERAL_CI', //Default
     typeCast:'false'       //Default Determines if column values should be converted to native JavaScript types
   })
@@ -20,34 +34,38 @@
       echo('SOMETHING IS RESULT' + res);
     });
   var statusConnect = connection.connect(function (err) {
-    if (err) {
-      error(err)
-    }
+    if (!err) {
+        echo ('mysql connected');
+        initdb();
+    }else error('mysql unconected'+ err)
   });
-  echo(statusConnect);
+  echo('connection : '+connection);
 
-  (function createTableUsers() {
-    var sql = "CREATE TABLE IF NOT EXISTS `test`.`users` ("
-      + "id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,"
-      + "user CHAR(30),"
-      + "name CHAR(30),"
-      + "surname CHAR(30),"
-      + "password CHAR(30),"
-      + "email CHAR(30),"
-      + "background CHAR(30),"
-      + "face CHAR(30)"
-      + ");";
-    return query(sql);
-  })();
-  (function createConfirmUsers() {
-    var sql = "CREATE TABLE IF NOT EXISTS `test`.`confirm`("
-      + "id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,"
-      + "hash CHAR(100) NOT NULL,"
-      + "user CHAR(30) NOT NULL,"
-      + "email CHAR(30) NOT NULL"
-      + ");";
-    return query(sql);
-  })();
+  function initdb(){
+      (function createTableUsers() {
+          var sql = "CREATE TABLE IF NOT EXISTS `"+ database +"`.`users` ("
+              + "id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,"
+              + "user CHAR(30),"
+              + "name CHAR(30),"
+              + "surname CHAR(30),"
+              + "password CHAR(30),"
+              + "email CHAR(30),"
+              + "background CHAR(30),"
+              + "face CHAR(30)"
+              + ");";
+          return query(sql);
+      })();
+      (function createConfirmUsers() {
+          var sql = "CREATE TABLE IF NOT EXISTS `"+ database +"`.`confirm`("
+              + "id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,"
+              + "hash CHAR(100) NOT NULL,"
+              + "user CHAR(30) NOT NULL,"
+              + "email CHAR(30) NOT NULL"
+              + ");";
+          return query(sql);
+      })();
+  }
+
 
   function query(sql, post, callback) {
     var errRes = function (err, res){
@@ -70,11 +88,11 @@
        * email
        * }
        * */
-      var sql = "INSERT INTO test.confirm SET ?";
+      var sql = "INSERT INTO "+ database +".confirm SET ?";
       return query(sql, post);
     };
   exports.getConfirm=function (hash, callback) {
-      var sql = "SELECT * FROM test.confirm WHERE hash = '" + hash + "'";
+      var sql = "SELECT * FROM "+ database +".confirm WHERE hash = '" + hash + "'";
       return query(sql, 0, callback);
     };
   exports.createNewUser=function (data) {
@@ -85,7 +103,7 @@
           var post = {
             user:data['user'] || 'default', name:data['name'] || 'default', surname:data['surname'] || 'default', password:data['password'] || 'default', email:data['email'] || 'default', background:data['background'] || 'default', face:data['face'] || 'default'
           };
-          var sql = 'INSERT INTO test.users SET ?;';
+          var sql = 'INSERT INTO '+ database +'.users SET ?;';
           success = true;
           return query(sql, post);
         }
@@ -94,7 +112,7 @@
       return success;
     };
   exports.createTableForUser=function (user) {
-      var sql = "CREATE TABLE IF NOT EXISTS `test`.`" + user + "` ( "
+      var sql = "CREATE TABLE IF NOT EXISTS `"+ database +"`.`" + user + "` ( "
         + "x INTEGER NOT NULL,"
         + "y INTEGER NOT NULL,"
         + "size INTEGER NOT NULL,"
@@ -107,19 +125,19 @@
       return query(sql);
     };
   exports.getDataUser=function (data, dataBy, callback) {
-      var sql = "SELECT * FROM test.users WHERE " + dataBy + " = '" + data + "';";
+      var sql = "SELECT * FROM "+ database +".users WHERE " + dataBy + " = '" + data + "';";
       return query(sql, 0, callback);
     };
   exports.clearTableForUser=function (user) {
-      var sql = "TRUNCATE TABLE test." + user + ";";
+      var sql = "TRUNCATE TABLE "+ database +"." + user + ";";
       return query(sql);
     };
   exports.getTableData=function (user, func) {
-      var sql = "SELECT * FROM test." + user + ";";
+      var sql = "SELECT * FROM "+ database +"." + user + ";";
       return query(sql, 0, func);
     };
   exports.addDrawToTable=function (user, post) {
-      var sql = "INSERT INTO test." + user + " SET ?";
+      var sql = "INSERT INTO "+ database +"." + user + " SET ?";
       return query(sql, post);
     };
 })();
