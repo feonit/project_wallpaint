@@ -10,7 +10,6 @@
     , routes = require('./controller/routes')
     , socket = require('./controller/socket')
     , ejs = require('ejs');
-  //var canvas = require('canvas');
 
   socket.init(server);
   server.listen(80);
