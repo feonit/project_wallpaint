@@ -1,19 +1,19 @@
 (function(){
 
   var mysql = require('mysql');
-///*
+/*
   var host = 'mysql.hostinger.ru';
   var user = 'u413402242_root';
   var password = 'pe104767';
   var database = 'u413402242_nastene';
-//*/
+*/
 
-/*
+///*
   var host = 'localhost';
   var user = 'root';
   var password = 'pe104767';
   var database = 'test';
-*/
+//*/
 
   var connection = mysql.createConnection({
     host:host,
