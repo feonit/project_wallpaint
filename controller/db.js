@@ -2,10 +2,10 @@
 
   var mysql = require('mysql');
 ///*
-  var host = 'mysql.hostinger.ru';
-  var user = 'u413402242_root';
-  var password = 'pe104767';
-  var database = 'u413402242_nastene';
+  var host = 'sql2.freemysqlhosting.net';     //31.170.164.38 //31.170.164.17
+  var user = 'sql26865';
+  var password = 'zH4%iV1!';
+  var database = 'u413402242_db';
 //*/
 
 /*
@@ -39,7 +39,7 @@
         initdb();
     }else error('mysql unconected'+ err)
   });
-  echo('connection : '+connection);
+
 
   function initdb(){
       (function createTableUsers() {
