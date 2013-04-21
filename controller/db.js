@@ -1,12 +1,20 @@
 (function(){
 
   var mysql = require('mysql');
+
 ///*
-  var host = 'sql2.freemysqlhosting.net';     //31.170.164.38 //31.170.164.17
+  var host = 'sql2.freemysqlhosting.net';
   var user = 'sql26865';
   var password = 'zH4%iV1!';
-  var database = 'u413402242_db';
+  var database = 'sql26865';
 //*/
+
+/*
+  var host = 'mysql.hostinger.ru';
+  var user = 'u413402242_root';
+  var password = 'pe104767';
+  var database = 'u413402242_nastene';
+*/
 
 /*
   var host = 'localhost';
