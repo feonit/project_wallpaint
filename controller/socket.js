@@ -6,6 +6,10 @@
 
   exports.init = function(server){
     var io = exports.io = socket.listen(server);
+      io.configure(function () {
+          io.set("transports", ["xhr-polling"]);
+          io.set("polling duration", 10);
+      });
     io.sockets.on('connection', function (socket) {
       socket.on('drawClick', function (data) {
         eventApp.addDrawTodb(socket, data);

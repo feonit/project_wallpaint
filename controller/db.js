@@ -1,27 +1,27 @@
 (function(){
 
   var mysql = require('mysql');
+  var connections = [];
+    connections.push({
+        host:"localhost"
+        ,user:"root"
+        ,password:"pe104767"
+        ,database:"test"
+    });
+    connections.push({
+        host:"sql2.freemysqlhosting.net"
+        ,user:"sql26865"
+        ,password:"zH4%iV1!"
+        ,database:"sql26865"
+    });
 
-///*
-  var host = 'sql2.freemysqlhosting.net';
-  var user = 'sql26865';
-  var password = 'zH4%iV1!';
-  var database = 'sql26865';
-//*/
+  var server = connections[1];
 
-/*
-  var host = 'mysql.hostinger.ru';
-  var user = 'u413402242_root';
-  var password = 'pe104767';
-  var database = 'u413402242_nastene';
-*/
+    var host = server.host;
+    var user = server.user;
+    var password = server.password;
+    var database = server.database;
 
-/*
-  var host = 'localhost';
-  var user = 'root';
-  var password = 'pe104767';
-  var database = 'test';
-*/
 
   var connection = mysql.createConnection({
     host:host,
