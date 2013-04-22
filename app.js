@@ -12,7 +12,7 @@
     , ejs = require('ejs');
 
   socket.init(server);
-  server.listen(8080);
+  server.listen(80);
 
   app.configure('development',function(){
   ejs.open = '{{';
