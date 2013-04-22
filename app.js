@@ -10,6 +10,7 @@
     , routes = require('./controller/routes')
     , socket = require('./controller/socket')
     , ejs = require('ejs');
+    , canvas = require('canvas');
 
   app.configure('development',function(){
   ejs.open = '{{';
