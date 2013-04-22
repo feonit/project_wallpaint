@@ -12,11 +12,14 @@
     , ejs = require('ejs');
 
   socket.init(server);
-  server.listen(80);
+    server.listen(app.get('port'), function(){
+        console.log('Express server listening on port ' + app.get('port'));
+    });
 
   app.configure('development',function(){
   ejs.open = '{{';
   ejs.close = '}}';
+  app.set('port', process.env.PORT || 3000);
   app.engine('.html', ejs.__express);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'html');
