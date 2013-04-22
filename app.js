@@ -11,11 +11,6 @@
     , socket = require('./controller/socket')
     , ejs = require('ejs');
 
-  socket.init(server);
-    server.listen(app.get('port'), function(){
-        console.log('Express server listening on port ' + app.get('port'));
-    });
-
   app.configure('development',function(){
   ejs.open = '{{';
   ejs.close = '}}';
@@ -33,6 +28,12 @@
   app.get('/registration', routes.registration);
   app.get('/registration_continue', routes.registration_continue);
   app.get('/:name?', routes.user);
+
+
+    socket.init(server);
+    server.listen(app.get('port'), function(){
+        console.log('Express server listening on port ' + app.get('port'));
+    });
 
   db.createNewUser({
     user:'feonit', name:'Леонид', surname:'Орлов', password:'232323', email:'feonitu@yandex.ru', background:'background.png', face:'face.jpg'
