@@ -7,19 +7,21 @@
       <script src="/public/js/jquery-1.8.2.min.js"></script>
       <script src="/socket.io/socket.io.js"></script>
       <script src="/public/js/registration.js"></script>
-
+      <script src="http://yandex.st/jquery/cookie/1.0/jquery.cookie.min.js" type="text/javascript"></script>
   </head>
   <body>
   {{-modules.header}}
   <div class="main">
     <div class="registration-full">
-        <h1>Присоединяйтесь к нам сегодня.</h1>
+      <h1>Присоединяйтесь к нам сегодня.</h1>
+      <form method="post" action="registration_result">
         <div class="prompt">
             <div class="field-name">Имя и фамилия</div>
                 <p class="source">  Введите ваше имя и фамилию.</p>
                 <p class="ok">    Превосходное имя!</p>
+                <p class="check">   Проверка...</p>
                 <p class="error"> Необходимо указать имя!</p>
-            <input id="name" value="" name="user" type="text" autocomplete="off" class="general-input"  spellcheck="false" >
+            <input id="name" value="" name="name" type="text" autocomplete="off" class="general-input"  spellcheck="false" >
         </div>
         <div class="prompt">
             <div class="field-name">Электронная почта</div>
@@ -34,8 +36,9 @@
             <div class="field-name">Создать пароль</div>
                 <p class="source">6 знаков или больше! Будьте хитрее.</p>
                 <p class="ok">    Хороший пароль!</p>
+                <p class="check">   Проверка...</p>
                 <p class="error"> Необходимо ввести пароль!</p>
-            <input id="password" value="" name="email" type="password" autocomplete="off" class="general-input"  spellcheck="false">
+            <input id="password" value="" name="password" type="password" autocomplete="off" class="general-input"  spellcheck="false">
         </div>
         <div class="prompt">
             <div class="field-name">Выберите имя пользователя</div>
@@ -44,10 +47,10 @@
                 <p class="check">   Проверка...</p>
                 <p class="error"> Необходимо указать имя пользователя! Это можно изменить позже</p>
                 <p class="error exist"> Это имя уже занято!</p>
-            <input id="user" value="" name="login" type="text" autocomplete="off" class="general-input" spellcheck="false" >
+            <input id="user" value="" name="user" type="text" autocomplete="off" class="general-input" spellcheck="false" >
         </div>
-
         <input id="submit" type="submit" value="Создать учётную запись">
+      </form>
     </div>
 
   {{-modules.footer}}

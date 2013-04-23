@@ -29,6 +29,7 @@
     console.log('<img src="' + canvas.toDataURL() + '" />');
 
   app.configure('development',function(){
+  app.use(express.bodyParser());
   ejs.open = '{{';
   ejs.close = '}}';
   app.set('port', process.env.PORT || 3000);
@@ -43,14 +44,17 @@
   app.get('/index', routes.index);
   app.get('/feonit/settings', routes.settings);
   app.get('/registration', routes.registration);
+  app.post('/registration', routes.registration);
+  app.post('/registration_result', routes.registration_result);
   app.get('/registration_continue', routes.registration_continue);
   app.get('/:name?', routes.user);
 
 
-    socket.init(server);
+
     server.listen(app.get('port'), function(){
         console.log('Express server listening on port ' + app.get('port'));
     });
+    socket.init(server);
 
   db.createNewUser({
     user:'feonit', name:'Леонид', surname:'Орлов', password:'232323', email:'feonitu@yandex.ru', background:'background.png', face:'face.jpg'

@@ -1,5 +1,8 @@
 var db = require('./db')
-  , fs = require('fs');
+  , fs = require('fs')
+  , regular = require('./regular').regExp
+  , eventapp = require('./eventapp')
+  , mail = require('./mail');
 
   function getModules(){
     return {
@@ -27,6 +30,50 @@ var db = require('./db')
       modules:getModules()
     };
     res.render(view, data);
+  };
+  exports.registration_result = function(req, res) {
+      var data = req.body;
+          var user = data['user']
+              , email = data['email']
+              , name = data['name']
+              , password = data['password']
+              , host = data['host']
+              , err = undefined;
+
+          function answer(answer){
+              var view = 'registration_result';
+              var data = {
+                  modules:getModules(),
+                  answer:answer
+              };
+              res.render(view, data);
+          }
+
+          if (user && email && name && password){
+              if (regular.user.test(user)){
+                  if (regular.email.test(email)){
+                      //db.getDataUser(user, 'user',function(res){
+                      //if (!res[0]){
+                      //db.getDataUser(email, 'email',function(res){
+                      //if (!res[0]){
+                      var time = new Date().getTime();
+                      var hash = eventapp.getHash(user + email + time);
+                      var mailOptions = mail.createMassageRegistration(host, email, user, hash);
+                      var confirm = {
+                          hash:hash,
+                          user:user,
+                          email:email
+                      };
+                      db.addConfirm(confirm);
+                      mail.sendMassage(mailOptions);
+                      answer('Вам на почту было отправлено писмо с инструкцией для завершения регистрации');
+                      //}else err = "Такой емаил уже был зарегистрирован";
+                      //});
+                      //}else err = "Пользователь с таким именем уже есть";
+                      //});
+                  } else answer("Емаил не корректен");
+              } else answer("Имя не корректно");
+          } else answer("Потеря данных");
   };
   exports.user = function(req, res) {
     var view = 'user';

@@ -1,7 +1,4 @@
-(function ($,io) {
-
-  var permitUser = undefined;
-  var permitEmail = undefined;
+(function ($, io, undefined) {
 
   function log(str) {
       console.log("[ log ] " + str);
@@ -15,152 +12,150 @@
   function read (obj){  for (var k in obj) {    if (obj.hasOwnProperty(k)){      log("[ read ] " + k + " : " + obj[k])    }  }};
 
   var regExp = {
-      name :  (/^[A-Za-z]{1,30}$/i)
+      name :  (/^[A-Za-zА-Яа-я ]{1,30}$/i)
       ,email : (/^([a-z0-9_-]+.)*[a-z0-9_-]+@([a-z0-9][a-z0-9-]*[a-z0-9].)+\.[a-z]{2,4}$/i)
-      ,password : (/^[A-Za-z]{6,30}$/i)
+      ,password : (/^[A-Za-zА-Яа-я0-9]{6,30}$/i)
       ,user : (/^[A-Za-z]{1,30}$/i)
   }
 
-
+  var permitUser =  true;
+  var permitEmail =  true;
 
   $(document).ready(function() {
+    var bName = $("#name")[0]
+        , bEmail = $("#email")[0]
+        , bPassword = $("#password")[0]
+        , bUser = $("#user")[0]
+        , bPrompts = $(".prompt p")
+        , bInputs = $(".prompt input")
+        , dForm = $("form")
+        , bAnswer = $("#answer")[0];
+      var socket = io.connect(window.location.host);
 
-    $(".prompt p").toggleClass("hidden");
 
-
-        $(".prompt input").bind("click", function(){
-            setStat(this, "source");
-        });
-
-        $("#name")[0].onkeyup = function(){
-          if(event.keyCode==9)return setStat(this, "source");
-          if(regExp.name.test(this.value)){
-            setStat(this, "ok");
-          }else{
-            setStat(this, "error");
+      bPrompts.toggleClass("hidden");
+      bInputs.each(function(){
+          this.onclick = function(){
+              setStat(this, "source");
+          };
+          this.onblur = function(){
+              this.onkeyup();
           }
-        }
-        $("#email")[0].onkeyup = function(event){
-          if(event.keyCode==9)return setStat(this, "source");
-          if(regExp.email.test(this.value)){
-            setStat(this, "ok");
-            socket.emit('searchEmail', {email:this.value});
-          }else{
-            setStat(this, "error");
+          this.onkeydown = function(){
+              setStat(this, "check");
           }
-        }
-        $("#password")[0].onkeyup = function(){
-          if(event.keyCode==9)return setStat(this, "source");
-          if(regExp.password.test(this.value)){
-            setStat(this, "ok");
-          }else{
-            setStat(this, "error");
+      });
+
+
+      bName.onkeyup = function(event){
+          if(event){
+              if(event.keyCode==9)return setStat(this, "source");
           }
-        }
-        $("#user")[0].onkeyup = function(){
-          if(event.keyCode==9)return setStat(this, "source");
-          if(regExp.user.test(this.value)){
-            setStat(this, "ok");
-            socket.emit('searchUser', {user:this.value});
-          }else{
-            setStat(this, "error");
+          var node = this;
+          var handler = function (){
+              var input = node;
+              if(regExp.name.test(input.value)){
+                  setStat(input, "ok");
+              }else{
+                  setStat(input, "error");
+              }
           }
+          window.setTimeout(handler, 1000);
+          return false;
         }
-/*
-        kk = function(){
-            var reg = /\W/;
+      bEmail.onkeyup = function(event){
+          if(event){
+              if(event.keyCode==9)return setStat(this, "source");
+          }
+          var node = this;
+          //event.stopImmediatePropagation();
+          var handler = function (){
+              var input = node;
+              setStat(input, "ok");
+              if(regExp.email.test(input.value)){
+                  socket.emit('searchEmail', {email:input.value});
+              }else{
+                  setStat(input, "error");
+              }
+          }
+          window.setTimeout(handler, 2000);
+          return false;
+        }
+      bPassword.onkeyup = function(event){
+          if(event){
+              if(event.keyCode==9)return setStat(this, "source");
+          }
+          var node = this;
+          var handler = function (){
+              var input = node;
+              if(regExp.password.test(input.value)){
+                  setStat(input, "ok");
+              }else{
+                  setStat(input, "error");
+              }
+          }
+          window.setTimeout(handler, 1500);
+          return false;
+        }
+      bUser.onkeyup = function(event){
+          if(event){
+              if(event.keyCode==9)return setStat(this, "source");
+          }
+          var node = this;
+          var handler = function (){
+              var input = node;
+              if(regExp.user.test(input.value)){
+                  setStat(this, "ok");
+                  socket.emit('searchUser', {user:input.value});
+              }else{
+                  setStat(input, "error");
+              }
+          }
+          clearTimeout(this.timeout_id);
+          this.timeout_id = window.setTimeout(handler, 2500);
 
-            if(regExp.isValidName(this.value)){
-                socket.emit('searchUser', {user:this.value});
-            }
+          return false;
         }
-        jj.onkeyup = function(){
-            var reg = /[^A-Za-z@0-9-.]/;
-            if(reg.test(this.value)){
-                this.value = this.value.replace(reg, '');
-            }
-            var reg = /.{30,}$/;
-            if(reg.test(this.value)){
-                this.value = this.value.replace(reg, '');
-            }
-            if (regExp.isValidEmail(this.value)){
-                socket.emit('searchEmail', {email:this.value});
-            }
-        }
-        jl.onclick = function(){
+      dForm.submit(function(){
+          if(regExp.name.test(bName.value)
+           &&regExp.email.test(bEmail.value)
+           &&regExp.password.test(bPassword.value)
+           &&regExp.user.test(bUser.value)
+           &&permitUser
+           &&permitEmail){
+              return true;//разрешить отправку
+          }else{
+              return false;
+          }
+      });
 
-          $.cookie("user", bUser.value);
-          $.cookie("email", bEmail.value);
-        }
-    */
-    /*
-     if(permitUser && permitEmail){
-     var data = {
-     user : bUser.value
-     , email : bEmail.value
-     , host : window.location.host
-     };
-     log("create" + data);
-     socket.emit('addUser', data);
-     permitUser =undefined;
-     permitEmail =undefined;
-     }
-     */
+      if($.cookie('user')){
+          bUser.value = $.cookie('user');
+          setStat(bUser, "check");
+          bUser.onkeyup();
+      }
+      if($.cookie('email')){
+          bEmail.value = $.cookie('email');
+          setStat(bEmail, "check");
+          bEmail.onkeyup();
+      }
+
+      socket.on('searchUserAnswer', function(data){
+          permitUser = !data.answer;
+          var input = $("#user")[0];
+          (data.answer)?setStat(input, "error", "exist"):setStat(input, "ok");
+      });
+      socket.on('searchEmailAnswer', function(data){
+          permitEmail = !data.answer;
+          var input = $("#email")[0];
+          (data.answer)?setStat(input, "error", "exist"):setStat(input, "ok");
+      });
+      socket.on("responseForAddUser", function(err){
+          var response = err || "Сервер не отвечает";
+          bAnswer.innerHTML = response;
+      });
     });
-
-    var socket = io.connect(window.location.host);
-
-    socket.on('searchUserAnswer', function(data){
-        permitUser = !data.answer;
-        var input = $("#user")[0];
-        (data.answer)?setStat(input, "error", "exist"):setStat(input, "ok");
-    });
-    socket.on('searchEmailAnswer', function(data){
-        permitEmail = !data.answer;
-      var input = $("#email")[0];
-      (data.answer)?setStat(input, "error", "exist"):setStat(input, "ok");
-    });
-    socket.on("responseForAddUser", function(err){
-      var response = undefined;
-        switch(err) {
-            case 0: {
-                response = "Вам на почту было отправлено писмо с инструкцией для завершения регистрации";
-                break;
-            }
-            case 1: {
-                response = "Потеря данных";
-                break;
-            }
-            case 2: {
-                response = "Имя не корректно";
-                break;
-            }
-            case 3: {
-                response = "Емаил не корректен";
-                break;
-            }
-            case 4: {
-                response = "Пользователь с таким именем уже есть";
-                break;
-            }
-            case 5: {
-                response = "Такой емаил уже был зарегистрирован";
-                break;
-            }
-            default: {
-                response = "Сервер не отвечает";
-                break;
-            }
-        }
-      $("#registration")[0].innerHTML = response; //todo place for answer
-        var bUser = $("#user")[0];
-        var bEmail = $("#email")[0];
-
-        bUser.value = '';
-        bEmail.value = '';
-    });
-
-})($,io);
+})($,io,window);
 
 function setStat(input, stat, exist){
   var field = $(input.parentNode);

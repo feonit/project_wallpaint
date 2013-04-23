@@ -1,9 +1,9 @@
-exports.isValidEmail = function(email) {
-    return (/^([a-z0-9_-]+.)*[a-z0-9_-]+@([a-z0-9][a-z0-9-]*[a-z0-9].)+\.[a-z]{2,4}$/i).test(email);
-  };
-exports.isValidName = function(user) {
-    return (/^[A-Za-z]{3,15}$/i).test(user);
-  };
+exports.regExp = {
+    name :  (/^[A-Za-zА-Яа-я ]{1,30}$/i)
+    ,email : (/^([a-z0-9_-]+.)*[a-z0-9_-]+@([a-z0-9][a-z0-9-]*[a-z0-9].)+\.[a-z]{2,4}$/i)
+    ,password : (/^[A-Za-zА-Яа-я0-9]{6,30}$/i)
+    ,user : (/^[A-Za-z]{1,30}$/i)
+}
 
 function roughSizeOfObject( object ) {
 
