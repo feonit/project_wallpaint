@@ -61,8 +61,10 @@ var db = require('./db')
                       var mailOptions = mail.createMassageRegistration(host, email, user, hash);
                       var confirm = {
                           hash:hash,
-                          user:user,
-                          email:email
+                          name:name,
+                          password:password,
+                          email:email,
+                          user:user
                       };
                       db.addConfirm(confirm);
                       mail.sendMassage(mailOptions);
@@ -102,7 +104,7 @@ var db = require('./db')
             , email = data['email']
             , hash = data['hash'];
           if (query['user'] === user && query['email'] === email && query['hash'] === hash) {
-            db.createNewUser(query);
+            db.createNewUser(data);
             db.createTableForUser(user);
             res.redirect('/'+user);
             res.end();

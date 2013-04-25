@@ -26,7 +26,7 @@
     ctx.lineTo(50 + te.width, 102);
     ctx.stroke();
 
-    console.log('<img src="' + canvas.toDataURL() + '" />');
+    //console.log('<img src="' + canvas.toDataURL() + '" />');
 
   app.configure('development',function(){
   app.use(express.bodyParser());
@@ -55,10 +55,10 @@
         console.log('Express server listening on port ' + app.get('port'));
     });
     socket.init(server);
-
+  /*
   db.createNewUser({
     user:'feonit', name:'Леонид', surname:'Орлов', password:'232323', email:'feonitu@yandex.ru', background:'background.png', face:'face.jpg'
   });
   db.createTableForUser('feonit');
-
+  */
 })();

@@ -2,8 +2,8 @@ var App;
 App = {};
 
 App.DEFAULT_COLOR       = { r:0, g:0, b:0 };
-App.DEFAULT_SIZE        = 5;
-App.DEFAULT_OPACITY     = 100;
+App.DEFAULT_SIZE        = 10;
+App.DEFAULT_OPACITY     = 10;
 App.DEFAULT_HEIGHT      = 300;
 App.DEFAULT_WIDTH       = 1000;
 App.LOGIN               = "user" + new Date().getTime();

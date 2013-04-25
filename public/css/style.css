@@ -20,13 +20,13 @@ body{
     background-size: cover;
 }
 h1{
-    font: 35px Arial,sans-serif;
+    font: 1.5em Arial,sans-serif;
 }
 h2{
-    font: 25px Arial,sans-serif;
+    font: 1em Arial,sans-serif;
 }
 h3{
-    font: 15px Arial,sans-serif;
+    font: 0.8em Arial,sans-serif;
 }
 
 a{
@@ -43,8 +43,8 @@ header {
     position: relative;
     display: block;
     color: #fe00c0;
-    background: rgba(0,0,0,0.5);
-    box-shadow: 0px 5px 15px rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.8);
+    box-shadow: 0px 1px 1px rgba(0,0,0,0.8);
 }
 footer {
     height: 20px;
@@ -56,13 +56,17 @@ footer {
 aside{
     z-index: 1000;
 }
+.field-set{
+    float:left;
+    min-width:100px;
+}
 input{
     outline: none;
 }
 img {
-   height: 100px;
-    width: 100px;
-    border-radius: 100px;
+   height: 50px;
+    width: 50px;
+    border-radius: 5px;
 }
 nav {
     position: absolute;
@@ -73,18 +77,15 @@ canvas {
     background: rgba(0,0,0,0);
 }
 #sliderSize{
-    width: 10%;
+    width: 100%;
 }
 #sliderOpacity{
-    width: 10%;
+    width: 100%;
 }
 #placeCanvas{
-    background: #ffffff;
+border:1px solid #ccc;
 }
 .data-field{
-    position: absolute;
-    left: 0;
-    top:0;
 }
 .canvas-field{
 }

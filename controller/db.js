@@ -15,7 +15,7 @@
         ,database:"sql26865"
     });
 
-  var server = connections[1];
+  var server = connections[0];
 
     var host = server.host;
     var user = server.user;
@@ -50,6 +50,14 @@
 
 
   function initdb(){
+      connection.query("SET NAMES 'utf8'");
+      connection.query("SET CHARACTER SET 'utf8'");
+      connection.query("SET SESSION collation_connection = 'utf8_general_ci'");
+      connection.query("set character_set_database='utf8'");
+      connection.query("set character_set_server='utf8'");
+      connection.query("set character_set_client='utf8'");
+      connection.query("set character_set_results='utf8'");
+
       (function createTableUsers() {
           var sql = "CREATE TABLE IF NOT EXISTS `"+ database +"`.`users` ("
               + "id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,"
@@ -67,8 +75,10 @@
           var sql = "CREATE TABLE IF NOT EXISTS `"+ database +"`.`confirm`("
               + "id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,"
               + "hash CHAR(100) NOT NULL,"
-              + "user CHAR(30) NOT NULL,"
-              + "email CHAR(30) NOT NULL"
+              + "name CHAR(30) NOT NULL,"
+              + "email CHAR(30) NOT NULL,"
+              + "password CHAR(30) NOT NULL,"
+              + "user CHAR(30) NOT NULL"
               + ");";
           return query(sql);
       })();

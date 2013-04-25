@@ -17,30 +17,34 @@
 </head>
 <body>
 <div class="main">
-
   {{-modules.header}}
-  <div class="user">
-      <div class="data-field">
-          <hgroup>
-            <h1>{{=dataUser.name}} {{=dataUser.surname}}</h1>
-            <img src='/public/images/face/{{=dataUser.face}}'>
-          </hgroup>
+    <div class="data-field">
+      <hgroup>
+        <h1>{{=dataUser.name}}</h1>
+        <img src='/public/images/face/{{=dataUser.face}}'>
+      </hgroup>
+    </div>
+    <div class="canvas-field">
+      <article>
+          <div id="placeCanvas"><!-- our canvas will be inserted here--></div>
+      </article>
+    </div>
+    <aside>
+        <div class="field-set">
+            <div id="demoPicker"></div>
+        </div>
+        <div class="field-set">
+            <div class="sliders">
+                <div id="sliderSize"></div>
+                <div id="sliderOpacity"></div>
+            </div>
+        </div>
+        <div class="field-set">
+            <div id="color-picker" class="cp-small"></div>
+        </div>
 
-          <aside>
-              <div id="sliderSize"></div>
-              <div id="sliderOpacity"></div>
-              <div id="color-picker" class="cp-small"></div>
-              <div id="demoPicker"></div>
-              <button id="clear">clear</button>
-          </aside>
-      </div>
-      <div class="canvas-field">
-          <article>
-              <div id="placeCanvas"><!-- our canvas will be inserted here--></div>
-          </article>
-      </div>
-
-  </div>
+        <button id="clear">clear</button>
+    </aside>
   {{-modules.footer}}
   </div>
 </body>
