@@ -18,33 +18,37 @@
 <body>
 <div class="main">
   {{-modules.header}}
-    <div class="data-field">
+    <div class="placeUserData">
       <hgroup>
         <h1>{{=dataUser.name}}</h1>
         <img src='/public/images/face/{{=dataUser.face}}'>
       </hgroup>
     </div>
-    <div class="canvas-field">
-      <article>
-          <div id="placeCanvas"><!-- our canvas will be inserted here--></div>
-      </article>
+    <div id="placeCanvas">
     </div>
-    <aside>
+    <div id="aside">
         <div class="field-set">
             <div id="demoPicker"></div>
         </div>
         <div class="field-set">
             <div class="sliders">
+                <div class="discriptionSlider">
+                    <span>Размер</span>
+                </div>
                 <div id="sliderSize"></div>
+                <div class="discriptionSlider">
+                    <span>Прозрачность</span>
+                </div>
                 <div id="sliderOpacity"></div>
             </div>
         </div>
         <div class="field-set">
             <div id="color-picker" class="cp-small"></div>
         </div>
-
-        <button id="clear">clear</button>
-    </aside>
+        <div class="field-set">
+            <button id="clear">clear</button>
+        </div>
+    </div>
   {{-modules.footer}}
   </div>
 </body>

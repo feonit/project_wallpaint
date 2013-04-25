@@ -4,8 +4,8 @@ App = {};
 App.DEFAULT_COLOR       = { r:0, g:0, b:0 };
 App.DEFAULT_SIZE        = 10;
 App.DEFAULT_OPACITY     = 10;
-App.DEFAULT_HEIGHT      = 300;
-App.DEFAULT_WIDTH       = 1000;
+App.DEFAULT_HEIGHT      = 2480;
+App.DEFAULT_WIDTH       = 3508;
 App.LOGIN               = "user" + new Date().getTime();
 App.PAGE                = location.pathname.replace("/", "");
 
@@ -42,12 +42,8 @@ App.storeCanvas = {
     $('#placeCanvas')[0].appendChild(canvas);
       if(login!=='default'){
         var offset = $('#canvas_0').offset();
-        var canvasOffsetTop = offset.top;
-        var canvasOffsetLeft = offset.left;
         var canvasFromDom = $('#'+canvas.id);
         canvasFromDom.addClass('canvasLayer');
-//        canvasFromDom.css('top',canvasOffsetTop);
-//        canvasFromDom.css('left', canvasOffsetLeft);
         this.canvasLogins[login] = canvas;
       }
     return canvas;
@@ -82,9 +78,8 @@ App.demoPicker = {
     this.ctx.lineJoin = "round";
     return this.redrawPicker();
   },
-  redrawPicker : function(){
+  redrawPicker : function(size){
     var color = App.ctx.color;
-    var size = App.ctx.size;
     var opacity = App.ctx.opacity;
     var style = "rgb("+color.r+","+color.g+","+color.b+")";
     var ctx = this.ctx;
@@ -267,8 +262,11 @@ $(document).ready(function(){
   $("#sliderSize").slider({
     min:1, max:100, step:1, value:App.DEFAULT_SIZE, animate:"fast", orientation:"horizontal", range:false,
     slide:function (event, ui) {
-      App.ctx.size = ui.value;
-      App.demoPicker.redrawPicker();
+      var differenceWidth = place.offsetWidth/App.canvas.width;
+      var size = ui.value;
+        //var differenceHeight = place.offsetHeight/App.canvas.height;
+      App.ctx.size = size/differenceWidth;
+      App.demoPicker.redrawPicker(size);
       canvasMove = false;
     },
     start:function(event){
@@ -305,24 +303,34 @@ $(document).ready(function(){
         App.socket.emit('clearAllCanvas', {nameFromPath:App.PAGE});
     };
 
+
   var place = $("#placeCanvas")[0];
     $("body")
         .mousedown(function(event){
-            var x = event.pageX - place.offsetLeft;
-            var y = event.pageY - place.offsetTop;
+            if(event.button)return;
+            var differenceWidth = place.offsetWidth/App.canvas.width;
+            var differenceHeight = place.offsetHeight/App.canvas.height;
+
+            var x = Math.floor((event.pageX - place.offsetLeft)/differenceWidth);
+            var y = Math.floor((event.pageY - place.offsetTop)/differenceHeight);
+
             var draw = App.createDraw(x, y);
             App.socket.emit('drawClick', draw);
             App.drawLine(draw);
             mouseMove = true;
         })
         .mousemove(function(event){
-            if (mouseMove&&canvasMove){
-                var x = event.pageX - place.offsetLeft;;
-                var y = event.pageY - place.offsetTop; ;
-                var draw = App.createDraw(x, y);
-                App.socket.emit('drawClick', draw);
-                App.drawLine(draw);
-            }
+            if(!mouseMove&&canvasMove)return;
+            if(event.button)return;
+            var differenceWidth = place.offsetWidth/App.canvas.width;
+            var differenceHeight = place.offsetHeight/App.canvas.height;
+
+            var x = Math.floor((event.pageX - place.offsetLeft)/differenceWidth);
+            var y = Math.floor((event.pageY - place.offsetTop)/differenceHeight);
+            var draw = App.createDraw(x, y);
+            App.socket.emit('drawClick', draw);
+            App.drawLine(draw);
+
         })
         .mouseup(function(){
             mouseMove = false;

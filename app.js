@@ -55,10 +55,10 @@
         console.log('Express server listening on port ' + app.get('port'));
     });
     socket.init(server);
-  /*
+
   db.createNewUser({
-    user:'feonit', name:'Леонид', surname:'Орлов', password:'232323', email:'feonitu@yandex.ru', background:'background.png', face:'face.jpg'
+    user:'feonit', name:'Леонид', surname:'Орлов', password:'232323', email:'feonitu@yandex.ru', background:'background.png', face:'feonit.jpg'
   });
   db.createTableForUser('feonit');
-  */
+
 })();

@@ -29,6 +29,10 @@ h3{
     font: 0.8em Arial,sans-serif;
 }
 
+input{
+    outline: none;
+}
+
 a{
     text-decoration: none;
 }
@@ -53,16 +57,16 @@ footer {
     bottom: 0;
     width: 100%;
 }
-aside{
-    z-index: 1000;
+#aside{
+    background: #444;
 }
 .field-set{
     float:left;
     min-width:100px;
+    border: 5px solid red;
 }
-input{
-    outline: none;
-}
+
+
 img {
    height: 50px;
     width: 50px;
@@ -73,8 +77,22 @@ nav {
     right: 0;
     top:0;
 }
-canvas {
-    background: rgba(0,0,0,0);
+nav ul li{
+    float: left;
+}
+
+#placeCanvas{
+    border:5px solid #ccc;
+    position: relative;
+    margin:10%;
+}
+#placeCanvas canvas {
+    width: 100%;
+}
+#placeCanvas .canvasLayer{
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 #sliderSize{
     width: 100%;
@@ -82,22 +100,11 @@ canvas {
 #sliderOpacity{
     width: 100%;
 }
-#placeCanvas{
-border:1px solid #ccc;
-}
-.data-field{
-}
-.canvas-field{
-}
-.canvasLayer{
-    position: absolute;
-    left: 0;
-    top: 0;
-}
 
-nav ul li{
-    float: left;
-}
+
+<!--           User            -->
+
+
 .index{
     position: relative;
     padding: 5%;
