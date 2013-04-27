@@ -85,9 +85,11 @@ var db = require('./db')
     var name = req.params.name;
     db.getDataUser(name, "user", function (dataUser) {
       if (dataUser[0]) {
-        data.dataUser = dataUser[0];
-        data.dataUser.canvasImage = dataToImage(data.dataUser);
-        res.render(view, data);
+          data.dataUser = dataUser[0];
+          db.getTableData(name, function(dataTable){
+            data.canvasImage = dataToImage(dataTable);
+            res.render(view, data);
+        })
       }
       else {
         res.end("File or user " + name + " wasn't found");
@@ -96,7 +98,7 @@ var db = require('./db')
     function dataToImage(data){
 
       var App = require('./scripts').App;
-
+      App.init();
       var canvas = App.canvas = App.storeCanvas.newCanvasCtx("default");
       var ctx = App.ctx = App.canvas.ctx;
       App.store.getData(data);

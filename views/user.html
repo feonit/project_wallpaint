@@ -18,7 +18,7 @@
   <![endif]-->
 </head>
 <body>
-<div class="main image-background-wood">
+<div>
   {{-modules.header}}
     <div class="rotated">
       <hgroup>
@@ -26,7 +26,7 @@
         <img id="userFace" src='/public/images/face/{{=dataUser.face}}'>
       </hgroup>
     </div>
-  <img id="imageData" src={{=dataUser.canvasImage}} />
+  <img id="imageData" src={{=canvasImage}} />
   <div id="placeCanvas" class="curved-hz-1">
       <canvas></canvas>
     </div>

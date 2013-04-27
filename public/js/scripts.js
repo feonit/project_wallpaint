@@ -2,8 +2,8 @@ var App;
 App = {};
 
 App.DEFAULT_COLOR       = { r:0, g:0, b:0 };
-App.DEFAULT_SIZE        = 10;
-App.DEFAULT_OPACITY     = 10;
+App.DEFAULT_SIZE        = 50;
+App.DEFAULT_OPACITY     = 100;
 App.DEFAULT_HEIGHT      = 2480;
 App.DEFAULT_WIDTH       = 3508;
 App.LOGIN               = "user" + new Date().getTime();
@@ -43,15 +43,15 @@ App.storeCanvas = {
     canvas.ctx = canvas.getContext("2d");
     canvas.ctx.lineCap = "round";
     canvas.ctx.lineJoin = "round";
+
       if(login!=='default'){
         canvas.setAttribute('class', 'canvasLayer')
         $('#placeCanvas')[0].appendChild(canvas);
       } else {
         var imageData = $('#imageData')[0];
         canvas.getContext("2d").drawImage(imageData,0,0);
-        return canvas;
       }
-
+      return canvas;
   },
   deleteCanvas:function (canvas) {
     delete this.canvasLogins[canvas.login];

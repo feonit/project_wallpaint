@@ -1,64 +1,66 @@
-var App;
-App = {};
+var App = exports.App = {}
 
-App.DEFAULT_COLOR       = { r:0, g:0, b:0 };
-App.DEFAULT_SIZE        = 10;
-App.DEFAULT_OPACITY     = 10;
-App.DEFAULT_HEIGHT      = 2480;
-App.DEFAULT_WIDTH       = 3508;
-App.LOGIN               = "user" + new Date().getTime();
-
+App.init = function(){
+    App.DEFAULT_COLOR       = { r:0, g:0, b:0 };
+    App.DEFAULT_SIZE        = 10;
+    App.DEFAULT_OPACITY     = 10;
+    App.DEFAULT_HEIGHT      = 2480;
+    App.DEFAULT_WIDTH       = 3508;
+    App.LOGIN               = "user" + new Date().getTime();
+    App.storeByName = {};
+    App.store.init();
+    App.storeCanvas.init();
+}
 
 App.store = {
-  data:[],
-  count:0,
-  getData:function (data) {
-    this.data = data;
-    this.count += data.length;
-  },
-  drawStore: function(){
-    var count = this.count;
-    for (var i = 0; i < count; i++) {
-      App.drawLine(App.store.data[i]);
+    data:[],
+    count:0,
+    getData:function (data) {
+        this.data = data;
+        this.count += data.length;
+    },
+    drawStore: function(){
+        var count = this.count;
+        for (var i = 0; i < count; i++) {
+            App.drawLine(App.store.data[i]);
+        }
+    },
+    init: function(){
+        this.data = [];
+        this.count = 0;
     }
-  }
 };
-
 App.storeCanvas = {
-  count:0,
-  canvasLogins:{},
-  newCanvasCtx:function (login) {
+    count:0,
+    canvasLogins:{},
+    newCanvasCtx:function (login) {
 
-    var Canvas = require('canvas')
-      , canvas = new Canvas(2480,3508);
+        var Canvas = require('canvas')
+            , canvas = new Canvas(2480,3508);
 
-      this.canvasLogins[login] = canvas;
+        this.canvasLogins[login] = canvas;
 
-    canvas.id = 'canvas_' + this.count++;
-    canvas.login = login;
-    canvas.height = App.DEFAULT_HEIGHT;
-    canvas.width = App.DEFAULT_WIDTH;
-    canvas.mouseXY = {x:[], y:[]};
-    canvas.ctx = canvas.getContext("2d");
-    canvas.ctx.lineCap = "round";
-    canvas.ctx.lineJoin = "round";
-    return canvas;
-  },
-  deleteCanvas:function (canvas) {
-  },
-  refresh : function() {
-    App.ctx.clearRect(0, 0, App.canvas.width, App.canvas.height);
-    for (var login in this.canvasLogins)App.storeCanvas.deleteCanvas(this.canvasLogins[login]);
-  }
+        canvas.id = 'canvas_' + this.count++;
+        canvas.login = login;
+        canvas.height = App.DEFAULT_HEIGHT;
+        canvas.width = App.DEFAULT_WIDTH;
+        canvas.mouseXY = {x:[], y:[]};
+        canvas.ctx = canvas.getContext("2d");
+        canvas.ctx.lineCap = "round";
+        canvas.ctx.lineJoin = "round";
+        return canvas;
+    },
+    deleteCanvas:function (canvas) {
+    },
+    refresh : function() {
+        App.ctx.clearRect(0, 0, App.canvas.width, App.canvas.height);
+        for (var login in this.canvasLogins)App.storeCanvas.deleteCanvas(this.canvasLogins[login]);
+    },
+    init : function(){
+        this.count=0;
+        this.canvasLogins={};
+    }
 };
-
-App.init = function () {
-
-  App.storeByName = {};
-
-
-};
-
 App.reDraw = function (touches, ctx){
   ctx.beginPath();
   ctx.moveTo(touches.x[0], touches.y[0]);
@@ -151,5 +153,3 @@ App.drawLine = function (draw) {
     }
   }
 }
-
-exports.App = App;
