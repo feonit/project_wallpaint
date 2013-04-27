@@ -5,7 +5,7 @@ exports.regExp = {
     ,user : (/^[A-Za-z]{1,30}$/i)
 }
 
-function roughSizeOfObject( object ) {
+exports.roughSizeOfObject = function( object ) {
 
   var objectList = [];
   var stack = [ object ];

@@ -29,9 +29,13 @@ App.storeCanvas = {
   count:0,
   canvasLogins:{},
   newCanvasCtx:function (login) {
-    var canvas = $('<canvas />')[0];
+    if(login=='default'){
+      var canvas = $('#placeCanvas canvas')[0];
+    }else{
+      var canvas = $('<canvas />')[0];
+      this.canvasLogins[login] = canvas;
+    }
     canvas.id = 'canvas_' + this.count++;
-    canvas.ctx = canvas.getContext("2d");
     canvas.login = login;
     canvas.height = App.DEFAULT_HEIGHT;
     canvas.width = App.DEFAULT_WIDTH;
@@ -39,14 +43,15 @@ App.storeCanvas = {
     canvas.ctx = canvas.getContext("2d");
     canvas.ctx.lineCap = "round";
     canvas.ctx.lineJoin = "round";
-    $('#placeCanvas')[0].appendChild(canvas);
       if(login!=='default'){
-        var offset = $('#canvas_0').offset();
-        var canvasFromDom = $('#'+canvas.id);
-        canvasFromDom.addClass('canvasLayer');
-        this.canvasLogins[login] = canvas;
+        canvas.setAttribute('class', 'canvasLayer')
+        $('#placeCanvas')[0].appendChild(canvas);
+      } else {
+        var imageData = $('#imageData')[0];
+        canvas.getContext("2d").drawImage(imageData,0,0);
+        return canvas;
       }
-    return canvas;
+
   },
   deleteCanvas:function (canvas) {
     delete this.canvasLogins[canvas.login];
@@ -114,8 +119,8 @@ App.init = function () {
         App.drawLine(draw);
       })
       .on('uploadStore', function (data) {
-        App.store.getData(data);
-        App.store.drawStore();
+        //App.store.getData(data);
+        //App.store.drawStore();
       })
       .on('clearAllCanvas', function () {
         App.storeCanvas.refresh();
@@ -178,8 +183,8 @@ App.init = function () {
         , g = draw.g
         , b = draw.b
         , size = draw.size
-        , opacity = draw.opacity / 100
-        , color = 'rgb(' + r + ',' + g + ',' + b +')'
+        , opacity = draw.opacity / 100                  //todo избавиться от лишнеге дележа
+        , color = 'rgb(' + r + ',' + g + ',' + b +')'   //стоит подумать о цвете, может не складывать
         , login = draw.login;
 
 

@@ -11,28 +11,12 @@
     , socket = require('./controller/socket')
     , ejs = require('ejs');
 
-    var Canvas = require('canvas')
-        , canvas = new Canvas(200,200)
-        , ctx = canvas.getContext('2d');
-
-    ctx.font = '30px Impact';
-    ctx.rotate(.1);
-    ctx.fillText("Awesome!", 50, 100);
-
-    var te = ctx.measureText('Awesome!');
-    ctx.strokeStyle = 'rgba(0,0,0,0.5)';
-    ctx.beginPath();
-    ctx.lineTo(50, 102);
-    ctx.lineTo(50 + te.width, 102);
-    ctx.stroke();
-
-    //console.log('<img src="' + canvas.toDataURL() + '" />');
 
   app.configure('development',function(){
   app.use(express.bodyParser());
   ejs.open = '{{';
   ejs.close = '}}';
-  app.set('port', process.env.PORT || 3000);
+  app.set('port', process.env.PORT || 80);
   app.engine('.html', ejs.__express);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'html');

@@ -80,7 +80,7 @@ footer {
     top:0;
 }
 
-img {
+#userFace {
    height: 3em;
     width: 3em;
     border-radius: 0.5em;
@@ -94,6 +94,9 @@ nav ul li{
     float: left;
 }
 
+#imageData{
+    display:none;
+}
 #placeCanvas{
     -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Для Firefox */
     -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Для Safari и Chrome */

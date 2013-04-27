@@ -23,10 +23,12 @@
     <div class="rotated">
       <hgroup>
         <h1>{{=dataUser.name}}</h1>
-        <img src='/public/images/face/{{=dataUser.face}}'>
+        <img id="userFace" src='/public/images/face/{{=dataUser.face}}'>
       </hgroup>
     </div>
-    <div id="placeCanvas" class="curved-hz-1">
+  <img id="imageData" src={{=dataUser.canvasImage}} />
+  <div id="placeCanvas" class="curved-hz-1">
+      <canvas></canvas>
     </div>
         <div id="color-picker" class="cp-normal"></div>
     <div class="field-set">

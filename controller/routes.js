@@ -86,12 +86,32 @@ var db = require('./db')
     db.getDataUser(name, "user", function (dataUser) {
       if (dataUser[0]) {
         data.dataUser = dataUser[0];
+        data.dataUser.canvasImage = dataToImage(data.dataUser);
         res.render(view, data);
       }
       else {
         res.end("File or user " + name + " wasn't found");
       }
     });
+    function dataToImage(data){
+
+      var App = require('./scripts').App;
+
+      var canvas = App.canvas = App.storeCanvas.newCanvasCtx("default");
+      var ctx = App.ctx = App.canvas.ctx;
+      App.store.getData(data);
+      App.store.drawStore();
+
+      ctx.strokeStyle = 'red';
+      ctx.lineWidth = 100;
+      ctx.beginPath();
+      ctx.lineTo(50, 50);
+      ctx.lineTo(2000, 2000);
+      ctx.stroke();
+      var roughSizeOfObject = require('./regular').roughSizeOfObject;
+      console.log(roughSizeOfObject(canvas.toDataURL()));
+      return canvas.toDataURL();
+    }
   };
   exports.registration_continue = function(req, res) {
     var host = req.host
