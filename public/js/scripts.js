@@ -136,12 +136,12 @@ App.init = function () {
     };
   }
     App.reDraw = function (touches, ctx){
-      //ctx.strokeStyle = color;
+      //ctx.strokeStyle = 'red';
       //ctx.lineWidth = 1;
-      //ctx.shadowOffsetX = 5;
-      //ctx.shadowOffsetY = 5;
-      //ctx.shadowBlur = 20;
-      //ctx.shadowColor = "rgba(0, 0, 0, 0.9)";
+      //ctx.shadowOffsetX = 0;
+      //ctx.shadowOffsetY = 0;
+      //ctx.shadowBlur = 500;
+      //ctx.shadowColor = "red";
       //var g = ctx.createLinearGradient(0, 0, touches.x[touches.x.length-1], touches.x[touches.x.length-1]);
         //g.addColorStop(0, 'blue');
         //g.addColorStop(1, 'red');

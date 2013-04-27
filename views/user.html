@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link href=”/public/images/favicon.ico” rel=”icon” type=”image/x-icon” />
+    <link href=”/public/images/favicon.ico” rel=”shortcut icon” type=”image/x-icon” />
   <meta charset="utf-8" />
   <title>{{=dataUser.user}}</title>
   <link rel="stylesheet" href="/public/css/style.css"/>
@@ -16,37 +18,27 @@
   <![endif]-->
 </head>
 <body>
-<div class="main">
+<div class="main image-background-wood">
   {{-modules.header}}
-    <div class="placeUserData">
+    <div class="rotated">
       <hgroup>
         <h1>{{=dataUser.name}}</h1>
         <img src='/public/images/face/{{=dataUser.face}}'>
       </hgroup>
     </div>
-    <div id="placeCanvas">
+    <div id="placeCanvas" class="curved-hz-1">
     </div>
-    <div id="aside">
-        <div class="field-set">
-            <div id="demoPicker"></div>
-        </div>
-        <div class="field-set">
-            <div class="sliders">
-                <div class="discriptionSlider">
-                    <span>Размер</span>
-                </div>
-                <div id="sliderSize"></div>
-                <div class="discriptionSlider">
-                    <span>Прозрачность</span>
-                </div>
-                <div id="sliderOpacity"></div>
-            </div>
-        </div>
-        <div class="field-set">
-            <div id="color-picker" class="cp-small"></div>
-        </div>
-        <div class="field-set">
-            <button id="clear">clear</button>
+        <div id="color-picker" class="cp-normal"></div>
+    <div class="field-set">
+        <div id="demoPicker"></div>
+    </div>
+    <div class="field-set">
+        <div class="field-sliders">
+            <div class="discription"><span>Размер</span></div>
+            <div class="slider" id="sliderSize"></div>
+            <div class="discription"><span>Прозрачность</span></div>
+            <div class="slider" id="sliderOpacity"></div>
+            j<button id="clear">clear</button>
         </div>
     </div>
   {{-modules.footer}}
