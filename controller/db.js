@@ -15,7 +15,7 @@
         ,database:"sql26865"
     });
 
-  var server = connections[1];
+  var server = connections[0];
 
     var host = server.host;
     var user = server.user;
