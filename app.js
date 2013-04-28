@@ -16,7 +16,7 @@
   app.use(express.bodyParser());
   ejs.open = '{{';
   ejs.close = '}}';
-  app.set('port', process.env.PORT || 80);
+  app.set('port', process.env.PORT || 3000);
   app.engine('.html', ejs.__express);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'html');
