@@ -339,10 +339,14 @@ $(document).ready(function(){
     var width = App.canvas.style.width;
     var widthInt = parseInt(width)/100||1;
 
-    var differenceWidth = place.offsetWidth/App.canvas.width;
-    var differenceHeight = place.offsetHeight/App.canvas.height;
+    var canvas = $('canvas')[0];
+    var ch = canvas.offsetHeight;
+    var cw = canvas.offsetWidth;
 
-    var x = Math.floor(((event.pageX - place.offsetLeft)/differenceWidth)/widthInt);
+    var differenceWidth = canvas.offsetWidth/App.canvas.width;
+    var differenceHeight = canvas.offsetHeight/App.canvas.height;
+
+    var x = Math.floor(((event.pageX - place.offsetLeft)/differenceWidth));
     var y = Math.floor(((event.pageY - place.offsetTop)/differenceHeight));
     return {x:x,y:y}
   }

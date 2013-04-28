@@ -104,6 +104,8 @@ nav ul li{
     cursor: crosshair; /* : url('/public/images/brush.png')   */
     overflow: hidden;
     line-height:0;
+    height: 30em;
+    width: 40em;
 }
 #placeCanvas canvas {
     width: 100%;
