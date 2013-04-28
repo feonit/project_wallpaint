@@ -102,9 +102,12 @@ nav ul li{
     position: relative;
     margin:10%;
     cursor: crosshair; /* : url('/public/images/brush.png')   */
+    overflow: hidden;
+    line-height:0;
 }
 #placeCanvas canvas {
     width: 100%;
+    border: 1px solid red;
 }
 #placeCanvas .canvasLayer{
     position: absolute;

@@ -3,6 +3,7 @@ App = {};
 
 App.DEFAULT_COLOR       = { r:0, g:0, b:0 };
 App.DEFAULT_SIZE        = 50;
+App.DEFAULT_SCALE       = 100;
 App.DEFAULT_OPACITY     = 100;
 App.DEFAULT_HEIGHT      = 2480;
 App.DEFAULT_WIDTH       = 3508;
@@ -250,6 +251,7 @@ App.init = function () {
 
 
 $(document).ready(function(){
+
   $("#sliderOpacity").slider({
     min:1, max:100, step:1, value:App.DEFAULT_OPACITY, animate:"fast", orientation:"horizontal", range:false,
     slide:function (event, ui) {
@@ -264,6 +266,7 @@ $(document).ready(function(){
       canvasMove = true;
     }
   });
+
   $("#sliderSize").slider({
     min:1, max:100, step:1, value:App.DEFAULT_SIZE, animate:"fast", orientation:"horizontal", range:false,
     slide:function (event, ui) {
@@ -280,6 +283,28 @@ $(document).ready(function(){
     stop : function(){
       canvasMove = true;
     }
+  });
+
+  $("#sliderScale").slider({
+      min:10, max:400, step:1, value:App.DEFAULT_SCALE, animate:"fast", orientation:"horizontal", range:false,
+      slide:function (event, ui) {
+          var size = ui.value;
+
+          var place = $("#placeCanvas")[0];
+          var height = place.offsetHeight;
+          //place.style.height = height + 'px';
+
+          App.canvas.style.width= size + "%";
+          //place.style.height = "";
+
+          canvasMove = false;
+      },
+      start:function(event){
+          event.stopImmediatePropagation();
+      },
+      stop : function(){
+          canvasMove = true;
+      }
   });
 
   //$("#draggable").draggable();
@@ -309,15 +334,26 @@ $(document).ready(function(){
     };
 
 
+  function getXY(){
+
+    var width = App.canvas.style.width;
+    var widthInt = parseInt(width)/100||1;
+
+    var differenceWidth = place.offsetWidth/App.canvas.width;
+    var differenceHeight = place.offsetHeight/App.canvas.height;
+
+    var x = Math.floor(((event.pageX - place.offsetLeft)/differenceWidth)/widthInt);
+    var y = Math.floor(((event.pageY - place.offsetTop)/differenceHeight));
+    return {x:x,y:y}
+  }
   var place = $("#placeCanvas")[0];
     $("body")
         .mousedown(function(event){
             if(event.button)return;
-            var differenceWidth = place.offsetWidth/App.canvas.width;
-            var differenceHeight = place.offsetHeight/App.canvas.height;
 
-            var x = Math.floor((event.pageX - place.offsetLeft)/differenceWidth);
-            var y = Math.floor((event.pageY - place.offsetTop)/differenceHeight);
+            var mouse = getXY();
+            var x = mouse.x;
+            var y = mouse.y;
 
             var draw = App.createDraw(x, y);
             App.socket.emit('drawClick', draw);
@@ -327,11 +363,11 @@ $(document).ready(function(){
         .mousemove(function(event){
             if(!mouseMove&&canvasMove)return;
             if(event.button)return;
-            var differenceWidth = place.offsetWidth/App.canvas.width;
-            var differenceHeight = place.offsetHeight/App.canvas.height;
 
-            var x = Math.floor((event.pageX - place.offsetLeft)/differenceWidth);
-            var y = Math.floor((event.pageY - place.offsetTop)/differenceHeight);
+            var mouse = getXY();
+            var x = mouse.x;
+            var y = mouse.y;
+
             var draw = App.createDraw(x, y);
             App.socket.emit('drawClick', draw);
             App.drawLine(draw);
@@ -343,7 +379,12 @@ $(document).ready(function(){
             App.socket.emit('drawClick', draw);
             App.drawLine(draw);
         });
-
+    $('#canvas_0')
+      .mousemove(function(event){
+        if(event.button==2){
+          alert(1)
+        }
+      })
     App.socket.emit('uploadDraw', {nameFromPath:App.PAGE});
 });
 
