@@ -289,7 +289,14 @@ $(document).ready(function(){
       min:10, max:400, step:1, value:App.DEFAULT_SCALE, animate:"fast", orientation:"horizontal", range:false,
       slide:function (event, ui) {
           var size = ui.value;
-
+          var canvas = $('canvas')[0];
+          if(size>100){
+            canvas.style.left = '-' + (size - 100)/2 + '%';
+            canvas.style.top = '-' + (size - 100)/2 + '%';
+          } else {
+            canvas.style.left = '';
+            canvas.style.top = '';
+          }
           var place = $("#placeCanvas")[0];
           var height = place.offsetHeight;
           //place.style.height = height + 'px';
@@ -340,14 +347,13 @@ $(document).ready(function(){
     var widthInt = parseInt(width)/100||1;
 
     var canvas = $('canvas')[0];
-    var ch = canvas.offsetHeight;
-    var cw = canvas.offsetWidth;
 
     var differenceWidth = canvas.offsetWidth/App.canvas.width;
     var differenceHeight = canvas.offsetHeight/App.canvas.height;
 
-    var x = Math.floor(((event.pageX - place.offsetLeft)/differenceWidth));
-    var y = Math.floor(((event.pageY - place.offsetTop)/differenceHeight));
+
+    var x = Math.floor(((event.pageX - place.offsetLeft - canvas.offsetLeft)/differenceWidth));
+    var y = Math.floor(((event.pageY - place.offsetTop - canvas.offsetTop)/differenceHeight));
     return {x:x,y:y}
   }
   var place = $("#placeCanvas")[0];
