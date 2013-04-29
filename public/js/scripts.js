@@ -383,12 +383,20 @@ $(document).ready(function(){
             App.socket.emit('drawClick', draw);
             App.drawLine(draw);
         });
-    $('#canvas_0')
-      .mousemove(function(event){
-        if(event.button==2){
-          alert(1)
+  var drag = $( ".draggable" );
+  drag.draggable();
+  drag.draggable( "option", "disabled", true )
+
+  $('#canvas_0')[0].onclick = function(event){
+        if(event.button==1){
+          var isDisabled = $( ".selector" ).draggable( "option", "disabled" );
+          if(isDisabled){
+            drag.draggable( "option", "disabled", false )
+          }else{
+            drag.draggable( "option", "disabled", true )
+          }
         }
-      })
+      }
     App.socket.emit('uploadDraw', {nameFromPath:App.PAGE});
 });
 
