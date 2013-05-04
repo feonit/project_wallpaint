@@ -31,7 +31,7 @@ App.storeCanvas = {
   canvasLogins:{},
   newCanvasCtx:function (login) {
     if(login=='default'){
-      var canvas = $('#placeCanvas canvas')[0];
+      var canvas = $('#allCanvas canvas')[0];
     }else{
       var canvas = $('<canvas />')[0];
       this.canvasLogins[login] = canvas;
@@ -47,7 +47,7 @@ App.storeCanvas = {
 
       if(login!=='default'){
         canvas.setAttribute('class', 'canvasLayer')
-        $('#placeCanvas')[0].appendChild(canvas);
+        $('#allCanvas')[0].appendChild(canvas);
       } else {
         var imageData = $('#imageData')[0];
         canvas.getContext("2d").drawImage(imageData,0,0);
@@ -56,9 +56,9 @@ App.storeCanvas = {
   },
   deleteCanvas:function (canvas) {
     delete this.canvasLogins[canvas.login];
-    var placeCanvas = document.getElementById("placeCanvas")
+    var allCanvas = document.getElementById("#allCanvas")
       , canvas = document.getElementById(canvas.id);
-    return placeCanvas.removeChild(canvas);
+    return allCanvas.removeChild(canvas);
   },
   refresh : function() {
     App.ctx.clearRect(0, 0, App.canvas.width, App.canvas.height);
@@ -128,7 +128,7 @@ App.init = function () {
       });
     return socket;
   })(window.location.host);
-    App.createDraw = function (x, y) {
+  App.createDraw = function (x, y) {
     return {
       x:x
       , y:y
@@ -141,7 +141,7 @@ App.init = function () {
       , login:App.LOGIN
     };
   }
-    App.reDraw = function (touches, ctx){
+  App.reDraw = function (touches, ctx){
       //ctx.strokeStyle = 'red';
       //ctx.lineWidth = 1;
       //ctx.shadowOffsetX = 0;
@@ -177,7 +177,7 @@ App.init = function () {
         ctx.stroke();
         return ctx.closePath();
     }
-    App.drawLine = function (draw) {
+  App.drawLine = function (draw) {
       var x = draw.x
         , y = draw.y
         , r = draw.r
@@ -252,6 +252,14 @@ App.init = function () {
 
 $(document).ready(function(){
 
+  App.init();
+  App.demoPicker.init();
+
+  var place = $("#placeCanvas")[0];
+  var body = $("body");
+  var canvas = $("#allCanvas .draggable");
+  var clear = $("#clear");
+
   $("#sliderOpacity").slider({
     min:1, max:100, step:1, value:App.DEFAULT_OPACITY, animate:"fast", orientation:"horizontal", range:false,
     slide:function (event, ui) {
@@ -289,32 +297,27 @@ $(document).ready(function(){
       min:10, max:400, step:1, value:App.DEFAULT_SCALE, animate:"fast", orientation:"horizontal", range:false,
       slide:function (event, ui) {
           var size = ui.value;
-          var canvas = $('canvas')[0];
+          var canvas = $('#allCanvas');
           if(size>100){
-            canvas.style.left = '-' + (size - 100)/2 + '%';
-            canvas.style.top = '-' + (size - 100)/2 + '%';
+          //  canvas.css('left', -(size - 100)/2 + '%');
+          //  canvas.css('top' , -(size - 100)/2 + '%');
           } else {
-            canvas.style.left = '';
-            canvas.style.top = '';
+           // canvas.css('left', Math.abs((size - 100)/2) + '%');
           }
-          var place = $("#placeCanvas")[0];
-          var height = place.offsetHeight;
-          //place.style.height = height + 'px';
 
-          App.canvas.style.width= size + "%";
-          //place.style.height = "";
+        canvas.css('width', size + "%");
+        canvas.css('height', size + "%");
 
-          canvasMove = false;
       },
       start:function(event){
-          event.stopImmediatePropagation();
+        body.unbind('mousedown', onMousedown);
+        event.stopImmediatePropagation();
       },
       stop : function(){
-          canvasMove = true;
+        body.bind('mousedown', onMousedown);
       }
   });
 
-  //$("#draggable").draggable();
 
   ColorPicker(document.getElementById('color-picker'),
     function (hex, hsv, rgb) {
@@ -322,9 +325,6 @@ $(document).ready(function(){
       App.demoPicker.redrawPicker();
     });
 
-
-  App.init();
-  App.demoPicker.init();
 // http://php-zametki.ru/javascript-laboratoriya/66-drag-and-drop-krossbrauzerno.html
   document.onselectstart = function () {
     return false;
@@ -335,75 +335,78 @@ $(document).ready(function(){
 
 
 
-    $("#clear")[0].onclick = function () {
-        App.storeCanvas.refresh();
-        App.socket.emit('clearAllCanvas', {nameFromPath:App.PAGE});
-    };
-
+  canvas.draggable({ opacity: 1.0 });
+  canvas.draggable( "option", "disabled", true );
+  $('#slider-panel').draggable();
+  $('#color-panel').draggable();
+  $('#image-panel').draggable();
 
   function getXY(){
-
-    var width = App.canvas.style.width;
-    var widthInt = parseInt(width)/100||1;
-
     var canvas = $('canvas')[0];
-
+    var allCanvas = $('#allCanvas')[0];
     var differenceWidth = canvas.offsetWidth/App.canvas.width;
     var differenceHeight = canvas.offsetHeight/App.canvas.height;
-
-
-    var x = Math.floor(((event.pageX - place.offsetLeft - canvas.offsetLeft)/differenceWidth));
-    var y = Math.floor(((event.pageY - place.offsetTop - canvas.offsetTop)/differenceHeight));
+    var x = Math.floor(((event.pageX - place.offsetLeft - allCanvas.offsetLeft - canvas.offsetLeft)/differenceWidth));
+    var y = Math.floor(((event.pageY - place.offsetTop - allCanvas.offsetTop - canvas.offsetTop)/differenceHeight));
     return {x:x,y:y}
   }
-  var place = $("#placeCanvas")[0];
-    $("body")
-        .mousedown(function(event){
-            if(event.button)return;
 
-            var mouse = getXY();
-            var x = mouse.x;
-            var y = mouse.y;
+  function onClear() {
+    App.storeCanvas.refresh();
+    App.socket.emit('clearAllCanvas', {nameFromPath:App.PAGE});
+  }
+  function onMousedown(event){
+    if(event.button)return;
 
-            var draw = App.createDraw(x, y);
-            App.socket.emit('drawClick', draw);
-            App.drawLine(draw);
-            mouseMove = true;
-        })
-        .mousemove(function(event){
-            if(!mouseMove&&canvasMove)return;
-            if(event.button)return;
+    var mouse = getXY();
+    var x = mouse.x;
+    var y = mouse.y;
 
-            var mouse = getXY();
-            var x = mouse.x;
-            var y = mouse.y;
+    var draw = App.createDraw(x, y);
+    App.socket.emit('drawClick', draw);
+    App.drawLine(draw);
+    mouseMove = true;
+  }
+  function onMousemove(event){
+    if(!mouseMove&&canvasMove)return;
+    if(event.button)return;
 
-            var draw = App.createDraw(x, y);
-            App.socket.emit('drawClick', draw);
-            App.drawLine(draw);
+    var mouse = getXY();
+    var x = mouse.x;
+    var y = mouse.y;
 
-        })
-        .mouseup(function(){
-            mouseMove = false;
-            var draw = App.createDraw(-100, -100);
-            App.socket.emit('drawClick', draw);
-            App.drawLine(draw);
-        });
-  var drag = $( ".draggable" );
-  drag.draggable();
-  drag.draggable( "option", "disabled", true )
+    var draw = App.createDraw(x, y);
+    App.socket.emit('drawClick', draw);
+    App.drawLine(draw);
 
-  $('#canvas_0')[0].onclick = function(event){
-        if(event.button==1){
-          var isDisabled = $( ".selector" ).draggable( "option", "disabled" );
-          if(isDisabled){
-            drag.draggable( "option", "disabled", false )
-          }else{
-            drag.draggable( "option", "disabled", true )
-          }
-        }
+  }
+  function onMouseup(){
+    mouseMove = false;
+    var draw = App.createDraw(-100, -100);
+    App.socket.emit('drawClick', draw);
+    App.drawLine(draw);
+  }
+  function onScale(event){
+    if(event.button==1){
+      var isDisabled = canvas.draggable( "option", "disabled" );
+      if(isDisabled){
+        canvas.draggable( "option", "disabled", false );
+        body.unbind('mousedown', onMousedown);
+      }else{
+        canvas.draggable( "option", "disabled", true );
+        body.bind('mousedown', onMousedown);
       }
-    App.socket.emit('uploadDraw', {nameFromPath:App.PAGE});
+    }
+  }
+
+  clear.bind('click', onClear);
+  canvas.bind('click', onScale);
+
+  body.bind('mousedown', onMousedown);
+  body.bind('mousemove', onMousemove);
+  body.bind('mouseup', onMouseup);
+
+  App.socket.emit('uploadDraw', {nameFromPath:App.PAGE});
 });
 
 

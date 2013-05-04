@@ -1,6 +1,6 @@
 var db = require('./db')
   , fs = require('fs')
-  , regular = require('./regular').regExp
+  , regular = require('./regular')
   , eventapp = require('./eventapp')
   , mail = require('./mail');
 
@@ -50,8 +50,8 @@ var db = require('./db')
           }
 
           if (user && email && name && password){
-              if (regular.user.test(user)){
-                  if (regular.email.test(email)){
+              if (regular.regExp.user.test(user)){
+                  if (regular.regExp.email.test(email)){
                       //db.getDataUser(user, 'user',function(res){
                       //if (!res[0]){
                       //db.getDataUser(email, 'email',function(res){
@@ -110,8 +110,8 @@ var db = require('./db')
       ctx.lineTo(50, 50);
       ctx.lineTo(2000, 2000);
       ctx.stroke();
-      var roughSizeOfObject = require('./regular').roughSizeOfObject;
-      console.log(roughSizeOfObject(canvas.toDataURL()));
+      console.log(regular.roughSizeOfObject(data));
+      console.log(regular.roughSizeOfObject(canvas.toDataURL()));
       return canvas.toDataURL();
     }
   };
