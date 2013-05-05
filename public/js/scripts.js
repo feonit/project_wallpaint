@@ -9,6 +9,9 @@ App.DEFAULT_HEIGHT      = 2480;
 App.DEFAULT_WIDTH       = 3508;
 App.LOGIN               = "user" + new Date().getTime();
 App.PAGE                = location.pathname.replace("/", "");
+App.MIN_SCALE           = 10;
+App.MAX_SCALE           = 400;
+App.SCALE               = 10;
 
 
 App.store = {
@@ -257,10 +260,36 @@ $(document).ready(function(){
 
   var place = $("#placeCanvas")[0];
   var body = $("body");
-  var canvas = $("#allCanvas .draggable");
   var clear = $("#clear");
+  var hand = $("#hand");
+  var eraser = $("#eraser");
+  var zoomIn = $("#zoomIn");
+  var zoomOut = $("#zoomOut");
+  var sliderScale = $( "#sliderScale");
+  var sliderSize = $("#sliderSize");
+  var sliderOpacity = $("#sliderOpacity");
+  var allCanvas = $('#allCanvas');
 
-  $("#sliderOpacity").slider({
+  var changeScale = function (event, ui) {
+    var w = place.offsetWidth/100;
+    var h = place.offsetHeight/100;
+
+    var l = allCanvas[0].offsetLeft;
+    var t = allCanvas[0].offsetTop;
+
+    var size = ui.value;
+    if(size>100){
+      allCanvas.css('left', -Math.abs(((size - 100)/2) ) + '%');
+      allCanvas.css('top' , -Math.abs(((size - 100)/2) ) + '%');
+    } else {
+      allCanvas.css('left', Math.abs(((size - 100)/2)) +'%');
+      allCanvas.css('top',  Math.abs(((size - 100)/2)) +'%');
+    }
+    allCanvas.css('width', size + "%");
+    allCanvas.css('height', size + "%");
+  }
+
+  sliderOpacity.slider({
     min:1, max:100, step:1, value:App.DEFAULT_OPACITY, animate:"fast", orientation:"horizontal", range:false,
     slide:function (event, ui) {
       App.ctx.opacity = ui.value;
@@ -274,8 +303,7 @@ $(document).ready(function(){
       canvasMove = true;
     }
   });
-
-  $("#sliderSize").slider({
+  sliderSize.slider({
     min:1, max:100, step:1, value:App.DEFAULT_SIZE, animate:"fast", orientation:"horizontal", range:false,
     slide:function (event, ui) {
       var differenceWidth = place.offsetWidth/App.canvas.width;
@@ -292,23 +320,10 @@ $(document).ready(function(){
       canvasMove = true;
     }
   });
-
-  $("#sliderScale").slider({
+  sliderScale.slider({
       min:10, max:400, step:1, value:App.DEFAULT_SCALE, animate:"fast", orientation:"horizontal", range:false,
-      slide:function (event, ui) {
-          var size = ui.value;
-          var canvas = $('#allCanvas');
-          if(size>100){
-          //  canvas.css('left', -(size - 100)/2 + '%');
-          //  canvas.css('top' , -(size - 100)/2 + '%');
-          } else {
-           // canvas.css('left', Math.abs((size - 100)/2) + '%');
-          }
-
-        canvas.css('width', size + "%");
-        canvas.css('height', size + "%");
-
-      },
+      change:changeScale,
+      slide:changeScale,
       start:function(event){
         body.unbind('mousedown', onMousedown);
         event.stopImmediatePropagation();
@@ -335,8 +350,8 @@ $(document).ready(function(){
 
 
 
-  canvas.draggable({ opacity: 1.0 });
-  canvas.draggable( "option", "disabled", true );
+  allCanvas.draggable({ opacity: 1.0 });
+  allCanvas.draggable( "option", "disabled", true );
   $('#slider-panel').draggable();
   $('#color-panel').draggable();
   $('#image-panel').draggable();
@@ -351,10 +366,12 @@ $(document).ready(function(){
     return {x:x,y:y}
   }
 
+
   function onClear() {
     App.storeCanvas.refresh();
     App.socket.emit('clearAllCanvas', {nameFromPath:App.PAGE});
   }
+
   function onMousedown(event){
     if(event.button)return;
 
@@ -386,21 +403,58 @@ $(document).ready(function(){
     App.socket.emit('drawClick', draw);
     App.drawLine(draw);
   }
-  function onScale(event){
-    if(event.button==1){
-      var isDisabled = canvas.draggable( "option", "disabled" );
-      if(isDisabled){
-        canvas.draggable( "option", "disabled", false );
-        body.unbind('mousedown', onMousedown);
-      }else{
-        canvas.draggable( "option", "disabled", true );
-        body.bind('mousedown', onMousedown);
+  function onDrag(){
+    var isDisabled = allCanvas.draggable( "option", "disabled" );
+    if(isDisabled){
+      allCanvas.draggable( "option", "disabled", false );
+      body.unbind('mousedown', onMousedown);
+      allCanvas.css('cursor','all-scroll')
+    }else{
+      allCanvas.draggable( "option", "disabled", true );
+      body.bind('mousedown', onMousedown);
+      allCanvas.css('cursor','crosshair')
+    }
+  }
+  function onEraser(){
+    App.ctx.color = {r: 255, g: 255, b: 255};
+  }
+  function onZoomOut(){
+    var value = sliderScale.slider( "option", "value") - App.SCALE;
+    if(value > App.MIN_SCALE){
+      sliderScale.slider( "option", "value", value );
+    }
+  }
+  function onZoomIn(){
+    var value = sliderScale.slider( "option", "value") + App.SCALE;
+    if (value < App.MAX_SCALE){
+        sliderScale.slider( "option", "value", value );
+      }
+  };
+  function onMouseWheel(event){
+    event.stopPropagation();
+    event.preventDefault();
+    if(event.originalEvent instanceof WheelEvent){
+      var value = sliderScale.slider( "option", "value");
+      value += event.originalEvent.wheelDelta/120;
+      if(value>App.MIN_SCALE && value < App.MAX_SCALE){
+        sliderScale.slider( "option", "value", value );
       }
     }
+    return false;
   }
 
   clear.bind('click', onClear);
-  canvas.bind('click', onScale);
+  eraser.bind('click', onEraser);
+  zoomOut.bind('click', onZoomOut);
+  zoomIn.bind('click', onZoomIn);
+  allCanvas.bind('mousewheel', onMouseWheel);
+  allCanvas.bind('mousewheel', onMouseWheel);
+  hand.bind('click', onDrag);
+  allCanvas.bind('click', function (event){
+    if(event.button==1){
+      onDrag();
+    }
+  });
 
   body.bind('mousedown', onMousedown);
   body.bind('mousemove', onMousemove);

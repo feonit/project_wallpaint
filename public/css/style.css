@@ -6,37 +6,30 @@ version: 2.9.0
 */
 html{color:#000;background:#FFF}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,select,p,blockquote,th,td{margin:0;padding:0}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}address,button,caption,cite,code,dfn,em,input,optgroup,option,select,strong,textarea,th,var{font:inherit}del,ins{text-decoration:none}li{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}q:before,q:after{content:''}abbr,acronym{border:0;font-variant:normal}sup{vertical-align:baseline}sub{vertical-align:baseline}legend{color:#000}
 
-@media (max-width: 1000px) {body{font-size: 1em;}}
-@media (max-width: 900px) {body{font-size: 0.9em;}}
-@media (max-width: 800px) {body{font-size: 0.8em;}}
-@media (max-width: 700px) {body{font-size: 0.7em;}}
-@media (max-width: 600px) {body{font-size: 0.6em;}}
-@media (max-width: 500px) {body{font-size: 0.5em;}}
-@media (max-width: 400px) {body{font-size: 0.4em;}}
-@media (max-width: 300px) {body{font-size: 0.3em;}}
-@media (max-width: 200px) {body{font-size: 0.2em;}}
-@media (max-width: 100px) {body{font-size: 0.1em;}}
-
+@media (max-width: 2080px) {body{font-size: 1.3em;}}
+@media (max-width: 1920px) {body{font-size: 1.2em;}}
+@media (max-width: 1760px) {body{font-size: 1.1em;}}
+@media (max-width: 1600px) {body{font-size: 1em;}}
+@media (max-width: 1440px) {body{font-size: 0.9em;}}
+@media (max-width: 1280px) {body{font-size: 0.8em;}}
+@media (max-width: 1120px) {body{font-size: 0.7em;}}
+@media (max-width: 960px) {body{font-size: 0.6em;}}
+@media (max-width: 800px) {body{font-size: 0.5em;}}
+@media (max-width: 640px) {body{font-size: 0.4em;}}
+@media (max-width: 480px) {body{font-size: 0.3em;}}
+@media (max-width: 320px) {body{font-size: 0.2em;}}
+@media (max-width: 160px) {body{font-size: 0.1em;}}
+@media (max-width: 80px) {body{font-size: 0.05em;}}
 
 html, body{
     height: 100%;
 }
 
-.nanebe {
- background: rgb(72,145,224);
-}
-.image-background{
-    background: url('/public/images/background/body-bg.jpg') no-repeat center center fixed;
-    /*http://sitear.ru/material/css-background-rastyanut*/
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
-
-h1{font: 1.5em Arial,sans-serif;}
-h2{font: 1em Arial,sans-serif;}
-h3{font: 0.8em Arial,sans-serif;}
+h1{font: 4em Arial,sans-serif;}
+h2{font: 3em Arial,sans-serif;}
+h3{font: 2em Arial,sans-serif;}
+h4{font: 1em Arial,sans-serif;}
+h5{font: 0.5em Arial,sans-serif;}
 
 input{outline: none;}
 a{text-decoration: none;}
@@ -45,7 +38,7 @@ li{list-style: none;}
 .main {
     height: 100%;
     position: relative;
-    padding-bottom:0em;
+    padding-bottom:0;
 }
 header {
     position: relative;
@@ -55,84 +48,75 @@ header {
     box-shadow: 0px 1px 1px rgba(0,0,0,0.8);
 }
 header img {
-    width: 20em;
+    width: 25em;
 }
-footer {
-    height: 2em;
-    position: absolute;
-    bottom: 0;
-    background:rgba(0,0,0,0.5);
-    color:#b8bec4;
-    left: 0;
-    width: 100%;
-}
-#aside{
-    position: absolute;
-    width: 50%;
-    height: 100%;
-    right:0;
-    top:0;
-}
-
-#userFace {
-   height: 3em;
-    width: 3em;
-    border-radius: 0.5em;
-    background-size: cover;
-}
-nav {
+header nav {
     position: absolute;
     right: 0;
     top:0;
 }
-nav ul li{
+header nav ul li{
     float: left;
 }
 
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2em;
+    background:rgba(0,0,0,0.5);
+    color:#b8bec4;
+}
+
+#userImg {
+   height: 5em;
+    width: 5em;
+    border-radius: 0.5em;
+    background-size: cover;
+}
 #imageData{
     display:none;
 }
-
-.shadow {
-    -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Для Firefox */
-    -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Для Safari и Chrome */
-}
 #placeCanvas{
     position: relative;
-    margin:10%;
-    cursor: crosshair; /* : url('/public/images/brush.png')   */
+    margin:5em;
     overflow: hidden;
-    line-height:0;
-    height: 28em;
-    width: 40em;
-    line-height: 28em;
-    text-align: center;
+    background: white;
+    width: 50em;
+    height: 35.5em;
 }
-#allCanvas {
-
-}
-#placeCanvas canvas {
-    width: 100%;
-    border: 1px solid red;
-    vertical-align: middle;
-    position: relative;
+#placeCanvas #allCanvas {
+    position: absolute;
+    cursor: crosshair; /* : url('/public/images/brush.png')   */
     opacity: 1;
 }
-#placeCanvas .canvasLayer{
+#placeCanvas #allCanvas canvas {
+    width: 100%;
+    position: relative;
+    display : block;
+}
+#placeCanvas #allCanvas .canvasLayer{
     position: absolute;
     left: 0;
     top: 0;
 }
 
-.slider-field {
 
+.shadow {
+    -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Для Firefox */
+    -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Для Safari и Chrome */
 }
-.discription{
-    position: relative;
+.nanebe {
+    background: rgb(72,145,224);
 }
-.discription span{
-    font-size:0.9em;
-    font-family: monospace;
+.image-background{
+    background: url('/public/images/background/body-bg.jpg') no-repeat center center fixed;
+    /*http://sitear.ru/material/css-background-rastyanut*/
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
 .panel {
@@ -166,26 +150,27 @@ nav ul li{
 #image-panel img:hover{
     background: rgba(100, 100, 100, 0.9);
 }
-
 #color-panel {
     left: 49em;
     top: 7em;
     width: 11.3em;
 }
-
-
 #slider-panel {
     left: 63em;
     top: 7em;
     color:wheat;
     width: 11.3em;
 }
+#slider-panel .slider-field {
 
-
-
-
-
-
+}
+#slider-panel .slider-field .discription{
+    position: relative;
+}
+#slider-panel .slider-field .discription span{
+    font-size:0.9em;
+    font-family: monospace;
+}
 
 
 /* Common stuff */
@@ -256,30 +241,35 @@ nav ul li{
 <!--           User            -->
 
 
-.index{
-    position: relative;
-    padding: 5%;
-}
-.intro{
-    position: absolute;
-    width: 50%;
-    left:5%;
-    background: rgba(255,255,255,0);
 
+
+.index {
+    height: 100%;
+    width: 100%;
+}
+.index .intro{
+    position: absolute;
+    width: 15em;
+    left:5em;
+    background: rgba(255,255,255,0);
     border-radius: 5px;
     padding: 20px;
 }
-.intro p{
+.index .intro h1{
     font-weight: bold;
-    font-family: Arial, sans-serif;
-    font-size: 20px;
+    text-shadow: rgb(0, 0, 0) 0px 1px 2px;
+    color:white;
+}
+.index .intro h2{
     text-shadow: rgb(0, 0, 0) 0px 1px 2px;
     color:#ddd;
 }
-.registration{
+.index .registration{
     position: absolute;
-    left:65%;
-    border-radius: 5px;
+    font-family: Verdana, sans-serif;
+    right:5em;
+    top:15em;
+    border-radius: 0.5em;
     background: rgb(255,252,252); /* Old browsers */
     background: rgb(255,252,252); /* Old browsers */
     background: -moz-linear-gradient(top,  rgba(255,252,252,1) 0%, rgba(245,247,249,1) 42%, rgba(229,235,238,1) 82%, rgba(215,222,227,1) 96%); /* FF3.6+ */
@@ -290,48 +280,30 @@ nav ul li{
     background: linear-gradient(to bottom,  rgba(255,252,252,1) 0%,rgba(245,247,249,1) 42%,rgba(229,235,238,1) 82%,rgba(215,222,227,1) 96%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fffcfc', endColorstr='#d7dee3',GradientType=0 ); /* IE6-9 */
 }
-.registration h1{
-    font-weight: bold;
-    font-family: Arial, sans-serif;
-    font-size: 20px;
-    text-shadow: rgb(0, 0, 0) 0px 1px 2px;
-    color:white;
-}
-.registration p{
+.index .registration .head{
     padding: 0.5em;
     box-shadow: 0px 1px 0px white;
     border-bottom: 1px solid #d7dee3;
 }
-.registration span{
+.index .registration .head h3{
     font-weight: bold;
     font-size: 0.9em;
 }
-.registration span span{
+.index .registration .head span{
     font-weight: normal;
     font-size: 0.9em;
 }
-
-.registration .content{
-    position: relative;
-    height: 200px;
+.index .registration .content{
+    padding: 1em;
 }
-.registration #submit{
-    width: 163px;
-    margin: 0.5em;
-    position: absolute;
-    font-family: Calibri;
-    font-size: 24px;
-    right: 0;
+.index .registration .content #submit{
 }
 #submit{
-    height: 40px;
-    padding: 0 0.5em;
-    font-size: 1em;
-    line-height: 38px;
+    padding: 0.3em 0.5em;
+    font-size: 1.2em;
     text-align: center;
     color: #121112;
     font-weight: bold;
-    font-family: Arial;
     font-style: normal;
     text-shadow: 0px 1px 1px white;
     border-radius: 4px;
@@ -350,68 +322,58 @@ nav ul li{
 
 }
 #submit:focus,#submit:hover{
-    box-shadow: 0 0 3px orange;
+    box-shadow: 0 0 0.5em orange;
 }
 .registration input{
     display: block;
-    width: 220px;
-    margin: 1em;
+    width: 15em;
+    margin: 1em 0 0 0;
 }
 .general-input{
-    height: 24px;
-    padding: 4px 5px;
-    width: 350px;
+    font: 1em Arial,sans-serif;
+    height: 1.5em;
+    padding: 0.3em 0.3em;
     border: 1px solid #c9d0d5;
     color: #777;
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
     border-radius: 4px;
     box-shadow: 0px 1px 1px #d7dee3 inset, 0px 0px 1px white;
-
 }
 .general-input:focus{
-    box-shadow: 0px 0px 7px #008cff;
+    box-shadow: 0 0 0.5em #008cff;
     border: 1px solid #008cff;
 }
-
 .registration-full{
     background: #ffffff;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 0.3em;
     margin: 2em 5em;
     padding: 0em 8em;
 }
 .registration-full .prompt{
     position: relative;
 }
-
 .registration-full #submit{
-    font-size: 0.8em;
-    width: 360px;
+    width: 20em;
 }
-.registration-full h1{
-    font-family: Arial, sans-serif;
-    font-size: 24px;
+.registration-full h2{
     font-weight: bold;
     padding: 2em 0;
 }
-.registration-full .field-name{
+.registration-full h4{
     font-weight: bold;
-    font-size: 0.8em;
     color:#333;
-    width: 250px;
 }
-
 .registration-full p{
-    font-size: 0.9em;
     position: absolute;
-    padding-left: 20px;
-    left: 402px;
+    padding-left: 1.5em;
+    left:40em;
     top:2em;
-    width: 250px;
+    width: 20em;
 }
-
 .registration-full input{
+    width: 30em;
     margin: 0.2em 0 1.5em 0;
 }
 .visible{
@@ -420,7 +382,6 @@ nav ul li{
 .hidden{
     visibility:hidden;
 }
-
 .source{
     color:#999;
 }
@@ -432,11 +393,19 @@ nav ul li{
     background: url('/public/images/spinner-small.gif') no-repeat center left;
     color: #999;
 }
-
 .error{
     background: url('/public/images/error.png') no-repeat center left;
     color: #c33;
 }
+
+#exampleCanvas{
+    position: absolute;
+    top:30em;
+    left:10em;
+    width:40em;
+    height:20em;
+}
+
 
 
 .rotated {
@@ -459,7 +428,6 @@ nav ul li{
     -o-transform:rotate(-3deg);
     transform:rotate(-3deg);
 }
-
 .rotated > :first-child:before {
     content:"";
     position:absolute;
@@ -473,7 +441,6 @@ nav ul li{
     -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 }
-
 .rotated:before,
 .rotated:after {
     content:"";
@@ -493,7 +460,6 @@ nav ul li{
     -o-transform:rotate(-3deg);
     transform:rotate(-3deg);
 }
-
 .rotated:after {
     right:10px;
     left:auto;
@@ -503,44 +469,7 @@ nav ul li{
     -o-transform:rotate(3deg);
     transform:rotate(3deg);
 }
-
 .rotated p {
-    font-size:16px;
-    font-weight:bold;
-}
-
-
-.curved-hz-1 {
-    position:relative;
-    width:8
-    0%;
-    margin:2em 10px 4em;
-    background:#fff;
-    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-}
-
-.curved-hz-1:before,
-.curved-hz-1:after {
-    content:"";
-    position:absolute;
-    z-index:-2;
-}
-
-.curved-hz-1:before {
-    top:50%;
-    bottom:0px;
-    left:10px;
-    right:10px;
-    -webkit-box-shadow:0 0 15px rgba(0,0,0,0.6);
-    -moz-box-shadow:0 0 15px rgba(0,0,0,0.6);
-    box-shadow:0 0 15px rgba(0,0,0,0.6);
-    -moz-border-radius:100px / 10px;
-    border-radius:100px / 10px;
-}
-
-.curved-hz-1 p {
     font-size:16px;
     font-weight:bold;
 }
