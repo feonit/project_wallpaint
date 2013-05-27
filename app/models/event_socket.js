@@ -1,4 +1,4 @@
-module.exports = function () {
+module.exports = (function () {
 
   var main = require('../main');
 
@@ -6,8 +6,14 @@ module.exports = function () {
   var db = main.db;
   var io = main.io;
 
+  console.log('ioioioioio')
+
   io.sockets.on('connection', function (socket) {
+    console.log('connection')
+
     socket.on('drawClick', function (data) {
+      console.log('drawClick')
+
       eventApp.addDrawTodb(socket, data);
       eventApp.emitDraw(socket, data);
     });
@@ -15,6 +21,7 @@ module.exports = function () {
       eventApp.uploadDraw(socket, data.nameFromPath);
     });
     socket.on('clearAllCanvas', function () {
+      console.log('clearAllCanvas')
       eventApp.clearAllCanvas(socket);
     });
     socket.on('searchUser', function (data) {
@@ -32,4 +39,4 @@ module.exports = function () {
       })
     });
   });
-};
+})();

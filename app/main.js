@@ -23,10 +23,6 @@ require('./routes')(app);
 
 exports.io = require('./server')(app);
 
-app.get('/', function(req, res){
-  res.send('hello world');
-});
-
 exports.db          = require('./models/db');
 exports.App         = require('./models/canvas_app');
 exports.mail        = require('./models/mail');

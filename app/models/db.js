@@ -23,6 +23,12 @@
       ,user:"sql26865"
       ,password:"zH4%iV1!"
       ,database:"sql26865"
+    },
+    {
+      host:"mysql4.000webhost.com"
+      ,user:"a8537295_feonit"
+      ,password:"pe104767"
+      ,database:"a8537295_feonit"
     }
   ];
 

@@ -8,35 +8,32 @@
 
 var main = require('../main');
 
-var db = main.db;
-
 var crypto = main.crypto;
+var db = main.db;
 var io = main.io;
 
 
 exports.emitDraw = function (socket, data) {
-    socket.get('pageName', function (err, pageName) {
-      socket.broadcast.to(pageName).emit('draw', data
-        //io.sockets.in(pageName).emit('draw', {
-      );
-    });
+  socket.get('pageName', function (err, pageName) {
+    socket.broadcast.to(pageName).emit('draw', data
+    );
+  });
 };
 
-exports.uploadDraw = function (socket, nameFromPath) { //TRUNCATE TABLE test.draw
-  //echo('uploadDraw from ' + nameFromPath);
-
+exports.uploadDraw = function (socket, nameFromPath) {
   db.getTableData(nameFromPath, function (res) {
     if (res) {
       socket.set('pageName', nameFromPath, function () {
       });  //SET pageName for socket
       socket.join(nameFromPath);
-      socket.emit('uploadStore', res);
+      //socket.emit('uploadStore', res);
     }
   });
 };
 
 exports.clearAllCanvas = function (socket) {
   socket.get('pageName', function (err, pageName) {
+    error(err);
     db.clearTableForUser(pageName);
     io.sockets.emit('clearAllCanvas', pageName);
   });

@@ -52,8 +52,6 @@ App.storeCanvas = {
         canvas.setAttribute('class', 'canvasLayer')
         $('#allCanvas')[0].appendChild(canvas);
       } else {
-        var imageData = $('#imageData')[0];
-        canvas.getContext("2d").drawImage(imageData,0,0);
       }
       return canvas;
   },
@@ -269,6 +267,12 @@ $(document).ready(function(){
   var sliderSize = $("#sliderSize");
   var sliderOpacity = $("#sliderOpacity");
   var allCanvas = $('#allCanvas');
+
+
+  var imageData = $('#imageData');
+  imageData.load(function() {
+    App.ctx.drawImage(imageData[0],0,0);
+  });
 
   var changeScale = function (event, ui) {
     var w = place.offsetWidth/100;

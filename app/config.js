@@ -1,11 +1,10 @@
 module.exports = function(app){
 
-  const port = 8080;
+  const port = 80;
 
   var main = require('./main');
 
   var express = main.express;
-  var io = main.io;
   var ejs = main.ejs;
   var fs = main.fs;
 

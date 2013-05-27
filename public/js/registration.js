@@ -1,4 +1,4 @@
-(function ($, io, undefined) {
+(function ($, io, window) {
 
   function log(str) {
       console.log("[ log ] " + str);
