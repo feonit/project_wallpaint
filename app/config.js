@@ -1,6 +1,6 @@
 module.exports = function(app){
 
-  const port = 80;
+  const port = 3000;
 
   var main = require('./main');
 

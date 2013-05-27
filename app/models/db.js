@@ -29,10 +29,16 @@
       ,user:"a8537295_feonit"
       ,password:"pe104767"
       ,database:"a8537295_feonit"
-    }
+    },
+    {
+      host:"db4free.net"
+      ,user:"nastene"
+      ,password:"nastene"
+      ,database:"nastene"
+    }//http://db4free.net/d4f_apply.php
   ];
 
-  var server = connections[0];
+  var server = connections[3];
 
     var host = server.host;
     var user = server.user;
@@ -67,6 +73,7 @@
     });
     return statusConnect;
   }
+
 
   function initDataBase(){
       connection.query("SET NAMES 'utf8'");

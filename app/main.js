@@ -34,10 +34,3 @@ exports.eventSocket = require('./models/event_socket');
 
 
 
-/*
-db.createNewUser({
-  user:'root', name:'admin', surname:'general', password:'admin', email:'root@emailserver.ru', background:'background.png', face:'root.jpg'
-});
-db.createTableForUser('root');
-*/
-
