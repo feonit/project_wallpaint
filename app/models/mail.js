@@ -17,7 +17,7 @@
       service:"Gmail",
       auth:{
         user:"feonitu@gmail.com",
-        pass:"4aevmkrr"
+        pass:""
       }
     })
   })();
