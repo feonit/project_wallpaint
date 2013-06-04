@@ -75,6 +75,7 @@ App.storeCanvas = {
 };
 App.reDraw = function (touches, ctx){
   ctx.beginPath();
+  if(typeof(touches.x[0])!=="number")return;
   ctx.moveTo(touches.x[0], touches.y[0]);
   if (touches.x.length < 2) {
     ctx.lineTo(touches.x[0] + 0.51, touches.y[0]);
