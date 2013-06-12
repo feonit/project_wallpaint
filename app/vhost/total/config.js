@@ -1,8 +1,6 @@
 module.exports = function(app){
 
-  const port = 3000;
-
-  var main = require('./main');
+  var main = require('./../../main');
 
   var express = main.express;
   var ejs = main.ejs;
@@ -12,15 +10,15 @@ module.exports = function(app){
     app.use(express.bodyParser());
     ejs.open = '{{';
     ejs.close = '}}';
-    app.set('port', process.env.PORT || port);
     app.engine('.html', ejs.__express);
-    app.set('views', __dirname + '/views');
     app.set('view engine', 'html');
-    app.use('/public', express.static(__dirname + '../../public'));
+    app.set('views', __dirname + './../../views');
+    app.use('/public', express.static(__dirname + './../../../public'));
+    app.use(app.router);
     app.locals({
       modules : {
-        header : fs.readFileSync(__dirname + "/views/parts/header.html"),
-        footer : fs.readFileSync(__dirname + "/views/parts/footer.html")
+        header : fs.readFileSync(__dirname + "/../../views/parts/footer.html"),
+        footer : fs.readFileSync(__dirname + "/../../views/parts/header.html")
       }
     });
   });

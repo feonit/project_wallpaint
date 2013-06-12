@@ -3,16 +3,18 @@
  *
  *  Each route is associated with the http request
  *
+ *  Mobile version
+ *
  * */
 
 module.exports = function(app){
 
-  var user = require('./controllers/user');
-  var index = require('./controllers/index');
-  var settings = require('./controllers/settings');
-  var registration = require('./controllers/registration');
-  var registration_result = require('./controllers/registration_result');
-  var registration_continue = require('./controllers/registration_continue');
+  var user = require('./../../controllers/user');
+  var index = require('./../../controllers/index');
+  var settings = require('./../../controllers/settings');
+  var registration = require('./../../controllers/registration');
+  var registration_result = require('./../../controllers/registration_result');
+  var registration_continue = require('./../../controllers/registration_continue');
 
 
   app.get('/', index);
@@ -23,7 +25,6 @@ module.exports = function(app){
   app.post('/registration_result', registration_result);
   app.get('/registration_continue', registration_continue);
   app.get('/:name?', user);
-
 }
 
 
