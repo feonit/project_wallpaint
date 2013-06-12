@@ -5,8 +5,10 @@ module.exports = function(app){
   var express = main.express;
   var ejs = main.ejs;
   var fs = main.fs;
+  var isMobile = require('./../../tools/isMobile');
 
   app.configure('development',function(){
+    isMobile(app);
     app.use(express.bodyParser());
     ejs.open = '{{';
     ejs.close = '}}';
