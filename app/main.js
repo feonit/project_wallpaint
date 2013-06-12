@@ -24,8 +24,8 @@ const port = 3000;
 
 var app = express();
 
-app.use(express.vhost('mobile.localhost', app_mobile));
-app.use(express.vhost('localhost', app_total));
+app.use(express.vhost('mobile.*', app_mobile));
+app.use(express.vhost('*', app_total));
 app.set('port', process.env.PORT || port);
 
 
