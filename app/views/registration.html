@@ -1,59 +1,75 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset=utf-8>
-    <title>Нарисуй мне. Регистрация.</title>
-      <link rel="stylesheet" href="/public/css/style.css"/>
-      <script src="/public/js/jquery-1.8.2.min.js"></script>
-      <script src="/socket.io/socket.io.js"></script>
-      <script src="/public/js/registration.js"></script>
-      <script src="http://yandex.st/jquery/cookie/1.0/jquery.cookie.min.js" type="text/javascript"></script>
-  </head>
-  <body>
-  {{-modules.header}}
-  <div class="main">
-    <div class="registration-full">
+<head>
+  <meta charset=utf-8>
+  <title>Нарисуй мне. Регистрация.</title>
+  <link href="/public/css/style.css" rel="stylesheet" type="text/css"/>
+  <link href="/public/css/registration.css" rel="stylesheet" type="text/css"/>
+  <script src="/public/js/jquery.min.js" type="text/javascript"></script>
+  <script src="/public/js/jquery.cookie.min.js" type="text/javascript"></script>
+  <script src="/socket.io/socket.io.js" type="text/javascript"></script>
+  <script defer src="/public/js/registration.js" type="text/javascript"></script>
+</head>
+<body>
+  <div class="sign-up">
+    <div class="signup-box">
       <h2>Присоединяйтесь к нам сегодня.</h2>
-      <form method="post" action="registration_result">
-        <div class="prompt">
-          <h4>Имя и фамилия</h4>
-          <p class="source">  Введите ваше имя и фамилию.</p>
-          <p class="ok">    Превосходное имя!</p>
-          <p class="check">   Проверка...</p>
-          <p class="error"> Необходимо указать имя!</p>
-          <input id="name" value="" name="name" type="text" autocomplete="off" class="general-input"  spellcheck="false" >
+      <div id="answer"></div>
+      <form method="post" action="/registration_result">
+        <div class="name-div">
+          <label>
+            <h4>Имя и фамилия</h4>
+            <input id="name" type="text" autocomplete="off" spellcheck="false">
+            <div id="name-messages" class="messages"
+                 data-source="Введите ваше имя и фамилию."
+                 data-ok="Превосходное имя!"
+                 data-check="Проверка..."
+                 data-error="Необходимо указать имя!">
+            </div>
+          </label>
         </div>
-        <div class="prompt">
-          <h4>Электронная почта</h4>
-          <p class="source">Укажите адрес электронной почты.</p>
-          <p class="ok">    Вам будет выслано подтверждение.</p>
-          <p class="check">   Проверка...</p>
-          <p class="error"> Необходимо указать адрес электронной почты!</p>
-          <p class="error exist"> Данный адрес электронной почты уже зарегистрирован. Хотите <a href="/login">войти</a> или <a href="/account/resend_password">восстановить пароль</a>?</p>
-          <input id="email" value="" name="email" type="email" autocomplete="off" class="general-input"  spellcheck="false">
+        <div class="email-div">
+          <label>
+            <h4>Электронная почта</h4>
+            <input id="email" type="email" autocomplete="off"  spellcheck="false">
+            <div id="email-messages" class="messages"
+                 data-source="Укажите адрес электронной почты."
+                 data-ok="Вам будет выслано подтверждение."
+                 data-check="Проверка..."
+                 data-error="Необходимо указать адрес электронной почты!"
+                 data-engaged="Данный адрес электронной почты уже зарегистрирован. Хотите <a href='/login'>войти</a> или <a href='/account/resend_password'>восстановить пароль</a>?">
+            </div>
+          </label>
         </div>
-        <div class="prompt">
-          <h4>Создать пароль</h4>
-          <p class="source">6 знаков или больше! Будьте хитрее.</p>
-          <p class="ok">    Хороший пароль!</p>
-          <p class="check">   Проверка...</p>
-          <p class="error"> Необходимо ввести пароль!</p>
-          <input id="password" value="" name="password" type="password" autocomplete="off" class="general-input"  spellcheck="false">
+        <div class="password-div">
+          <label>
+            <h4>Создать пароль</h4>
+            <input id="password"  type="password" autocomplete="off"  spellcheck="false">
+            <div id="password-messages" class="messages"
+                 data-source="6 знаков или больше! Будьте хитрее."
+                 data-ok="Хороший пароль!"
+                 data-check="Проверка..."
+                 data-error="Необходимо ввести пароль!">
+            </div>
+          </label>
         </div>
-        <div class="prompt">
-          <h4>Выберите имя пользователя</h4>
-          <p class="source">  Не беспокойтесь, вы можете изменить его позже.</p>
-          <p class="ok">    Имя свободно. Это можно изменить позже</p>
-          <p class="check">   Проверка...</p>
-          <p class="error"> Необходимо указать имя пользователя! Это можно изменить позже</p>
-          <p class="error exist"> Это имя уже занято!</p>
-          <input id="user" value="" name="user" type="text" autocomplete="off" class="general-input" spellcheck="false" >
+        <div class="user-div">
+          <label>
+            <h4>Выберите имя пользователя</h4>
+            <input id="user" type="text" autocomplete="off" spellcheck="false" >
+            <div id="user-messages" class="messages"
+                 data-source="Не беспокойтесь, вы можете изменить его позже."
+                 data-ok="Имя свободно. Это можно изменить позже"
+                 data-check="Проверка..."
+                 data-error="Необходимо указать имя пользователя! Это можно изменить позже"
+                 data-engaged="Это имя уже занято!">
+            </div>
+          </label>
         </div>
+        </br>
         <input id="submit" type="submit" value="Создать учётную запись">
       </form>
     </div>
-
-  {{-modules.footer}}
-  </div>	
-  </body>
+  </div>
+</body>
 </html>

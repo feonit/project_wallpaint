@@ -15,21 +15,20 @@ module.exports = function(app){
   var registration = require('./../../controllers/registration');
   var registration_result = require('./../../controllers/registration_result');
   var registration_continue = require('./../../controllers/registration_continue');
-
-  var isMobile = require('./../../tools/isMobile');
-  isMobile(app);
-
-  app.get('*', function(req, res, next){
+  /*
+  app.all('*', function(req, res, next){
     if(!req.headers.host) {
       res.writeHead(404);
       res.end();
-    }
+    } else
     if (res.locals.isDesktop){
       next();
-    }else {
+    } else
+    if (res.locals.isMobile) {
       res.redirect('http://mobile.'+req.headers.host);
     }
   });
+  */
   app.get('/', index);
   app.get('/index', index);
   app.get('/feonit/settings', settings);

@@ -1,166 +1,169 @@
-(function ($, io, window) {
+//(function ($, io) {
 
-  function log(str) {
-      console.log("[ log ] " + str);
-  }
-  function warn(str) {
-      console.warn("[ warn ] " + str);
-  }
-  function error(str) {
-      console.error("[ error ] " + str);
-  }
-  function read (obj){  for (var k in obj) {    if (obj.hasOwnProperty(k)){      log("[ read ] " + k + " : " + obj[k])    }  }};
+  $(function() {
 
-  var regExp = {
-      name :  (/^[A-Za-zА-Яа-я ]{1,30}$/i)
+    var regExp = {
+      name :  (/^[A-Za-zА-Яа-я ]{2,30}$/i)
       ,email : (/^([a-z0-9_-]+.)*[a-z0-9_-]+@([a-z0-9][a-z0-9-]*[a-z0-9].)+\.[a-z]{2,4}$/i)
       ,password : (/^[A-Za-zА-Яа-я0-9]{6,30}$/i)
       ,user : (/^[A-Za-z]{1,30}$/i)
-  }
+    }
+    var permitUser =  true;
+    var permitEmail =  true;
 
-  var permitUser =  true;
-  var permitEmail =  true;
+    var bAnswer = $("#answer")[0]   //todo
+    var bInputs = $("input");
+    var bUser = $("#user");
+    var bEmail = $("#email");
 
-  $(document).ready(function() {
-    var bName = $("#name")[0]
-        , bEmail = $("#email")[0]
-        , bPassword = $("#password")[0]
-        , bUser = $("#user")[0]
-        , bPrompts = $(".prompt p")
-        , bInputs = $(".prompt input")
-        , dForm = $("form")
-        , bAnswer = $("#answer")[0];
-      var socket = io.connect(window.location.host);
+    var host = (location.host.search('localhost')!==-1)
+        ? "127.0.0.1:"+location.port
+        : location.host;
+    var socket = io.connect(host);
+
+    /**
+     * socket init
+     *
+     * */
+
+    function recordResUser(data){
+      permitUser = !data.answer;
+      (data.answer)?setStatus.call(bUser, "engaged"):setStatus.call(bUser, "ok");
+    }
+    function recordResEmail(data){
+      permitEmail = !data.answer;
+      (data.answer)?setStatus.call(bEmail, "engaged"):setStatus.call(bEmail, "ok");
+    }
+    function registrationResult(err){
+      var response = err || "Сервер не отвечает";
+      bAnswer.innerHTML = response;
+    }
+
+    socket.on('searchUserAnswer', recordResUser);
+    socket.on('searchEmailAnswer', recordResEmail);
+    socket.on("responseForAddUser", registrationResult);
+
+    /**
+     * cookie init
+     *
+     * */
+
+    if($.cookie('user')){
+      bUser.value = $.cookie('user');
+      setStatus.call(bUser, "check");
+      bUser.onkeyup();
+    }
+    if($.cookie('email')){
+      bEmail.value = $.cookie('email');
+      setStatus.call(bEmail, "check");
+      bEmail.onkeyup();
+    }
+
+    /**
+     * EventListener init
+     *
+     * */
+
+    function addEventListener(element, event, handler){
+      if (element.addEventListener)
+        element.addEventListener(event, handler, false)
+      else if (element.attachEvent)
+        element.addEventListener("on" + event, handler) //здесь this ссылается на window , поэтому цель события определяется в handler
+    }
+    function removeEventListener(element, event, handler){
+      if (element.removeEventListener)
+        element.removeEventListener(event, handler, false)   //what is true  ; try in IE
+      else if (element.detachEvent)
+        element.detachEvent("on" + event, handler)
+    }
+
+    /**
+     * DOM function init
+     *
+     * */
+
+    function handleFirstMsg(e){
+      var e = e || window.event;
+      var element = e.target || e.srcElement; // IE8-
+      setStatus.call(element, "source");
+      removeEventListener(element, "click", handleFirstMsg);
+    }
 
 
-      bPrompts.toggleClass("hidden");
+    function checkAllFields(){
+      var allow = permitUser && permitEmail;
       bInputs.each(function(){
-          this.onclick = function(){
-              setStat(this, "source");
-          };
-          this.onblur = function(){
-              this.onkeyup();
-          }
-          this.onkeydown = function(){
-              setStat(this, "check");
-          }
+        allow = allow && isValid.call(this);
       });
+    }
 
 
-      bName.onkeyup = function(event){
-          if(event){
-              if(event.keyCode==9)return setStat(this, "source");
-          }
-          var node = this;
-          var handler = function (){
-              var input = node;
-              if(regExp.name.test(input.value)){
-                  setStat(input, "ok");
-              }else{
-                  setStat(input, "error");
-              }
-          }
-          window.setTimeout(handler, 1000);
-          return false;
-        }
-      bEmail.onkeyup = function(event){
-          if(event){
-              if(event.keyCode==9)return setStat(this, "source");
-          }
-          var node = this;
-          //event.stopImmediatePropagation();
-          var handler = function (){
-              var input = node;
-              setStat(input, "ok");
-              if(regExp.email.test(input.value)){
-                  socket.emit('searchEmail', {email:input.value});
-              }else{
-                  setStat(input, "error");
-              }
-          }
-          window.setTimeout(handler, 2000);
-          return false;
-        }
-      bPassword.onkeyup = function(event){
-          if(event){
-              if(event.keyCode==9)return setStat(this, "source");
-          }
-          var node = this;
-          var handler = function (){
-              var input = node;
-              if(regExp.password.test(input.value)){
-                  setStat(input, "ok");
-              }else{
-                  setStat(input, "error");
-              }
-          }
-          window.setTimeout(handler, 1500);
-          return false;
-        }
-      bUser.onkeyup = function(event){
-          if(event){
-              if(event.keyCode==9)return setStat(this, "source");
-          }
-          var node = this;
-          var handler = function (){
-              var input = node;
-              if(regExp.user.test(input.value)){
-                  setStat(this, "ok");
-                  socket.emit('searchUser', {user:input.value});
-              }else{
-                  setStat(input, "error");
-              }
-          }
-          clearTimeout(this.timeout_id);
-          this.timeout_id = window.setTimeout(handler, 2500);
+    function hold(func, timer){
+      return function(){
+        var self = this;
+        if(this[func.name]) clearTimeout(this[func.name]);
+        this[func.name] = setTimeout(function(){  //set timers in func for only obj.id
+          func.call(self);
+        }, timer);
+      }
+    };
 
-          return false;
-        }
-      dForm.submit(function(){
-          if(regExp.name.test(bName.value)
-           &&regExp.email.test(bEmail.value)
-           &&regExp.password.test(bPassword.value)
-           &&regExp.user.test(bUser.value)
-           &&permitUser
-           &&permitEmail){
-              return true;//разрешить отправку
+    function setStatus(status){
+      var mes = $('#'+this.attr('id')+'-messages')
+        , msg = mes.data(status)
+      mes.text(msg);
+    }
+
+    function displayStatusCheck(){
+      displayStatusCheck.name="displayStatusCheck";
+      setStatus.call(this, "check");
+    };
+
+    function handleValidated(){
+      handleValidated.name="handleValidated";
+      console.log('валидация')
+      switch (this.type){   //проверить
+        case "text":
+          this.isValid() ? setStatus.call(this, "ok") : setStatus.call(this, "error");
+          break;
+        case "email":
+          this.isValid() ? socket.emit('searchEmail', {email:this.value}) : setStatus.call(this, "error");
+          break;
+        case "password":
+          if(this.isValid()){
+            setStatus.call(this, "ok");
+            socket.emit('searchUser', {user:this.value});
           }else{
-              return false;
-          }
-      });
-
-      if($.cookie('user')){
-          bUser.value = $.cookie('user');
-          setStat(bUser, "check");
-          bUser.onkeyup();
+            setStatus.call(this, "error");
+          };
+          break;
+        default: console.log('no have type');
       }
-      if($.cookie('email')){
-          bEmail.value = $.cookie('email');
-          setStat(bEmail, "check");
-          bEmail.onkeyup();
-      }
+    }
 
-      socket.on('searchUserAnswer', function(data){
-          permitUser = !data.answer;
-          var input = $("#user")[0];
-          (data.answer)?setStat(input, "error", "exist"):setStat(input, "ok");
-      });
-      socket.on('searchEmailAnswer', function(data){
-          permitEmail = !data.answer;
-          var input = $("#email")[0];
-          (data.answer)?setStat(input, "error", "exist"):setStat(input, "ok");
-      });
-      socket.on("responseForAddUser", function(err){
-          var response = err || "Сервер не отвечает";
-          bAnswer.innerHTML = response;
-      });
+
+    bInputs.each(function(){
+       if(this.type==="submit"){
+         addEventListener(this, "submit", checkAllFields);
+       }
+       else{
+         addEventListener(this, "click", handleFirstMsg);
+         addEventListener(this, "keyup", function(e){
+           var e = e || window.event;
+           //if(event.keyCode==9) return false;    //todo
+           hold(displayStatusCheck,500).call(this);
+           //displayStatusCheck.call(this);
+           hold(handleValidated,2000).call(this);
+         });         //addEventListener(this, "blur", )
+         addEventListener(this, "keydown", function(){console.log('keydown')})
+
+         this.isValid = function(){                                      //нужно наследовать этот общий метод для кнопок
+           if(regExp.hasOwnProperty(this.id)){
+             return regExp[this.id].test(this.value);
+           }
+         }
+       }
     });
-})($,io,window);
 
-function setStat(input, stat, exist){
-  var field = $(input.parentNode);
-  var p = (exist)?"p."+stat+"."+exist : "p."+stat;
-  if(stat == "source")$(input).unbind("click");
-  $("p",field).addClass("hidden");
-  $(p, field).eq(0).removeClass("hidden");
-}
+  });
+//})($,io);

@@ -1,0 +1,108 @@
+body{
+    background: #333;
+}
+
+#imageData{
+    display:none;
+}
+#placeCanvas{
+    position: relative;
+    margin:5em;
+    overflow: hidden;
+    background: white;
+    width: 50em;
+    height: 35.5em;
+}
+#placeCanvas #allCanvas {
+    position: absolute;
+    cursor: crosshair; /* : url('/public/images/brush.png')   */
+    opacity: 1;
+}
+#placeCanvas #allCanvas canvas {
+    width: 100%;
+    position: relative;
+    display : block;
+}
+#placeCanvas #allCanvas .canvasLayer{
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+
+.shadow {
+    -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Для Firefox */
+    -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Для Safari и Chrome */
+}
+
+.panel {
+    position: absolute;
+    background: rgba(10, 10, 10, 0.9);
+    border-radius: 0.5em;
+    padding:0.3em;
+
+}
+.panel .option{
+    color:#c09853;
+    font-size: 1em;
+    padding-bottom: 0.5em;
+    text-align: center;
+    border-bottom: 1px solid #c09853;
+    margin: 0.3em;
+}
+
+#image-panel {
+
+}
+#image-panel img {
+    height: 3em;
+    float: left;
+    border-radius: 0.5em;
+    padding:0.5em 0;
+    text-align: center;
+}
+#image-panel img:hover{
+    background: rgba(100, 100, 100, 0.9);
+}
+#color-panel {
+    left: 49em;
+    top: 7em;
+    width: 11.3em;
+}
+#slider-panel {
+    left: 63em;
+    top: 7em;
+    color:wheat;
+    width: 11.3em;
+}
+#slider-panel .slider-field {
+
+}
+#slider-panel .slider-field .discription{
+    position: relative;
+}
+#slider-panel .slider-field .discription span{
+    font-size:0.9em;
+    font-family: monospace;
+}
+
+
+/* Common stuff */
+.picker-wrapper,
+.slide-wrapper {
+    position: relative;
+    float: left;
+}
+.picker-indicator,
+.slide-indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+}
+.picker,
+.slide {
+    cursor: crosshair;
+    float: left;
+}
+

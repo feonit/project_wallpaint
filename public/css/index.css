@@ -1,36 +1,59 @@
-/*
-Copyright (c) 2011, Yahoo! Inc. All rights reserved.
-Code licensed under the BSD License:
-http://developer.yahoo.com/yui/license.html
-version: 2.9.0
-*/
-html{color:#000;background:#FFF}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,select,p,blockquote,th,td{margin:0;padding:0}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}address,button,caption,cite,code,dfn,em,input,optgroup,option,select,strong,textarea,th,var{font:inherit}del,ins{text-decoration:none}li{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}q:before,q:after{content:''}abbr,acronym{border:0;font-variant:normal}sup{vertical-align:baseline}sub{vertical-align:baseline}legend{color:#000}
-
-@media (max-width: 2080px) {body{font-size: 1.3em;}}
-@media (max-width: 1920px) {body{font-size: 1.2em;}}
-@media (max-width: 1760px) {body{font-size: 1.1em;}}
-@media (max-width: 1600px) {body{font-size: 1em;}}
-@media (max-width: 1440px) {body{font-size: 0.9em;}}
-@media (max-width: 1280px) {body{font-size: 0.8em;}}
-@media (max-width: 1120px) {body{font-size: 0.7em;}}
-@media (max-width: 960px) {body{font-size: 0.6em;}}
-@media (max-width: 800px) {body{font-size: 0.5em;}}
-@media (max-width: 640px) {body{font-size: 0.4em;}}
-@media (max-width: 480px) {body{font-size: 0.3em;}}
-@media (max-width: 320px) {body{font-size: 0.2em;}}
-@media (max-width: 160px) {body{font-size: 0.1em;}}
-@media (max-width: 80px) {body{font-size: 0.05em;}}
-
-html{
-    height: 100%;
+body{
+    background: url('/public/images/background/body-bg.jpg') no-repeat center center fixed;
+    /*http://sitear.ru/material/css-background-rastyanut*/
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
-h1{font: 4em Arial,sans-serif;}
-h2{font: 3em Arial,sans-serif;}
-h3{font: 1.8em Arial,sans-serif;}
-h4{font: 1.2em Arial,sans-serif;}
-h5{font: 0.6em Arial,sans-serif;}
+.product-headers{
+    position: absolute;
+    width: 15em;
+    left:5em;
+    background: rgba(255,255,255,0);
+    border-radius: 5px;
+    padding: 20px;
+}
+.product-headers h1{
+    font-weight: bold;
+    text-shadow: rgb(0, 0, 0) 0px 1px 2px;
+    color:white;
+}
+.product-headers h2{
+    text-shadow: rgb(0, 0, 0) 0px 1px 2px;
+    color:#ddd;
+}
+.sign-box{
+    right:5em;
+    top:15em;
+    position: absolute;
+    padding: 1em;
+    font-family: Verdana, sans-serif;
+    border-radius: 0.5em;
+    background: rgb(255,252,252); /* Old browsers */
+    background: rgb(255,252,252); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(255,252,252,1) 0%, rgba(245,247,249,1) 42%, rgba(229,235,238,1) 82%, rgba(215,222,227,1) 96%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,252,252,1)), color-stop(42%,rgba(245,247,249,1)), color-stop(82%,rgba(229,235,238,1)), color-stop(96%,rgba(215,222,227,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(255,252,252,1) 0%,rgba(245,247,249,1) 42%,rgba(229,235,238,1) 82%,rgba(215,222,227,1) 96%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(255,252,252,1) 0%,rgba(245,247,249,1) 42%,rgba(229,235,238,1) 82%,rgba(215,222,227,1) 96%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(255,252,252,1) 0%,rgba(245,247,249,1) 42%,rgba(229,235,238,1) 82%,rgba(215,222,227,1) 96%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(255,252,252,1) 0%,rgba(245,247,249,1) 42%,rgba(229,235,238,1) 82%,rgba(215,222,227,1) 96%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fffcfc', endColorstr='#d7dee3',GradientType=0 ); /* IE6-9 */
+}
 
+.sign-box h3{
+    border-bottom: 1px solid #d7dee3;
+    box-shadow: 0px 1px 0px white;
+}
+.sign-box span{
+    font-size: 0.8em;
+}
+
+.sign-box div{
+    width:100%;
+    margin:1em 0;
+}
 input{
     box-sizing: border-box;
     width:100%;
@@ -75,12 +98,3 @@ input:focus{
 }
 
 
-
-<!-- script classes -->
-
-.visible{
-    visibility:visible;
-}
-.hidden{
-    visibility:hidden;
-}

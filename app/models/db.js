@@ -38,7 +38,7 @@
     }//http://db4free.net/d4f_apply.php
   ];
 
-  var server = connections[3];
+  var server = connections[0];
 
     var host = server.host;
     var user = server.user;

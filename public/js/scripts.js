@@ -2,16 +2,17 @@ var App;
 App = {};
 
 App.DEFAULT_COLOR       = { r:0, g:0, b:0 };
-App.DEFAULT_SIZE        = 50;
+App.DEFAULT_SIZE        = 3;
 App.DEFAULT_SCALE       = 100;
 App.DEFAULT_OPACITY     = 100;
-App.DEFAULT_HEIGHT      = 2480;
-App.DEFAULT_WIDTH       = 3508;
+App.DEFAULT_HEIGHT      = 400;
+App.DEFAULT_WIDTH       = 600;
 App.LOGIN               = "user" + new Date().getTime();
 App.PAGE                = location.pathname.replace("/", "");
 App.MIN_SCALE           = 10;
 App.MAX_SCALE           = 400;
 App.SCALE               = 10;
+App.HOST = (location.host.search('localhost')!==-1)? "127.0.0.1:" + location.port : location.host;
 
 
 App.store = {
@@ -128,7 +129,7 @@ App.init = function () {
         App.storeCanvas.refresh();
       });
     return socket;
-  })(window.location.host);
+  })(App.HOST);
   App.createDraw = function (x, y) {
     return {
       x:x
@@ -258,11 +259,6 @@ $(document).ready(function(){
 
   var place = $("#placeCanvas")[0];
   var body = $("body");
-  var clear = $("#clear");
-  var hand = $("#hand");
-  var eraser = $("#eraser");
-  var zoomIn = $("#zoomIn");
-  var zoomOut = $("#zoomOut");
   var sliderScale = $( "#sliderScale");
   var sliderSize = $("#sliderSize");
   var sliderOpacity = $("#sliderOpacity");
@@ -447,19 +443,20 @@ $(document).ready(function(){
     return false;
   }
 
-  clear.bind('click', onClear);
-  eraser.bind('click', onEraser);
-  zoomOut.bind('click', onZoomOut);
-  zoomIn.bind('click', onZoomIn);
+
+  $("#clear").bind('click', onClear);
+  $("#eraser").bind('click', onEraser);
+  $("#zoomOut").bind('click', onZoomOut);
+  $("#zoomIn").bind('click', onZoomIn);
+  $("#hand").bind('click', onDrag);
+
   allCanvas.bind('mousewheel', onMouseWheel);
   allCanvas.bind('mousewheel', onMouseWheel);
-  hand.bind('click', onDrag);
   allCanvas.bind('click', function (event){
     if(event.button==1){
       onDrag();
     }
   });
-
   body.bind('mousedown', onMousedown);
   body.bind('mousemove', onMousemove);
   body.bind('mouseup', onMouseup);

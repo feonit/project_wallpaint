@@ -1,0 +1,67 @@
+html{
+    background: #333;
+}
+
+.sign-up{
+    width:80%;
+    padding: 2% 10%;
+}
+.signup-box{
+    padding: 4% 5%;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 0.3%;
+}
+
+.signup-box div{
+    box-sizing: border-box;
+    padding:1.5% 0;
+    position: relative;
+}
+.signup-box .messages{
+    display: inline;
+    padding-left: 3em;
+}
+
+h2{
+    font-weight: bold;
+    padding: 1.5% 0;
+}
+h4{
+    font-weight: bold;
+    padding-bottom:1%;
+    color:#333;
+}
+input{
+    width:50%;
+    background:rgb(245, 245, 245);
+}
+p{
+    position: absolute;
+    left:55%;
+}
+
+.errormsg{
+    visibility:hidden;
+    height:100%;
+}
+
+
+<!-- script classes -->
+
+.source{
+    color:#999;
+}
+.ok{
+    background: url('/public/images/accept.png') no-repeat center left;
+    color: #390;
+}
+.check{
+    background: url('/public/images/spinner-small.gif') no-repeat center left;
+    color: #999;
+}
+.error{
+    background: url('/public/images/error.png') no-repeat center left;
+    color: #c33;
+}
+

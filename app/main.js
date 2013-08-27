@@ -2,7 +2,7 @@
  *
  * Module main
  *
- * Loader core modules and application initialization
+ * Loader core modules and appMainlication initialization
  *
  * */
 
@@ -16,29 +16,26 @@ exports.Canvas = loader.Canvas;
 exports.crypto = loader.crypto;
 var socket_io = exports.socket_io = loader.socket_io;
 
-var app_total = require('./vhost/total/app');
-var app_mobile = require('./vhost/mobile/app');
+
+var appMain = express();
+appMain.set('port', process.env.PORT || 3000);
+
+appMain.use(express.vhost('m.*',require('./vhost/mobile/appMobile')));
+appMain.use(express.vhost('mobile.*',require('./vhost/mobile/appMobile')));
+appMain.use(express.vhost('*', require('./vhost/desctop/appDesctop')));
 
 
-const port = 3000;
-
-var app = express();
-
-app.use(express.vhost('mobile.*', app_mobile));
-app.use(express.vhost('*', app_total));
-app.set('port', process.env.PORT || port);
-
-
-var server = app.listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+var server = appMain.listen(appMain.get('port'), function(){
+  console.log('Express server listening on port ' + appMain.get('port'));
 });
 
 var io = socket_io.listen(server);
+/*
 io.configure(function () {
   io.set("transports", ["xhr-polling"]);
   io.set("polling duration", 10);
 });
-
+*/
 exports.io = io;
 
 exports.db          = require('./models/db');
