@@ -60,24 +60,6 @@
     }
 
     /**
-     * EventListener init
-     *
-     * */
-
-    function addEventListener(element, event, handler){
-      if (element.addEventListener)
-        element.addEventListener(event, handler, false)
-      else if (element.attachEvent)
-        element.addEventListener("on" + event, handler) //здесь this ссылается на window , поэтому цель события определяется в handler
-    }
-    function removeEventListener(element, event, handler){
-      if (element.removeEventListener)
-        element.removeEventListener(event, handler, false)   //what is true  ; try in IE
-      else if (element.detachEvent)
-        element.detachEvent("on" + event, handler)
-    }
-
-    /**
      * DOM function init
      *
      * */
@@ -85,85 +67,89 @@
     function handleFirstMsg(e){
       var e = e || window.event;
       var element = e.target || e.srcElement; // IE8-
+      element = $(element);
       setStatus.call(element, "source");
-      removeEventListener(element, "click", handleFirstMsg);
     }
 
 
     function checkAllFields(){
       var allow = permitUser && permitEmail;
       bInputs.each(function(){
-        allow = allow && isValid.call(this);
+        allow = allow && isValid(this);
       });
     }
 
-
-    function hold(func, timer){
-      return function(){
-        var self = this;
-        if(this[func.name]) clearTimeout(this[func.name]);
-        this[func.name] = setTimeout(function(){  //set timers in func for only obj.id
-          func.call(self);
-        }, timer);
-      }
-    };
-
-    function setStatus(status){
-      var mes = $('#'+this.attr('id')+'-messages')
-        , msg = mes.data(status)
-      mes.text(msg);
+    function isValid(self){
+      if(self.jquery){
+        if(regExp.hasOwnProperty(self.attr('id'))){
+          return regExp[self.attr('id')].test(self.val());
+        }else throw new Error('no have reqexp for this element')
+      } else throw new Error('jquery pls')
     }
 
+
+    function setStatus(status){
+      if(this.jquery){
+        var mes = $('#'+this.attr('id')+'-messages')
+          , msg = mes.data(status)
+        mes.text(msg);
+      } else {
+        throw new Error('jquery pls');
+        //console.log(setStatus.caller)
+      }
+    }
+
+
     function displayStatusCheck(){
-      displayStatusCheck.name="displayStatusCheck";
       setStatus.call(this, "check");
     };
 
     function handleValidated(){
-      handleValidated.name="handleValidated";
-      console.log('валидация')
-      switch (this.type){   //проверить
-        case "text":
-          this.isValid() ? setStatus.call(this, "ok") : setStatus.call(this, "error");
-          break;
-        case "email":
-          this.isValid() ? socket.emit('searchEmail', {email:this.value}) : setStatus.call(this, "error");
-          break;
-        case "password":
-          if(this.isValid()){
-            setStatus.call(this, "ok");
-            socket.emit('searchUser', {user:this.value});
-          }else{
-            setStatus.call(this, "error");
-          };
-          break;
-        default: console.log('no have type');
-      }
+      if(this.jquery){
+        console.log('валидация')
+        switch (this.attr('type')){   //проверить
+          case "text":
+            isValid(this) ? setStatus.call(this, "ok") : setStatus.call(this, "error");
+            break;
+          case "email":
+            isValid(this) ? socket.emit('searchEmail', {email:this.val()}) : setStatus.call(this, "error");
+            break;
+          case "password":
+            if(isValid(this)){
+              setStatus.call(this, "ok");
+              socket.emit('searchUser', {user:this.value});
+            }else{
+              setStatus.call(this, "error");
+            };
+            break;
+          default: console.log('no have type');
+        }
+      } else throw new Error('jquery pls')
     }
 
 
-    bInputs.each(function(){
-       if(this.type==="submit"){
-         addEventListener(this, "submit", checkAllFields);
-       }
-       else{
-         addEventListener(this, "click", handleFirstMsg);
-         addEventListener(this, "keyup", function(e){
-           var e = e || window.event;
-           //if(event.keyCode==9) return false;    //todo
-           hold(displayStatusCheck,500).call(this);
-           //displayStatusCheck.call(this);
-           hold(handleValidated,2000).call(this);
-         });         //addEventListener(this, "blur", )
-         addEventListener(this, "keydown", function(){console.log('keydown')})
 
-         this.isValid = function(){                                      //нужно наследовать этот общий метод для кнопок
-           if(regExp.hasOwnProperty(this.id)){
-             return regExp[this.id].test(this.value);
-           }
-         }
-       }
-    });
+    bInputs.each(function(){
+      var self = $(this);
+      if(self.attr('type')==="submit"){
+        self.bind("submit", checkAllFields);
+      }else{
+        self.one("click", handleFirstMsg);
+        self.bind("keyup", function(){
+          self.clearQueue().queue(function(){
+            setTimeout(function(){console.log(1)},1000)
+            self.dequeue();
+          }).queue(function(){
+              console.log(2);
+              displayStatusCheck.call(self);
+              self.dequeue();
+            }).queue(function(){
+                handleValidated.call(self);
+            });
+        });
+      }
+    })
+
 
   });
 //})($,io);
