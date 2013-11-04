@@ -13,13 +13,13 @@ var regular = main.regular;
 
 module.exports = function(req, res) {
 
-  var data = req.body;
+  var data = req.body;       //todo no have data why
   var user = data['user']
     , email = data['email']
     , name = data['name']
     , password = data['password']
     , host = data['host']
-    , err = undefined;
+    , err=undefined;
 
   function answer(answer){
     var view = 'registration_result';

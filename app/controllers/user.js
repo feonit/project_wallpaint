@@ -32,16 +32,11 @@ module.exports = function(req, res) {
   function dataToImage(data){
 
     App.init();
-    var canvas = App.canvas = App.storeCanvas.newCanvasCtx("default");
+    var canvas = App.canvas = App.createCanvas("default");
     var ctx = App.ctx = App.canvas.ctx;
     App.store.getData(data);
     App.store.drawStore();
 
-    ctx.fillStyle = "#00F";
-    ctx.strokeStyle = "#F00";
-    ctx.textBaseline = "bottom";
-    ctx.font = "200pt Arial";
-    ctx.fillText("Feonit", 200, 200);
     //console.log(regular.roughSizeOfObject(data));
     //console.log(regular.roughSizeOfObject(canvas.toDataURL()));
     return canvas.toDataURL();

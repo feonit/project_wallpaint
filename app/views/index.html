@@ -9,24 +9,39 @@
   <script src="/public/js/jquery.cookie.min.js" type="text/javascript"></script>
   <script defer src="/public/js/index.js" type="text/javascript"></script>
 </head>
-<body>
+<body class="stretch">
   <div class="product-headers">
     <h1>Добро пожаловать!</h1>
     <h2>Рисуйте друг другу на стене!</h2>
   </div>
+
   <div class="sign-box">
     <h3><b>Впервые здесь? </b><span>Присоединяйтесь</span></h3>
       <form method="post" action="/registration">
         <div class="user-div">
-          <input id="user" value="" name="user" type="text" autocomplete="off"
+          <input id="user" name="user" type="text" autocomplete="off"
                placeholder="Имя и фамилия" spellcheck="false">
         </div>
         <div class="email-div">
-          <input id="email" value="" name="email" type="email" autocomplete="off"
+          <input id="email" name="email" type="email" autocomplete="off"
                placeholder="Адрес электронной почты" spellcheck="false">
         </div>
         <input id="submit" title="" type="submit" value="Регистрация">
       </form>
   </div>
+  
+  <select onchange="
+  var str = 'url(\'' + this.value + '\')'; 
+  $('body').css('backgroundImage', str); 
+  if(/gif$/.test($('select').val())) 
+    $('body').removeClass('stretch') 
+  else $('body').addClass('stretch')  " 
+  
+  style="position:absolute;right:0;" size="4">
+  {{for (var i=0; i<files.length; i++){ }}
+    <option value="/public/images/background/{{= files[i]}}">{{= files[i]}}</option>
+  {{ } }} 
+  </select>
+  
 </body>
 </html>

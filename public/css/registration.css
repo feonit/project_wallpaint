@@ -20,7 +20,12 @@ html{
 }
 .signup-box .messages{
     display: inline;
-    padding-left: 3em;
+    padding-left: 4em;
+    font-size: 1.2em;
+    font-family:Arial;
+}
+.box-messages{
+
 }
 
 h2{
@@ -32,7 +37,7 @@ h4{
     padding-bottom:1%;
     color:#333;
 }
-input{
+input, button{
     width:50%;
     background:rgb(245, 245, 245);
 }
@@ -41,11 +46,13 @@ p{
     left:55%;
 }
 
-.errormsg{
-    visibility:hidden;
-    height:100%;
+#answer{
+  margin-top:3em;
+  display:none;
+  border: 1px dotted #ef2929;
+  background: #ffb8b8;
+  color: #a40000;
 }
-
 
 <!-- script classes -->
 
@@ -60,7 +67,7 @@ p{
     background: url('/public/images/spinner-small.gif') no-repeat center left;
     color: #999;
 }
-.error{
+.error, .engaged{
     background: url('/public/images/error.png') no-repeat center left;
     color: #c33;
 }

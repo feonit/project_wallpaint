@@ -3,17 +3,18 @@ App = {};
 
 App.DEFAULT_COLOR       = { r:0, g:0, b:0 };
 App.DEFAULT_SIZE        = 3;
-App.DEFAULT_SCALE       = 100;
 App.DEFAULT_OPACITY     = 100;
 App.DEFAULT_HEIGHT      = 400;
 App.DEFAULT_WIDTH       = 600;
 App.LOGIN               = "user" + new Date().getTime();
 App.PAGE                = location.pathname.replace("/", "");
+
+App.DEFAULT_SCALE       = 100;
 App.MIN_SCALE           = 10;
 App.MAX_SCALE           = 400;
 App.SCALE               = 10;
-App.HOST = (location.host.search('localhost')!==-1)? "127.0.0.1:" + location.port : location.host;
 
+App.HOST = (location.host.search('localhost')!==-1)? "127.0.0.1:" + location.port : location.host;
 
 App.store = {
   data:[],
@@ -30,43 +31,120 @@ App.store = {
   }
 };
 
-App.storeCanvas = {
-  count:0,
-  canvasLogins:{},
-  newCanvasCtx:function (login) {
-    if(login=='default'){
-      var canvas = $('#allCanvas canvas')[0];
-    }else{
-      var canvas = $('<canvas />')[0];
-      this.canvasLogins[login] = canvas;
-    }
-    canvas.id = 'canvas_' + this.count++;
-    canvas.login = login;
-    canvas.height = App.DEFAULT_HEIGHT;
-    canvas.width = App.DEFAULT_WIDTH;
-    canvas.mouseXY = {x:[], y:[]};
-    canvas.ctx = canvas.getContext("2d");
-    canvas.ctx.lineCap = "round";
-    canvas.ctx.lineJoin = "round";
-
-      if(login!=='default'){
-        canvas.setAttribute('class', 'canvasLayer')
-        $('#allCanvas')[0].appendChild(canvas);
+App.reDraw = function (touches, ctx){
+  if(typeof(touches.x[0])!=="number")return;
+  ctx.beginPath();
+  ctx.moveTo(touches.x[0], touches.y[0]);
+  if (touches.x.length < 2) {
+    ctx.lineTo(touches.x[0] + 0.51, touches.y[0]);
+  } else if (touches.x.length < 3) {
+    ctx.lineTo(touches.x[1], touches.y[1]);
+  } else {
+    ctx.moveTo((touches.x[0] + touches.x[1]) * 0.5, (touches.y[0] + touches.y[1]) * 0.5);
+    var i = 0;
+    while (++i < (touches.x.length - 1)) {
+      var abs1 = Math.abs(touches.x[i - 1] - touches.x[i]) + Math.abs(touches.y[i - 1] - touches.y[i])
+        + Math.abs(touches.x[i] - touches.x[i + 1]) + Math.abs(touches.y[i] - touches.y[i + 1]);
+      var abs2 = Math.abs(touches.x[i - 1] - touches.x[i + 1]) + Math.abs(touches.y[i - 1] - touches.y[i + 1]);
+      if (abs1 > 10 && abs2 > abs1 * 0.8) {
+        ctx.quadraticCurveTo(touches.x[i], touches.y[i], (touches.x[i] + touches.x[i + 1]) * 0.5, (touches.y[i] + touches.y[i + 1]) * 0.5);
       } else {
+        ctx.lineTo((touches.x[i] + touches.x[i+1]) * 0.5, (touches.y[i] + touches.y[i+1]) * 0.5);
       }
-      return canvas;
-  },
-  deleteCanvas:function (canvas) {
-    delete this.canvasLogins[canvas.login];
-    var allCanvas = document.getElementById("#allCanvas")
-      , canvas = document.getElementById(canvas.id);
-    return allCanvas.removeChild(canvas);
-  },
-  refresh : function() {
-    App.ctx.clearRect(0, 0, App.canvas.width, App.canvas.height);
-    for (var login in this.canvasLogins)App.storeCanvas.deleteCanvas(this.canvasLogins[login]);
+    }
+    //ctx.moveTo(touches.x[touches.x.length - 1] , touches.y[touches.y.length - 1] );
   }
-};
+  ctx.stroke();
+  return ctx.closePath();
+}
+
+App.drawLine = function (draw) {
+  var x = draw.x
+    , y = draw.y
+    , r = draw.r
+    , g = draw.g
+    , b = draw.b
+    , size = draw.size
+    , opacity = draw.opacity / 100                  //todo избавиться от лишнеге дележа
+    , color = 'rgb(' + r + ',' + g + ',' + b +')'   //стоит подумать о цвете, может не складывать
+    , login = draw.login;
+
+
+  if (opacity < 1) {
+    var ourCanvas = $('#_'+login)[0];
+    var canvas = ourCanvas || App.createCanvas("_"+login);
+
+
+    if (x !== -100) {
+      canvas.ctx.strokeStyle = color;
+      canvas.ctx.lineWidth = size;
+      canvas.ctx.globalAlpha = opacity;
+      canvas.mouseXY.x.push(x);
+      canvas.mouseXY.y.push(y);
+      canvas.ctx.clearRect(0, 0, App.canvas.width, App.canvas.height);
+      return App.reDraw(canvas.mouseXY, canvas.ctx);
+    } else {
+      App.ctx.strokeStyle = color;
+      App.ctx.globalAlpha = opacity;
+      App.ctx.lineWidth = size;
+      App.reDraw(canvas.mouseXY, App.ctx);
+      canvas.mouseXY = {x:[], y:[]};
+      canvas.ctx.clearRect(0, 0, App.canvas.width, App.canvas.height);
+    }
+  } else{
+    App.ctx.globalAlpha = 1;
+    if (x == -100) {
+      return App.storeByName[login] = [];
+    }else {
+      if (!App.storeByName[login]){
+        App.storeByName[login] = [];
+      }
+      App.storeByName[login].push(draw);
+
+      var store = App.storeByName[login];
+      var i = App.storeByName[login].length - 1;
+
+      App.ctx.strokeStyle = color;
+      App.ctx.lineWidth = size;
+      var touches = {x:[],y:[]};
+
+      if (i<2){
+        for (; i>=0 ;i--){
+          touches.x.push(store[i].x);
+          touches.y.push(store[i].y);
+        }
+      }else {
+        for (var n=i-3; n<i ;){
+          n++;
+          touches.x.push(store[n].x);
+          touches.y.push(store[n].y);
+        }
+      }
+      return App.reDraw(touches, App.ctx);
+    }
+  }
+}
+
+App.createCanvas = function (login){
+  var canvas = $('<canvas />')
+          .appendTo('#allCanvas')[0];
+  if ($('#allCanvas').children().length!==1)
+    $(canvas).addClass('canvasLayer');
+
+  canvas.id = login;
+  canvas.height = App.DEFAULT_HEIGHT;
+  canvas.width = App.DEFAULT_WIDTH;
+  canvas.mouseXY = {x:[], y:[]};
+  canvas.ctx = canvas.getContext("2d");
+  canvas.ctx.lineCap = "round";
+  canvas.ctx.lineJoin = "round";
+  return canvas;
+}
+
+App.refresh = function() {
+  App.ctx.clearRect(0, 0, App.canvas.width, App.canvas.height);
+  $('.canvasLayer').remove();
+}
 
 App.demoPicker = {
   canvas : undefined,
@@ -79,7 +157,7 @@ App.demoPicker = {
     canvas.width=this.size;
     canvas.height=this.size;
 
-    parent.appendChild(canvas);
+    if(parent)parent.appendChild(canvas);
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
     this.ctx.lineCap = "round";
@@ -107,29 +185,33 @@ App.demoPicker = {
 
 App.init = function () {
 
-  App.canvas = App.storeCanvas.newCanvasCtx('default');
-  App.ctx = App.canvas.ctx;
+  App.canvas = App.createCanvas(App.LOGIN);
+  App.ctx    = App.canvas.ctx;
 
-  App.ctx.color = App.DEFAULT_COLOR;
+  App.ctx.color   = App.DEFAULT_COLOR;
   App.ctx.opacity = App.DEFAULT_OPACITY;
-  App.ctx.size = App.DEFAULT_SIZE;
+  App.ctx.size    = App.DEFAULT_SIZE;
 
   App.storeByName = {};
 
   App.socket = (function(host){
-    var socket = io.connect(host)
-      .on('draw', function (draw) {
-        App.drawLine(draw);
-      })
-      .on('uploadStore', function (data) {
-        //App.store.getData(data);
-        //App.store.drawStore();
-      })
-      .on('clearAllCanvas', function () {
-        App.storeCanvas.refresh();
-      });
+    var socket = io.connect(host);
+    socket.on('connect', function () {
+      socket.emit('setPageName', App.PAGE)
+    });//SET pageName for socket
+    socket.on('draw', function (draw) {
+      App.drawLine(draw);
+    });
+    socket.on('uploadStore', function (data) {
+      //App.store.getData(data);
+      //App.store.drawStore();
+    });
+    socket.on('clearAllCanvas', function () {
+      App.refresh();
+    });
     return socket;
   })(App.HOST);
+  
   App.createDraw = function (x, y) {
     return {
       x:x
@@ -142,117 +224,15 @@ App.init = function () {
       , nameFromPath:App.PAGE
       , login:App.LOGIN
     };
-  }
-  App.reDraw = function (touches, ctx){
-      //ctx.strokeStyle = 'red';
-      //ctx.lineWidth = 1;
-      //ctx.shadowOffsetX = 0;
-      //ctx.shadowOffsetY = 0;
-      //ctx.shadowBlur = 500;
-      //ctx.shadowColor = "red";
-      //var g = ctx.createLinearGradient(0, 0, touches.x[touches.x.length-1], touches.x[touches.x.length-1]);
-        //g.addColorStop(0, 'blue');
-        //g.addColorStop(1, 'red');
-        //ctx.strokeStyle = g;
-      //ctx.strokeStyle = 'red';
-        ctx.beginPath();
-        ctx.moveTo(touches.x[0], touches.y[0]);
-        if (touches.x.length < 2) {
-          ctx.lineTo(touches.x[0] + 0.51, touches.y[0]);
-        } else if (touches.x.length < 3) {
-            ctx.lineTo(touches.x[1], touches.y[1]);
-        } else {
-            ctx.moveTo((touches.x[0] + touches.x[1]) * 0.5, (touches.y[0] + touches.y[1]) * 0.5);
-            var i = 0;
-            while (++i < (touches.x.length - 1)) {
-                var abs1 = Math.abs(touches.x[i - 1] - touches.x[i]) + Math.abs(touches.y[i - 1] - touches.y[i])
-                    + Math.abs(touches.x[i] - touches.x[i + 1]) + Math.abs(touches.y[i] - touches.y[i + 1]);
-                var abs2 = Math.abs(touches.x[i - 1] - touches.x[i + 1]) + Math.abs(touches.y[i - 1] - touches.y[i + 1]);
-                if (abs1 > 10 && abs2 > abs1 * 0.8) {
-                    ctx.quadraticCurveTo(touches.x[i], touches.y[i], (touches.x[i] + touches.x[i + 1]) * 0.5, (touches.y[i] + touches.y[i + 1]) * 0.5);
-                } else {
-                    ctx.lineTo((touches.x[i] + touches.x[i+1]) * 0.5, (touches.y[i] + touches.y[i+1]) * 0.5);
-                }
-            }
-            //ctx.moveTo(touches.x[touches.x.length - 1] , touches.y[touches.y.length - 1] );
-        }
-        ctx.stroke();
-        return ctx.closePath();
-    }
-  App.drawLine = function (draw) {
-      var x = draw.x
-        , y = draw.y
-        , r = draw.r
-        , g = draw.g
-        , b = draw.b
-        , size = draw.size
-        , opacity = draw.opacity / 100                  //todo избавиться от лишнеге дележа
-        , color = 'rgb(' + r + ',' + g + ',' + b +')'   //стоит подумать о цвете, может не складывать
-        , login = draw.login;
+  };
 
-
-      if (opacity < 1) {
-            var canvas = (!App.storeCanvas.canvasLogins[login])
-                       ? App.storeCanvas.newCanvasCtx(login)
-                       : App.storeCanvas.canvasLogins[login];
-
-        if (x !== -100) {
-                canvas.ctx.strokeStyle = color;
-                canvas.ctx.lineWidth = size;
-                canvas.ctx.globalAlpha = opacity;
-                canvas.mouseXY.x.push(x);
-                canvas.mouseXY.y.push(y);
-                canvas.ctx.clearRect(0, 0, App.canvas.width, App.canvas.height);
-                //App.storeByName.login = {};
-                return App.reDraw(canvas.mouseXY, canvas.ctx);
-            } else {
-                App.ctx.strokeStyle = color;
-                App.ctx.globalAlpha = opacity;
-                App.ctx.lineWidth = size;
-                App.reDraw(canvas.mouseXY, App.ctx);
-                canvas.mouseXY = {x:[], y:[]};
-                canvas.ctx.clearRect(0, 0, App.canvas.width, App.canvas.height);
-            }
-        } else{
-        App.ctx.globalAlpha = 1;
-        if (x == -100) {
-                return App.storeByName[login] = [];
-            }else {
-                if (!App.storeByName[login]){
-                    App.storeByName[login] = [];
-                }
-                App.storeByName[login].push(draw);
-
-                var store = App.storeByName[login];
-                var i = App.storeByName[login].length - 1;
-
-                App.ctx.strokeStyle = color;
-                App.ctx.lineWidth = size;
-                var touches = {x:[],y:[]};
-
-                if (i<2){
-                    for (; i>=0 ;i--){
-                        touches.x.push(store[i].x);
-                        touches.y.push(store[i].y);
-                    }
-                }else {
-                    for (var n=i-3; n<i ;){
-                        n++;
-                        touches.x.push(store[n].x);
-                        touches.y.push(store[n].y);
-                    }
-                }
-                return App.reDraw(touches, App.ctx);
-            }
-        }
-    }
 };
 
 
-/*  	onReady     */
+/*    onReady     */
 
 
-$(document).ready(function(){
+$(function(){
 
   App.init();
   App.demoPicker.init();
@@ -333,12 +313,14 @@ $(document).ready(function(){
       }
   });
 
-
-  ColorPicker(document.getElementById('color-picker'),
-    function (hex, hsv, rgb) {
-      App.ctx.color = rgb;
-      App.demoPicker.redrawPicker();
+  var pic = document.getElementById('color-picker');
+  if(pic){
+    ColorPicker(pic, function (hex, hsv, rgb) {
+        App.ctx.color = rgb;
+        App.demoPicker.redrawPicker();
     });
+  }
+  
 
 // http://php-zametki.ru/javascript-laboratoriya/66-drag-and-drop-krossbrauzerno.html
   document.onselectstart = function () {
@@ -368,7 +350,7 @@ $(document).ready(function(){
 
 
   function onClear() {
-    App.storeCanvas.refresh();
+    App.refresh();
     App.socket.emit('clearAllCanvas', {nameFromPath:App.PAGE});
   }
 
@@ -449,6 +431,8 @@ $(document).ready(function(){
   $("#zoomOut").bind('click', onZoomOut);
   $("#zoomIn").bind('click', onZoomIn);
   $("#hand").bind('click', onDrag);
+  
+  $('.side').bind('blur')
 
   allCanvas.bind('mousewheel', onMouseWheel);
   allCanvas.bind('mousewheel', onMouseWheel);
@@ -461,7 +445,7 @@ $(document).ready(function(){
   body.bind('mousemove', onMousemove);
   body.bind('mouseup', onMouseup);
 
-  App.socket.emit('uploadDraw', {nameFromPath:App.PAGE});
+  //App.socket.emit('uploadDraw', {nameFromPath:App.PAGE});
 });
 
 

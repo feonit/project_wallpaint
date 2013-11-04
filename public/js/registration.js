@@ -6,20 +6,33 @@
       name :  (/^[A-Za-zА-Яа-я ]{2,30}$/i)
       ,email : (/^([a-z0-9_-]+.)*[a-z0-9_-]+@([a-z0-9][a-z0-9-]*[a-z0-9].)+\.[a-z]{2,4}$/i)
       ,password : (/^[A-Za-zА-Яа-я0-9]{6,30}$/i)
-      ,user : (/^[A-Za-z]{1,30}$/i)
+      ,user : (/^[A-Za-zА-Яа-я0-9]{1,30}$/i)
     }
-    var permitUser =  true;
-    var permitEmail =  true;
 
-    var bAnswer = $("#answer")[0]   //todo
+        
+    var bAnswer = $("#answer");   //todo
     var bInputs = $("input");
     var bUser = $("#user");
     var bEmail = $("#email");
+    var bSubmit = $("#submit");
 
     var host = (location.host.search('localhost')!==-1)
         ? "127.0.0.1:"+location.port
         : location.host;
     var socket = io.connect(host);
+    
+    var permitUser =  false;
+    var permitEmail =  false;
+    
+    function checkAllFields(){
+      var allow = permitUser && permitEmail;
+      bInputs.each(function(){
+        allow = allow && isValid.call(this);
+      });
+
+      if (!allow) bAnswer.fadeIn().text('Необходимо исправить данные');
+      return allow;
+    }
 
     /**
      * socket init
@@ -28,20 +41,16 @@
 
     function recordResUser(data){
       permitUser = !data.answer;
-      (data.answer)?setStatus.call(bUser, "engaged"):setStatus.call(bUser, "ok");
+      (data.answer)?displayStatus.call(bUser, "engaged"):displayStatus.call(bUser, "ok");
     }
     function recordResEmail(data){
       permitEmail = !data.answer;
-      (data.answer)?setStatus.call(bEmail, "engaged"):setStatus.call(bEmail, "ok");
-    }
-    function registrationResult(err){
-      var response = err || "Сервер не отвечает";
-      bAnswer.innerHTML = response;
+      (data.answer)?displayStatus.call(bEmail, "engaged"):displayStatus.call(bEmail, "ok");
     }
 
     socket.on('searchUserAnswer', recordResUser);
     socket.on('searchEmailAnswer', recordResEmail);
-    socket.on("responseForAddUser", registrationResult);
+
 
     /**
      * cookie init
@@ -49,14 +58,14 @@
      * */
 
     if($.cookie('user')){
-      bUser.value = $.cookie('user');
-      setStatus.call(bUser, "check");
-      bUser.onkeyup();
+      bUser.val($.cookie('user'));
+      displayStatus.call(bUser, "check");
+      handleKeyActive.call(bUser);
     }
     if($.cookie('email')){
-      bEmail.value = $.cookie('email');
-      setStatus.call(bEmail, "check");
-      bEmail.onkeyup();
+      bEmail.val($.cookie('email'));
+      displayStatus.call(bEmail, "check");
+      handleKeyActive.call(bEmail);
     }
 
     /**
@@ -67,88 +76,81 @@
     function handleFirstMsg(e){
       var e = e || window.event;
       var element = e.target || e.srcElement; // IE8-
-      element = $(element);
-      setStatus.call(element, "source");
+      if(!$(element).val())displayStatus.call($(element), "source");
     }
 
 
-    function checkAllFields(){
-      var allow = permitUser && permitEmail;
-      bInputs.each(function(){
-        allow = allow && isValid(this);
-      });
-    }
 
-    function isValid(self){
-      if(self.jquery){
-        if(regExp.hasOwnProperty(self.attr('id'))){
-          return regExp[self.attr('id')].test(self.val());
-        }else throw new Error('no have reqexp for this element')
-      } else throw new Error('jquery pls')
+
+    function isValid(){
+      if(regExp.hasOwnProperty($(this).attr('id'))){
+        return regExp[$(this).attr('id')].test($(this).val());
+      }else throw new Error('no have reqexp for this element');
     }
 
 
-    function setStatus(status){
+    function displayStatus(status){
       if(this.jquery){
         var mes = $('#'+this.attr('id')+'-messages')
-          , msg = mes.data(status)
-        mes.text(msg);
+          , msg = mes.data(status);
+        mes.html(msg);
+        mes.removeClass('ok check error engaged').addClass(status)
       } else {
         throw new Error('jquery pls');
-        //console.log(setStatus.caller)
+        //console.log(displayStatus.caller)
       }
     }
 
 
     function displayStatusCheck(){
-      setStatus.call(this, "check");
+      displayStatus.call(this, "check");
     };
 
-    function handleValidated(){
+    function validated(){
       if(this.jquery){
         console.log('валидация')
-        switch (this.attr('type')){   //проверить
-          case "text":
-            isValid(this) ? setStatus.call(this, "ok") : setStatus.call(this, "error");
-            break;
+        switch (this.attr('id')){
           case "email":
-            isValid(this) ? socket.emit('searchEmail', {email:this.val()}) : setStatus.call(this, "error");
-            break;
-          case "password":
-            if(isValid(this)){
-              setStatus.call(this, "ok");
-              socket.emit('searchUser', {user:this.value});
-            }else{
-              setStatus.call(this, "error");
-            };
-            break;
-          default: console.log('no have type');
+            isValid.call(this) ? socket.emit('searchEmail', {email:this.val()}) 
+                               : displayStatus.call(this, "error");
+                                 break;
+          case "user":
+            isValid.call(this) ? socket.emit('searchUser', {user:this.val()})
+                               : displayStatus.call(this, "error");
+                                 break;
+          default:                     //password and name
+            isValid.call(this) ? displayStatus.call(this, "ok") 
+                               : displayStatus.call(this, "error");
+                                 break;
         }
       } else throw new Error('jquery pls')
     }
 
-
-
-    bInputs.each(function(){
-      var self = $(this);
-      if(self.attr('type')==="submit"){
-        self.bind("submit", checkAllFields);
-      }else{
-        self.one("click", handleFirstMsg);
-        self.bind("keyup", function(){
-          self.clearQueue().queue(function(){
-            setTimeout(function(){console.log(1)},1000)
-            self.dequeue();
-          }).queue(function(){
-              console.log(2);
-              displayStatusCheck.call(self);
-              self.dequeue();
-            }).queue(function(){
-                handleValidated.call(self);
+      function handleKeyActive(){
+        displayStatusCheck.call($(this));
+        $(this).delay(500);
+        $(this).queue(function (){
+          if($(this).queue().length>1){
+            $(this).clearQueue();
+            $(this).delay(500);
+            $(this).queue(function(){
+              handleKeyActive.call(this);
             });
+          }
+          else {
+            validated.call($(this));
+          }
+          $(this).dequeue();
         });
       }
-    })
+
+    bInputs.each(function(){
+      $(this).one("focus", handleFirstMsg);
+      $(this).bind("input", handleKeyActive); //mb to do for IE str 518
+    });
+    
+    $('form').bind("submit", checkAllFields);
+
 
 
   });

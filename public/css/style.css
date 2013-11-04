@@ -31,7 +31,7 @@ h3{font: 1.8em Arial,sans-serif;}
 h4{font: 1.2em Arial,sans-serif;}
 h5{font: 0.6em Arial,sans-serif;}
 
-input{
+input, button{
     box-sizing: border-box;
     width:100%;
     outline: none;

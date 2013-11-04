@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href=”/public/images/favicon.ico” rel=”icon” type=”image/x-icon” />
+    <link href=”/public/images/favicon.ico” rel=”icon” type=”image/x-icon”/>
   <meta charset="utf-8" />
   <title>{{=dataUser.user}}</title>
   <link rel="stylesheet" href="/public/css/style.css"/>
   <link rel="stylesheet" href="/public/css/user.css"/>
   <link rel="stylesheet" href="/public/css/cp-normal.css"/>
-  <link rel="stylesheet" href="/public/css/jquery-ui.css" />
+  <link rel="stylesheet" href="/public/css/jquery-ui.css"/>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/public/js/jquery.min.js"></script>
 	<script src="/public/js/colorpicker.js"></script>
@@ -16,13 +16,22 @@
 </head>
 <body>
   <img id="imageData" src={{=canvasImage}} />
-  <div id="placeCanvas" class="shadow">
-    <div id='allCanvas' class="draggable">
-      <canvas></canvas>
+  <div id="placeCanvas" >
+    <div id='allCanvas' class="draggable shadow">
+
     </div>
   </div>
+  <div class="side">    
+    <img id="paint"   title="Цветовая палитра"  src="/public/images/paint.png">
+    <img id="brush"   title="Кисть"             src="/public/images/brush.png">
+    <img id="hand"    title="Рука"              src="/public/images/hand-icon.png">
+    <img id="zoomIn"  title="Увеличить масштаб" src="/public/images/zoomin.png">
+    <img id="zoomOut" title="Уменьшить масштаб" src="/public/images/zoomout.png">
+    <img id="eraser"  title="Стёрка"            src="/public/images/draft.png">
+    <img id="clear"   title="Очистить холст"    src="/public/images/clear.png"> 
+  </div>
   <!--
-  <div id="slider-panel" class="panel hidden">
+  <div id="slider-panel" class="panel ">
     <div class="option">Sliders</div>
     <div class="slider-field">
       <div class="discription"><span>Размер</span></div>
@@ -37,25 +46,18 @@
       <div class="slider" id="sliderScale"></div>
     </div>
   </div>
-  -->
+  
   <div id="image-panel">
-    <img id="paint"   title="Цветовая палитра"  src="/public/images/paint.png">
-    <img id="brush"   title="Кисть"             src="/public/images/brush.png">
-    <img id="hand"    title="Рука"              src="/public/images/hand-icon.png">
-    <img id="zoomIn"  title="Увеличить масштаб" src="/public/images/zoomin.png">
-    <img id="zoomOut" title="Уменьшить масштаб" src="/public/images/zoomout.png">
-    <img id="eraser"  title="Стёрка"            src="/public/images/draft.png">
-    <img id="clear"   title="Очистить холст"    src="/public/images/clear.png">
     <div>
       <div id="demoPicker"></div>
     </div>
   </div>
-  <!--
-  <div id="color-panel" class="panel shadow hidden">
+
+  <div id="color-panel" class="panel shadow ">
     <div class="option">Colors</div>
     <div id="color-picker" class="cp-normal"></div>
   </div>
-  -->
+-->
 
 </body>
 </html>

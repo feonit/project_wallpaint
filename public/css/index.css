@@ -1,5 +1,11 @@
 body{
-    background: url('/public/images/background/body-bg.jpg') no-repeat center center fixed;
+  height:100%;
+    background-image: url('/public/images/background/1217450647_200829074527-9082.jpg');
+}
+.stretch{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
     /*http://sitear.ru/material/css-background-rastyanut*/
     -webkit-background-size: cover;
     -moz-background-size: cover;
