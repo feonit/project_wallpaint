@@ -1,1 +1,1 @@
-web: node appMobile.js
+web: node app.js
