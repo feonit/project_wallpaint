@@ -38,7 +38,7 @@ io.configure(function () {
 */
 exports.io = io;
 
-exports.db          = require('./models/db');
+//exports.db          = require('./models/db');
 exports.App         = require('./models/canvas_app');
 exports.mail        = require('./models/mail');
 exports.regular     = require('./tools/regular');
