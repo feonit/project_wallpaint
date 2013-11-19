@@ -14,6 +14,7 @@
     "ejs": "0.8.3",
     "nodemailer": "0.4.1",
     "canvas": "*"
+    "ws": "0.4.x",
   },
   "engines": {
     "node": "0.10.x",
