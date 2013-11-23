@@ -234,9 +234,11 @@ App.init = function () {
 			ws = new WebSocket(host);
 
 		ws.onopen = function (event) {
-
+			console.log('socket was open')
 		};
 		ws.onmessage = function (event) {
+			console.log('socket new message')
+
 			if (fn[event.data.type]) {
 				fn[event.data.type](event.data)
 			}
