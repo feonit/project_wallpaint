@@ -28,7 +28,7 @@ exports.sendMassage = function (mailOptions) {
     if (err) 
       throw new Error(err);
     else 
-      echo("Message sent: " + res.message);
+      console.log("Message sent: " + res.message);
     //transport.close(); // shut down the connection pool, no more messages
   })
 };

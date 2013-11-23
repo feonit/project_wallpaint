@@ -6,9 +6,10 @@
 
 var main = require('../main');
 
+var mail = main.mail;
+
 var eventapp = main.eventApp;
 var db = main.db;
-var mail = main.mail;
 var regular = main.regular;
 
 module.exports = function(req, res) {

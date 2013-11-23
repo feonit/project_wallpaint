@@ -194,25 +194,77 @@ App.init = function () {
 
   App.storeByName = {};
 
-  App.socket = (function(host){
-    var socket = io.connect(host);
-    socket.on('connect', function () {
-      socket.emit('setPageName', App.PAGE)
-    });//SET pageName for socket
-    socket.on('draw', function (draw) {
-      App.drawLine(draw);
-    });
-    socket.on('uploadStore', function (data) {
-      //App.store.getData(data);
-      //App.store.drawStore();
-    });
-    socket.on('clearAllCanvas', function () {
-      App.refresh();
-    });
-    return socket;
-  })(App.HOST);
-  
-  App.createDraw = function (x, y) {
+
+	var fn = {};
+
+	fn.draw = function (draw) {
+		App.drawLine(draw);
+	};
+	fn.uploadStore = function (data) {
+		//App.store.getData(data);
+		//App.store.drawStore();
+	};
+	fn.clearAllCanvas = function () {
+		App.refresh();
+	};
+
+/*	*//**
+	 * Socket.io
+	 *
+	 * @deprecated
+	 * *//*
+
+	var socketIO = function (host){
+		var socket = io.connect(App.HOST);
+
+		for (var event in fn) {
+			socket.on( event, fn[event])
+		}
+
+		return socket;
+	};*/
+
+	/**
+	 * ws
+	 *
+	 * */
+
+	var nativeWebSocket = function () {
+		var host = location.origin.replace(/^http/, 'ws'),
+			ws = new WebSocket(host);
+
+		ws.onopen = function (event) {
+
+		};
+		ws.onmessage = function (event) {
+			if (fn[event.data.type]) {
+				fn[event.data.type](event.data)
+			}
+		};
+		ws.onclose = function (event) {
+
+		};
+		ws.onerror = function (event) {
+
+		};
+
+		//todo додумать обработку send
+		ws.emit = function (chanel, data){
+			data['type'] = chanel;
+			ws.send(data);
+		};
+
+		return ws;
+	};
+
+	App.socket = nativeWebSocket();
+
+
+
+
+
+
+	App.createDraw = function (x, y) {
     return {
       x:x
       , y:y

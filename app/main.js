@@ -1,50 +1,86 @@
-/*
+
+/**
+ * Namespace app
  *
- * Module main
- *
- * Loader core modules and appMainlication initialization
+ * */
+WALL = {};
+
+/**
+ * Configurations
  *
  * */
 
-var loader      = require('./loader');
-var express = exports.express = loader.express;
-exports.fs = loader.fs;
-exports.ejs = loader.ejs;
-exports.http = loader.http;
-exports.mysql = loader.mysql;
-exports.Canvas = loader.Canvas;
-exports.crypto = loader.crypto;
-var socket_io = exports.socket_io = loader.socket_io;
+WALL.PORT = 3000;
+
+/**
+ * Loader packages
+ *
+ * */
+
+WALL.loader = require('./loader');
+
+WALL.application =  WALL.loader.express()
+	.use(WALL.loader.express.vhost('m.*',require('./vhost/mobile/server_mobile')))
+	.use(WALL.loader.express.vhost('*', require('./vhost/desctop/server_desctop')));
 
 
-var appMain = express();
-appMain.set('port', process.env.PORT || 3000);
-
-appMain.use(express.vhost('m.*',require('./vhost/mobile/appMobile')));
-appMain.use(express.vhost('mobile.*',require('./vhost/mobile/appMobile')));
-appMain.use(express.vhost('*', require('./vhost/desctop/appDesctop')));
+var server = WALL.application.listen(WALL.PORT, function(){console.log('Express server listening on port ' + WALL.PORT);});
 
 
-var server = appMain.listen(appMain.get('port'), function(){
-  console.log('Express server listening on port ' + appMain.get('port'));
+
+
+/*var io = WALL.loader.socket_io.listen(server);
+
+io.sockets.on('connection', function (socket) {
+	var fn = WALL.loader.eventSocket;
+
+	for (var event in fn) {
+		socket.on(event, fn[event])
+	}
+
+});*/
+
+
+
+
+var wss = new WALL.loader.ws.Server({server: server});
+
+console.log('websocket server created');
+
+var wsConnections = [],
+	i = 1;
+
+wss.on('connection', function(ws) {
+
+	ws.clientNumberConnection = i + 1;
+	wsConnections.push(ws);
+
+	var fn = WALL.loader.eventSocket;
+
+
+	var id = setInterval(function() {
+		ws.send(JSON.stringify(new Date()), function() {  });
+	}, 1000);
+
+	ws.on('open', function() {
+		console.log('websocket connection open');
+	});
+	ws.on('message', function(event) {
+		console.log('websocket connection message');
+
+		if (fn[event.data.type]) {
+			fn[event.data.type](event.data);
+		}
+
+	});
+	ws.on('error', function() {
+		console.log('websocket connection error');
+	});
+	ws.on('close', function() {
+		console.log('websocket connection close');
+		clearInterval(id);
+	});
 });
-
-var io = socket_io.listen(server);
-/*
-io.configure(function () {
-  io.set("transports", ["xhr-polling"]);
-  io.set("polling duration", 10);
-});
-*/
-exports.io = io;
-
-//exports.db          = require('./models/db');
-exports.App         = require('./models/canvas_app');
-exports.mail        = require('./models/mail');
-exports.regular     = require('./tools/regular');
-exports.eventApp    = require('./models/event_app');
-exports.eventSocket = require('./models/event_socket');
-
 
 
 

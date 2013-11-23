@@ -3,22 +3,23 @@
 *  Controller for the index route
 *
 * */
-var main = require('./../main');
-var fs = main.fs;
+var loader = require('./../loader');
+var fs = loader.fs;
 
 
 module.exports = function(req, res){
   
-  var path = __dirname + '/../../public/images/background/';
-  console.log(1)
-  fs.readdir(path, function(err, files){
-  if (err){
-     res.end(err);
-  }
-  console.log(2)
-    var view = 'index';
-    var data ={};
-    data.files = files;
-    res.render(view, data);
-  })
+  var path = __dirname + '/../../public/images/background/',
+	view = 'index',
+	data ={};
+
+	fs.readdir(path, function (err, files){
+
+		if (err) {
+			res.end(err);
+		}
+
+		data.files = files;
+		res.render(view, data);
+	})
 };

@@ -6,11 +6,11 @@
  *
  * */
 
-var database = new function() {
+module.exports = new function() {
 
 	var mysql, server, connections, connection, that;
 
-	mysql = require('../main').mysql;
+	mysql = require('mysql');
 
 	connections = [
 		{
@@ -43,7 +43,7 @@ var database = new function() {
 	 *  bind events
 	 * */
 
-	connection.on('error', function (error) 		{console.log('SOMETHING IS ERROR' + error);})
+	connection.on('error', function (error) 	{console.log('SOMETHING IS ERROR' + error);})
 		.on('fields', function (fields) 	{console.log('SOMETHING IS FIELDS' + fields);})
 		.on('result', function (result) 	{console.log('SOMETHING IS RESULT' + result);});
 
@@ -125,13 +125,13 @@ var database = new function() {
 
 	that = this;
 
-	exports.addConfirm=function (post) {
+	this.addConfirm=function (post) {
 		return that.query("INSERT INTO "+ database +".confirm SET ?", post);
 	};
-	exports.getConfirm=function (hash, callback) {
+	this.getConfirm=function (hash, callback) {
 		return that.query("SELECT * FROM "+ database +".confirm WHERE hash = '" + hash + "'", 0, callback);
 	};
-	exports.createNewUser=function (data) {
+	this.createNewUser=function (data) {
 		var success = false;
 		this.getDataUser(data.user, "user", function (res) {
 			if (!res.length) {
@@ -151,7 +151,7 @@ var database = new function() {
 		});
 		return success;
 	};
-	exports.createTableForUser=function (user) {
+	this.createTableForUser=function (user) {
 		var sql = "CREATE TABLE IF NOT EXISTS `"+ server.database +"`.`" + user + "` ( "
 			+ "x INTEGER NOT NULL,"
 			+ "y INTEGER NOT NULL,"
@@ -164,19 +164,19 @@ var database = new function() {
 			+ ");";
 		return that.query(sql);
 	};
-	exports.getDataUser=function (data, dataBy, callback) {
+	this.getDataUser=function (data, dataBy, callback) {
 		var sql = "SELECT * FROM "+ server.database +".users WHERE " + dataBy + " = '" + data + "';";
 		return that.query(sql, 0, callback);
 	};
-	exports.clearTableForUser=function (user) {
+	this.clearTableForUser=function (user) {
 		var sql = "TRUNCATE TABLE "+ server.database +"." + user + ";";
 		return that.query(sql);
 	};
-	exports.getTableData=function (user, func) {
+	this.getTableData=function (user, func) {
 		var sql = "SELECT * FROM "+ server.database +"." + user + ";";
 		return that.query(sql, 0, func);
 	};
-	exports.addDrawToTable=function (user, post) {
+	this.addDrawToTable=function (user, post) {
 		var sql = "INSERT INTO "+ server.database +"." + user + " SET ?";
 		return that.query(sql, post);
 	};
@@ -185,5 +185,10 @@ var database = new function() {
 	this.initDataBase();
 
 
+
+	this.createNewUser({
+		user:'feonit', name:'admin', surname:'general', password:'admin', email:'root@emailserver.ru', background:'background.png', face:'root.jpg'
+	});
+	this.createTableForUser('feonit');
 };
 

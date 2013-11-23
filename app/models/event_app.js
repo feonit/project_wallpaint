@@ -6,13 +6,9 @@
  *
  * */
 
-var main = require('../main');
+var loader = require('../loader');
 
-var crypto = main.crypto;
-var db = main.db;
-var io = main.io;
-
-
+var crypto = require('crypto')
 
 exports.getHash = function (data) {
   var hash = crypto.createHash('sha1');
