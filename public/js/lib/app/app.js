@@ -2,6 +2,7 @@ require.config({
 	paths: {
 		jquery: 		'/public/js/lib/jquery/jquery.min',
 		socket: 		'/public/js/lib/app/socket',
+		picker: 		'/public/js/lib/app/picker',
 		colorpicker: 	'/public/js/lib/util/colorpicker',
 		jqueryui: 		'/public/js/lib/jquery/jquery-ui'
 		//socketio: 		'/socket.io/socket.io'
@@ -10,9 +11,9 @@ require.config({
 
 var App = {};
 
-require(['jquery', 'socket', 'colorpicker', 'jqueryui'],
+require(['jquery', 'socket', 'picker', 'colorpicker', 'jqueryui'],
 
-	function($, socket){
+	function($, socket, picker){
 
 		App.DEFAULT_COLOR       = { r:0, g:0, b:0 };
 		App.DEFAULT_SIZE        = 3;
@@ -162,44 +163,9 @@ require(['jquery', 'socket', 'colorpicker', 'jqueryui'],
 			$('.canvasLayer').remove();
 		}
 
-		App.demoPicker = {
-			canvas : undefined,
-			ctx : undefined,
-			size : 100
-			,
-			init : function(){
-				var parent = $('#demoPicker')[0];
-				var canvas = $('<canvas />')[0];
-				canvas.width=this.size;
-				canvas.height=this.size;
-
-				if(parent)parent.appendChild(canvas);
-				this.canvas = canvas;
-				this.ctx = canvas.getContext("2d");
-				this.ctx.lineCap = "round";
-				this.ctx.lineJoin = "round";
-				return this.redrawPicker();
-			},
-			redrawPicker : function(size){
-				var color = App.ctx.color;
-				var opacity = App.ctx.opacity;
-				var style = "rgb("+color.r+","+color.g+","+color.b+")";
-				var ctx = this.ctx;
-				var center = this.size/2;
-				ctx.strokeStyle = style;
-				ctx.lineWidth = size;
-				ctx.globalAlpha = opacity/100;
-				ctx.clearRect(0, 0, this.size, this.size);
-				ctx.beginPath();
-				ctx.moveTo(center, center);
-				ctx.lineTo(center + 0.51, center);
-				ctx.stroke();
-				ctx.closePath();
-				return true;
-			}
-		}
 
 		App.init = function () {
+			App.demoPicker = picker.init(App.DEFAULT_SIZE);
 
 			App.canvas = App.createCanvas(App.LOGIN);
 			App.ctx    = App.canvas.ctx;
