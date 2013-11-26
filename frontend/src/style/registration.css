@@ -60,15 +60,15 @@ p{
     color:#999;
 }
 .ok{
-    background: url('/frontend/src/public/images/accept.png') no-repeat center left;
+    background: url('/frontend/src/images/accept.png') no-repeat center left;
     color: #390;
 }
 .check{
-    background: url('/frontend/src/public/images/spinner-small.gif') no-repeat center left;
+    background: url('/frontend/src/images/spinner-small.gif') no-repeat center left;
     color: #999;
 }
 .error, .engaged{
-    background: url('/frontend/src/public/images/error.png') no-repeat center left;
+    background: url('/frontend/src/images/error.png') no-repeat center left;
     color: #c33;
 }
 

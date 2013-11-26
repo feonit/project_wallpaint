@@ -10,7 +10,7 @@ var fs = loader.fs;
 module.exports = function(req, res){
 
 	//обои менять игрушка
-  var path = __dirname + '/../../../frontend/src/public/images/background/',
+  var path = __dirname + '/../../../frontend/src/images/background/',
 	view = 'index',
 	data ={};
 

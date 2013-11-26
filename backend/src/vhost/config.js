@@ -33,7 +33,7 @@ module.exports = function (app) {
 		app.engine('.html', ejs.__express);
 		app.set('view engine', 'html');
 		app.set('views', __dirname + './../views');
-		app.use('/public', express.static(__dirname + './../../../frontend/src/public'));
+		app.use('/public', express.static(__dirname + './../../../frontend/src'));
 		app.use(app.router);
 		app.locals({});
 	};
@@ -46,7 +46,7 @@ module.exports = function (app) {
 		app.engine('.html', ejs.__express);
 		app.set('view engine', 'html');
 		app.set('views', __dirname + './../views');
-		app.use('/public', express.static(__dirname + './../../../frontend/web/public'));
+		app.use('/public', express.static(__dirname + './../../../frontend/web'));
 		app.use(app.router);
 		app.locals({});
 	};
