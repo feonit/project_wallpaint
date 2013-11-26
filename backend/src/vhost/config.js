@@ -1,7 +1,8 @@
 module.exports = function (app) {
 	var main, express, ejs, that;
 
-	var APP_MODE = 'development';  //todo
+	var APP_MODE = 'development';
+	//var APP_MODE = 'prodaction';
 
 	express = require('express');
 	ejs = require('ejs');
@@ -32,7 +33,20 @@ module.exports = function (app) {
 		app.engine('.html', ejs.__express);
 		app.set('view engine', 'html');
 		app.set('views', __dirname + './../views');
-		app.use('/public', express.static(__dirname + './../../public'));
+		app.use('/public', express.static(__dirname + './../../../frontend/src/public'));
+		app.use(app.router);
+		app.locals({});
+	};
+
+	this.proMode = function(){
+		app.use(that.rememberDeviceInRequest);
+		app.use(express.bodyParser());
+		ejs.open = '{{';
+		ejs.close = '}}';
+		app.engine('.html', ejs.__express);
+		app.set('view engine', 'html');
+		app.set('views', __dirname + './../views');
+		app.use('/public', express.static(__dirname + './../../../frontend/web/public'));
 		app.use(app.router);
 		app.locals({});
 	};

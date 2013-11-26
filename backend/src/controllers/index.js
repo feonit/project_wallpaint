@@ -8,8 +8,9 @@ var fs = loader.fs;
 
 
 module.exports = function(req, res){
-  
-  var path = __dirname + '/../../public/images/background/',
+
+	//обои менять игрушка
+  var path = __dirname + '/../../../frontend/src/public/images/background/',
 	view = 'index',
 	data ={};
 
