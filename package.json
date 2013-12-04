@@ -11,7 +11,6 @@
     "mysql": "2.0.0-alpha7",
     "connect": "2.7.6",
     "socket.io": "0.9.14",
-    "mysql": "2.0.0-alpha7",
     "ejs": "0.8.3",
     "nodemailer": "0.4.1",
     "canvas": "*",
@@ -23,8 +22,9 @@
   },
   "devDependencies": {
     "grunt": "~0.4.2",
-    "grunt-contrib-jshint": "~0.6.3",
+    "grunt-contrib-jshint": "~0.7.2",
     "grunt-contrib-nodeunit": "~0.2.0",
-    "grunt-contrib-uglify": "~0.2.2"
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-requirejs": "~0.4.1"
   }
 }

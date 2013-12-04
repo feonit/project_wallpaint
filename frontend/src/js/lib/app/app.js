@@ -3,6 +3,7 @@ require.config({
 		jquery: 		'/public/js/lib/jquery/jquery.min',
 		socket: 		'/public/js/lib/app/socket',
 		picker: 		'/public/js/lib/app/picker',
+    draw: 		'/public/js/lib/app/draw',
 		colorpicker: 	'/public/js/lib/util/colorpicker',
 		jqueryui: 		'/public/js/lib/jquery/jquery-ui'
 		//socketio: 		'/socket.io/socket.io'
@@ -11,9 +12,9 @@ require.config({
 
 var App = {};
 
-require(['jquery', 'socket', 'picker', 'colorpicker', 'jqueryui'],
+require(['jquery', 'socket', 'picker', 'draw', 'colorpicker', 'jqueryui', ],
 
-	function($, socket, picker){
+	function($, socket, picker, _draw){
 
 		App.DEFAULT_COLOR       = { r:0, g:0, b:0 };
 		App.DEFAULT_SIZE        = 3;
@@ -48,32 +49,7 @@ require(['jquery', 'socket', 'picker', 'colorpicker', 'jqueryui'],
 			}
 		};
 
-		App.reDraw = function (touches, ctx){
-			if(typeof(touches.x[0])!=="number")return;
-			ctx.beginPath();
-			ctx.moveTo(touches.x[0], touches.y[0]);
-			if (touches.x.length < 2) {
-				ctx.lineTo(touches.x[0] + 0.51, touches.y[0]);
-			} else if (touches.x.length < 3) {
-				ctx.lineTo(touches.x[1], touches.y[1]);
-			} else {
-				ctx.moveTo((touches.x[0] + touches.x[1]) * 0.5, (touches.y[0] + touches.y[1]) * 0.5);
-				var i = 0;
-				while (++i < (touches.x.length - 1)) {
-					var abs1 = Math.abs(touches.x[i - 1] - touches.x[i]) + Math.abs(touches.y[i - 1] - touches.y[i])
-						+ Math.abs(touches.x[i] - touches.x[i + 1]) + Math.abs(touches.y[i] - touches.y[i + 1]);
-					var abs2 = Math.abs(touches.x[i - 1] - touches.x[i + 1]) + Math.abs(touches.y[i - 1] - touches.y[i + 1]);
-					if (abs1 > 10 && abs2 > abs1 * 0.8) {
-						ctx.quadraticCurveTo(touches.x[i], touches.y[i], (touches.x[i] + touches.x[i + 1]) * 0.5, (touches.y[i] + touches.y[i + 1]) * 0.5);
-					} else {
-						ctx.lineTo((touches.x[i] + touches.x[i+1]) * 0.5, (touches.y[i] + touches.y[i+1]) * 0.5);
-					}
-				}
-				//ctx.moveTo(touches.x[touches.x.length - 1] , touches.y[touches.y.length - 1] );
-			}
-			ctx.stroke();
-			return ctx.closePath();
-		}
+		App.reDraw = _draw;
 
 		App.drawLine = function (draw) {
 			var x = draw.x
@@ -163,9 +139,21 @@ require(['jquery', 'socket', 'picker', 'colorpicker', 'jqueryui'],
 			$('.canvasLayer').remove();
 		}
 
+    App.createDraw = function (x, y) {
+      return {
+        x:x
+        , y:y
+        , size:App.ctx.size
+        , r:App.ctx.color.r
+        , g:App.ctx.color.g
+        , b:App.ctx.color.b
+        , opacity:App.ctx.opacity
+        , nameFromPath:App.PAGE
+        , login:App.LOGIN
+      };
+    };
 
 		App.init = function () {
-			App.demoPicker = picker.init(App.DEFAULT_SIZE);
 
 			App.canvas = App.createCanvas(App.LOGIN);
 			App.ctx    = App.canvas.ctx;
@@ -176,22 +164,9 @@ require(['jquery', 'socket', 'picker', 'colorpicker', 'jqueryui'],
 
 			App.storeByName = {};
 
+      App.demoPicker = picker.init(App.DEFAULT_SIZE);
 
-			App.createDraw = function (x, y) {
-				return {
-					x:x
-					, y:y
-					, size:App.ctx.size
-					, r:App.ctx.color.r
-					, g:App.ctx.color.g
-					, b:App.ctx.color.b
-					, opacity:App.ctx.opacity
-					, nameFromPath:App.PAGE
-					, login:App.LOGIN
-				};
-			};
-
-		};
+    };
 
 
 		/*    onReady     */
