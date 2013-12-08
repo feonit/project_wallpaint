@@ -51,7 +51,7 @@ module.exports = function (app) {
 		app.locals({});
 	};
 
-	app.configure(APP_MODE, this.devMode);
+	app.configure(APP_MODE, this.proMode);
 
 };
 

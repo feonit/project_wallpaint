@@ -1,0 +1,1 @@
+/*! wallpaint - v0.0.1 - 2013-11-26 */require.config({paths:{jquery:"/public/js/lib/jquery/jquery.min",app:"/public/js/lib/app/app"}}),require(["jquery","app"],function(){});
