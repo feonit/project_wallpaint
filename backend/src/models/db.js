@@ -176,8 +176,12 @@ module.exports = new function() {
 		var sql = "SELECT * FROM "+ server.database +"." + user + ";";
 		return that.query(sql, 0, func);
 	};
-	this.addDrawToTable=function (user, post) {
-		var sql = "INSERT INTO "+ server.database +"." + user + " SET ?";
+	this.addDrawToTable=function (user, data) {
+		var sql = "INSERT INTO "+ server.database +"." + user + " SET ?",
+			post = {
+				x:data['x'], y:data['y'], size:data['size'], r:data['r'], g:data['g'], b:data['b'], opacity:data['opacity'], login:data['login']
+			};
+
 		return that.query(sql, post);
 	};
 

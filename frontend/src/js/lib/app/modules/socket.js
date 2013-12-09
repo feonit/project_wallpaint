@@ -39,16 +39,18 @@
 
 			var nativeWebSocket = function () {
 				var host = location.origin.replace(/^http/, 'ws'),
-					ws = new WebSocket(host);
+					subprotocol = App.PAGE,
+					ws = new WebSocket(host, subprotocol);
 
 				ws.onopen = function (event) {
 					console.log('socket was open')
 				};
 				ws.onmessage = function (event) {
-					console.log('socket new message')
+					console.log('socket new message');
+					var data = JSON.parse(event.data);
 
-					if (fn[event.data.type]) {
-						fn[event.data.type](event.data)
+					if (fn[data.type]) {
+						fn[data.type](data)
 					}
 				};
 				ws.onclose = function (event) {
@@ -61,7 +63,7 @@
 				//todo додумать обработку send
 				ws.emit = function (chanel, data){
 					data['type'] = chanel;
-					ws.send(data);
+					ws.send(JSON.stringify(data));
 				};
 
 				return ws;
