@@ -6,25 +6,17 @@
 
 exports.run = function (app) {
 
-	var server, config, fn;
+	var server, port;
 
-	/**
-	 * Configurations
-	 *
-	 * */
+	port =  process.env.PORT || 3000;
 
-	config = {
-		port : 3000,
-		startMessage : 'Express server listening on port '
-	};
+	server = app.listen(port, function () {
+		console.log('Express server listening on port ' + server.port);
+	});
 
-	fn = function () {
-		console.log(server.startMessage + server.port);
-	};
-
-	server = app.listen(config.port, fn);
-
-	if (server) console.log('http-server is run');
+	if (server) {
+		console.log('http-server is run');
+	}
 
 	return server;
 };
