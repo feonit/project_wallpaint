@@ -1,6 +1,6 @@
 module.exports = new function () {
 
-	var db = require('./db');
+	var db// = require('./db');
 
 	/**
 	 * Новая контрольная точка
