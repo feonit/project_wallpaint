@@ -1,7 +1,17 @@
 html,body{
-    background: #333;
+    background: #888;
     height:100%;
+    transition:all .2s linear; 
+    -o-transition:all .2s linear; 
+    -moz-transition:all .2s linear; 
+    -webkit-transition:all .2s linear;
 }
+
+media all and (max-width: 699px) {
+
+}
+
+
 .side{
   position:absolute;
   height:100%;
