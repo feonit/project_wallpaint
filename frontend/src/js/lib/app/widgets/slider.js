@@ -1,20 +1,13 @@
 define(['jquery'], function( $ ) {
 	return {
 		init : function(){
-			var sliderScale = $( "#sliderScale"),
-				sliderSize = $("#sliderSize"),
-				sliderOpacity = $("#sliderOpacity"),
+			var sliderScale 	= $( "#sliderScale"),
+				sliderSize 		= $("#sliderSize"),
+				sliderOpacity 	= $("#sliderOpacity"),
 				body = $("body"),
-				allCanvas = $('#allCanvas'),
-				place = $("#placeCanvas")[0];
+				allCanvas = $('#allCanvas');
 
 			var changeScale = function (event, ui) {
-				var w = place.offsetWidth/100;
-				var h = place.offsetHeight/100;
-
-				var l = allCanvas[0].offsetLeft;
-				var t = allCanvas[0].offsetTop;
-
 				var size = ui.value;
 
 				if(size>100){

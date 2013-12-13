@@ -11,28 +11,6 @@ media all and (max-width: 699px) {
 
 }
 
-
-.side{
-  position:absolute;
-  height:100%;
-  width:4em;
-  right:0;
-  top:0;
-  background:#111;
-  border-radius: 0.5em 0 0 0.5em;
-}
-.side img {
-    margin: 0 auto;
-    display:block;
-    height: 3em;
-    width:3em;
-    border-radius: 0.5em;
-    padding:0.5em 0;
-    text-align: center;
-}
-.side img:hover{
-    background: rgba(100, 100, 100, 0.9);
-}
 #imageData{
     display:none;
 }
@@ -44,6 +22,7 @@ media all and (max-width: 699px) {
 	margin: -200px 0 0 -200px;
     cursor: crosshair; /* : url('/public/images/brush.png')   */
     background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
 #allCanvas canvas {
@@ -52,57 +31,13 @@ media all and (max-width: 699px) {
     display : block;
 }
 
-canvas:first-child {
+#allCanvas canvas:first-child {
 	background: white;
 }
-#allCanvas .canvasLayer{
+#allCanvas canvas:not(:first-child) .canvasLayer{
     position: absolute;
     left: 0;
     top: 0;
-}
-
-
-.shadow {
-    -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Для Firefox */
-    -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Для Safari и Chrome */
-}
-
-.panel {
-    position: absolute;
-    background: rgba(10, 10, 10, 0.9);
-    border-radius: 0.5em;
-    padding:0.3em;
-
-}
-.panel .option{
-    color:#c09853;
-    font-size: 1em;
-    padding-bottom: 0.5em;
-    text-align: center;
-    border-bottom: 1px solid #c09853;
-    margin: 0.3em;
-}
-
-#color-panel {
-    left: 49em;
-    top: 7em;
-    width: 11.3em;
-}
-#slider-panel {
-    left: 63em;
-    top: 7em;
-    color:wheat;
-    width: 11.3em;
-}
-#slider-panel .slider-field {
-
-}
-#slider-panel .slider-field .discription{
-    position: relative;
-}
-#slider-panel .slider-field .discription span{
-    font-size:0.9em;
-    font-family: monospace;
 }
 
 

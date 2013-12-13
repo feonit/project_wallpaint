@@ -48,8 +48,7 @@ require(['jquery', 'jqueryui', 'socket', 'curve', 'drawLine', 'picker', 'slider'
 		App.createCanvas = function (login){
 			var canvas = $('<canvas>')
 				.appendTo('#allCanvas')[0];
-			if ($('#allCanvas').children().length!==1)
-				$(canvas).addClass('canvasLayer');
+			if ($('#allCanvas').children().length!==1);
 
 			canvas.id = login;
 			canvas.height = App.DEFAULT_HEIGHT;
@@ -63,7 +62,7 @@ require(['jquery', 'jqueryui', 'socket', 'curve', 'drawLine', 'picker', 'slider'
 
 		App.refresh = function() {
 			App.ctx.clearRect(0, 0, App.canvas.width, App.canvas.height);
-			$('.canvasLayer').remove();
+			$('canvas:not(:first-child)').remove();
 		}
 
 		App.createDraw = function (x, y) {

@@ -1,76 +1,43 @@
-(function (App, $, WebSocket) {
+define( "socket", function () {
 
-	define( "socket",
-		function () {
-
-			var fn = {};
-
-			fn.draw = function (draw) {
+	var subprotocol 	= App.PAGE,
+		host 			= ('ws://') + location.host
+		ws 				= new WebSocket( host, subprotocol ),
+		fn = {
+			'draw' : function (draw) {
 				App.drawLine(draw);
-			};
-			fn.uploadStore = function (data) {
+			},
+			'uploadStore' : function (data) {
 				//App.store.getData(data);
 				//App.store.drawStore();
-			};
-			fn.clearAllCanvas = function () {
+			},
+			'clearAllCanvas' : function () {
 				App.refresh();
-			};
+			}
+		};
 
-			/*	*//**
-			 * Socket.io
-			 *
-			 * @deprecated
-			 * *//*
+	ws.onopen = function (event) {
+		console.log('socket was open')
+	};
+	ws.onmessage = function (event) {
+		var data = JSON.parse(event.data);
 
-			 var socketIO = function (host){
-			 var socket = io.connect(App.HOST);
+		if (fn[data.type]) {
+			fn[data.type](data)
+		}
+	};
+	ws.onclose = function (event) {
 
-			 for (var event in fn) {
-			 socket.on( event, fn[event])
-			 }
+	};
+	ws.onerror = function (event) {
 
-			 return socket;
-			 };*/
+	};
 
-			/**
-			 * ws
-			 *
-			 * */
+	//todo додумать обработку send
+	ws.emit = function (chanel, data){
+		data['type'] = chanel;
+		ws.send(JSON.stringify(data));
+	};
 
-			var nativeWebSocket = function () {
-				var host = location.origin.replace(/^http/, 'ws'),
-					subprotocol = App.PAGE,
-					ws = new WebSocket(host, subprotocol);
-
-				ws.onopen = function (event) {
-					console.log('socket was open')
-				};
-				ws.onmessage = function (event) {
-					console.log('socket new message');
-					var data = JSON.parse(event.data);
-
-					if (fn[data.type]) {
-						fn[data.type](data)
-					}
-				};
-				ws.onclose = function (event) {
-
-				};
-				ws.onerror = function (event) {
-
-				};
-
-				//todo додумать обработку send
-				ws.emit = function (chanel, data){
-					data['type'] = chanel;
-					ws.send(JSON.stringify(data));
-				};
-
-				return ws;
-			};
-
-			return nativeWebSocket();
-		});
-
-})(App, jQuery, WebSocket);
-
+	return ws;
+});
