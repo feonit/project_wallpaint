@@ -22,9 +22,9 @@ require.config({
 var App = {
 	DEFAULT_COLOR        : { r:0, g:0, b:0 }
 	,DEFAULT_SIZE        : 3
-	,DEFAULT_OPACITY     : 50
+	,DEFAULT_OPACITY     : 100
 	,DEFAULT_HEIGHT      : 400
-	,DEFAULT_WIDTH       : 600
+	,DEFAULT_WIDTH       : 400
 	,DEFAULT_SCALE       : 100
 	,MIN_SCALE           : 10
 	,MAX_SCALE           : 400
@@ -98,11 +98,7 @@ require(['jquery', 'jqueryui', 'socket', 'curve', 'drawLine', 'picker', 'slider'
 			App.slider = slider.init();
 			App.tools = tools.init();
 
-			var place = $("#placeCanvas")[0],
-				body = $("body"),
-				allCanvas = $('#allCanvas');
-
-
+			var allCanvas = $('#allCanvas');
 			var imageData = $('#imageData');
 
 			imageData.load(function() {
@@ -126,66 +122,83 @@ require(['jquery', 'jqueryui', 'socket', 'curve', 'drawLine', 'picker', 'slider'
 				return false;
 			};
 
-			var canvasMove = true;
-			var mouseMove = false;
 
+			//переместить в функционал перемещения если будет
+			//allCanvas.draggable({ opacity: 1.0 });
+			//allCanvas.draggable( "option", "disabled", true );
 
-
-			allCanvas.draggable({ opacity: 1.0 });
-			allCanvas.draggable( "option", "disabled", true );
-
-			$('#slider-panel').draggable();
-			$('#color-panel').draggable();
-			$('#image-panel').draggable();
+			//$('#slider-panel').draggable();
+			//$('#color-panel').draggable();
+			//$('#image-panel').draggable();
+			
+			
 
 			function getXY(){
-				var canvas = $('canvas')[0];
-				var allCanvas = $('#allCanvas')[0];
-				var differenceWidth = canvas.offsetWidth/App.canvas.width;
-				var differenceHeight = canvas.offsetHeight/App.canvas.height;
-				var x = Math.floor(((event.pageX - place.offsetLeft - allCanvas.offsetLeft - canvas.offsetLeft)/differenceWidth));
-				var y = Math.floor(((event.pageY - place.offsetTop - allCanvas.offsetTop - canvas.offsetTop)/differenceHeight));
-				return {x:x,y:y}
+				var canvas = getXY.canvas,
+				allCanvas = getXY.allCanvas;
+				
+				//todo доделать без натива
+				differenceWidth = canvas.offsetWidth/App.canvas.width,
+				differenceHeight = canvas.offsetHeight/App.canvas.height;
+
+				return {
+					x : Math.floor(((event.pageX - allCanvas.offsetLeft - canvas.offsetLeft)/differenceWidth)),
+					y : Math.floor(((event.pageY - allCanvas.offsetTop - canvas.offsetTop)/differenceHeight))
+				}
 			}
-
-
+			getXY.canvas = $('canvas')[0];
+			getXY.allCanvas = $('#allCanvas')[0];
+			
+			//чтобы отследить очерёдность
+			var mouseMove = false;
+			
 			function onMousedown(event){
-				if(event.button)return;
+				if (event.button !== 0) {
+					return;
+				}
 
-				var mouse = getXY();
-				var x = mouse.x;
-				var y = mouse.y;
+				var mouse = getXY(),
+					x = mouse.x,
+					y = mouse.y;
 
 				var draw = App.createDraw(x, y);
 				App.socket.emit('drawClick', draw);
 				App.drawLine(draw);
 				mouseMove = true;
 			}
+			
 			function onMousemove(event){
-				if(!mouseMove&&canvasMove)return;
-				if(event.button)return;
+				if(!mouseMove){
+					return;
+				}
+				if(event.button !== 0) {
+					return;
+				}
 
-				var mouse = getXY();
-				var x = mouse.x;
-				var y = mouse.y;
-
-				var draw = App.createDraw(x, y);
+				var mouse = getXY(),
+					x = mouse.x,
+					y = mouse.y,
+					draw = App.createDraw(x, y);
+					
 				App.socket.emit('drawClick', draw);
 				App.drawLine(draw);
-
 			}
+			
 			function onMouseup(){
-				mouseMove = false;
 				var draw = App.createDraw(-100, -100);
+			
 				App.socket.emit('drawClick', draw);
 				App.drawLine(draw);
+				mouseMove = false;
 			}
 
 			function onMouseWheel(event){
 				event.stopPropagation();
 				event.preventDefault();
-				if(event.originalEvent instanceof WheelEvent){
+				
+				if (event.originalEvent instanceof WheelEvent) {
 					var value = sliderScale.slider( "option", "value");
+					
 					value += event.originalEvent.wheelDelta/120;
 					if(value>App.MIN_SCALE && value < App.MAX_SCALE){
 						sliderScale.slider( "option", "value", value );
@@ -204,7 +217,8 @@ require(['jquery', 'jqueryui', 'socket', 'curve', 'drawLine', 'picker', 'slider'
 				}
 			});
 
-
+			var body = $("body");
+				
 			body.bind('mousedown', onMousedown);
 			body.bind('mousemove', onMousemove);
 			body.bind('mouseup', onMouseup);

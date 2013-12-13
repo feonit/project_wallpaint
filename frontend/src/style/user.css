@@ -36,24 +36,26 @@ media all and (max-width: 699px) {
 #imageData{
     display:none;
 }
-#placeCanvas{
-    position: relative;
-    overflow: hidden;
-    width: 50em;
-    height: 35.5em;
-}
-#placeCanvas #allCanvas {
+
+#allCanvas {
     position: absolute;
+    top: 50%;
+	left: 50%;
+	margin: -200px 0 0 -200px;
     cursor: crosshair; /* : url('/public/images/brush.png')   */
-    opacity: 1;
     background: rgba(255, 255, 255, 0.3);
 }
-#placeCanvas #allCanvas canvas {
+
+#allCanvas canvas {
     width: 100%;
     position: relative;
     display : block;
 }
-#placeCanvas #allCanvas .canvasLayer{
+
+canvas:first-child {
+	background: white;
+}
+#allCanvas .canvasLayer{
     position: absolute;
     left: 0;
     top: 0;
