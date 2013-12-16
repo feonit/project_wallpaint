@@ -1,21 +1,21 @@
 require.config({
-	baseUrl: 'public/js/lib',
+	baseUrl: 'public/js',
 
 	waitSeconds: 10000,
 
 	//urlArgs: "bust=" +  (new Date()).getTime(),
 
 	paths: {
-		jquery: 		'jquery/jquery.min',
-		jqueryui: 	'jquery/jquery-ui',
+		jquery: 		'lib/jquery/jquery',
+		jqueryui: 		'lib/jquery/jquery-ui',
 		socket: 		'app/modules/socket',
 		curve: 			'app/modules/curve',
-		drawLine: 	'app/modules/drawLine',
+		drawLine: 		'app/modules/drawLine',
 		picker: 		'app/widgets/picker',
 		slider: 		'app/widgets/slider',
 		tools: 			'app/widgets/tools',
-		colorpicker:'util/colorpicker'
-		//socketio: 		'/socket.io/socket.io'
+		colorpicker:	'lib/colorpicker',
+		sockjs: 		'lib/sockjs'
 	}
 });
 

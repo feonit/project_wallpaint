@@ -1,7 +1,7 @@
 require.config({
 	paths: {
-		jquery: 		'/public/js/lib/jquery/jquery.min',
-		jqueryCookie: 		'/public/js/lib/jquery/jquery.cookie.min'
+		jquery: 		'/public/js/lib/jquery/jquery',
+		jqueryCookie: 	'/public/js/lib/jquery/jquery.cookie'
 	}
 });
 

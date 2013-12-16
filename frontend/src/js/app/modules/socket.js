@@ -1,8 +1,11 @@
-define( "socket", function () {
+define( ['sockjs'], function () {
 
+	//вынести нахер отсюда весь app
 	var subprotocol 	= App.PAGE,
-		host 			= ('ws://') + location.host
-		ws 				= new WebSocket( host, subprotocol ),
+		host 			= ('ws://') + location.host,
+		ws 			= new WebSocket( host, subprotocol ),
+		//ws 				= new SockJS('http://localhost:3000', undefined,{protocols_whitelist: []}),
+
 		fn = {
 			'draw' : function (draw) {
 				App.drawLine(draw);

@@ -1,11 +1,10 @@
 require.config({
 	paths: {
-		jquery: 		'/public/js/lib/jquery/jquery.min',
-		app: 			'/public/js/lib/app/app'
+		app: 			'/public/js/app/app'
 	}
 });
 
-require(['jquery', 'app'],
+require(['app'],
 
 	function($, app){}
 
