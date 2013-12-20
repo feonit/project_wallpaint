@@ -1,12 +1,12 @@
 require.config({
 	paths: {
 		jquery: 		'/public/js/lib/jquery/jquery',
-		jqueryCookie: 	'/public/js/lib/jquery/jquery.cookie'
+		jqueryCookie: 	'/public/js/lib/jquery/jquery.cookie',
+		bootstrap: 		'/public/js/lib/bootstrap'
 	}
 });
 
-require(
-	['jquery', 'jqueryCookie'],
+require(['jquery', 'jqueryCookie', 'bootstrap'],
 		function( $ ){
 
 		var submit = $('#submit')[0]

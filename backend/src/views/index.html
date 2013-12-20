@@ -1,41 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
   <meta charset=utf-8>
   <title>Нарисуй мне. Регистрация.</title>
-  <link href="/public/style/style.css" rel="stylesheet" type="text/css"/>
-  <link href="/public/style/index.css" rel="stylesheet" type="text/css"/>
+<!--  <link href="/public/style/style.css" rel="stylesheet" type="text/css"/>
+  <link href="/public/style/index.css" rel="stylesheet" type="text/css"/>-->
+
+  <!-- Bootstrap -->
+  <link href="/public/style/party/bootstrap/bootstrap.css" rel="stylesheet" type="text/css"/>
 
   <script data-main="/public/js/index.js" src="/public/js/lib/require.js"></script>
 
 </head>
-<body class="stretch">
-  <div class="product-headers">
-    <h1>Добро пожаловать!</h1>
-    <h2>Рисуйте друг другу на стене!</h2>
+
+<body >
+
+  <div class="container">
+
+    <div class="row">
+      <div class=".col-xs-2 col-md-4">
+          <h1>Добро пожаловать!</h1>
+          <h2>Рисуйте друг другу на стене!</h2>
+      </div>
+      <div class=".col-xs-10 col-md-8">
+        <div>
+          <h3><b>Впервые здесь? </b><span>Присоединяйтесь</span></h3>
+          <form method="post" action="/registration">
+            <div class="user-div">
+              <input id="user" name="user" type="text" autocomplete="off"
+                     placeholder="Имя и фамилия" spellcheck="false">
+            </div>
+            <div class="email-div">
+              <input id="email" name="email" type="email" autocomplete="off"
+                     placeholder="Адрес электронной почты" spellcheck="false">
+            </div>
+            <input id="submit" title="" type="submit" value="Регистрация">
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <!--  <select style="position:absolute;right:0;" size="4">
+      {{for (var i=0; i<files.length; i++){ }}
+        <option value="/public/images/background/{{= files[i]}}">{{= files[i]}}</option>
+      {{ } }}
+      </select>-->
   </div>
 
-  <div class="sign-box">
-    <h3><b>Впервые здесь? </b><span>Присоединяйтесь</span></h3>
-      <form method="post" action="/registration">
-        <div class="user-div">
-          <input id="user" name="user" type="text" autocomplete="off"
-               placeholder="Имя и фамилия" spellcheck="false">
-        </div>
-        <div class="email-div">
-          <input id="email" name="email" type="email" autocomplete="off"
-               placeholder="Адрес электронной почты" spellcheck="false">
-        </div>
-        <input id="submit" title="" type="submit" value="Регистрация">
-      </form>
-  </div>
-  
-  <select style="position:absolute;right:0;" size="4">
-  {{for (var i=0; i<files.length; i++){ }}
-    <option value="/public/images/background/{{= files[i]}}">{{= files[i]}}</option>
-  {{ } }} 
-  </select>
-
-  
 </body>
 </html>
