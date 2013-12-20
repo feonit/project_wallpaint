@@ -6,7 +6,16 @@
 
 var main = require('../main');
 
-module.exports = function(req, res) {
+exports.mobile = function(req, res){
+  var view = 'user_mobile';
+  var data = {
+	  dataUser : 'null',
+	  canvasImage : 'null'
+  };
+  	res.render(view, data);
+}
+
+exports.desctop = function(req, res) {
   var view = 'user';
   var data = {
 	  dataUser : 'null',

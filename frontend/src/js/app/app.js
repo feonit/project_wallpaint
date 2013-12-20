@@ -1,5 +1,5 @@
 require.config({
-	baseUrl: 'public/js',
+	baseUrl: '/public/js/',
 
 	waitSeconds: 10000,
 

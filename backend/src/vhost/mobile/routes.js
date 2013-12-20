@@ -9,11 +9,11 @@
 
 module.exports = function(app){
 
-  var index = require('./../../controllers/index_mobile');
-  var registration = require('./../../controllers/registration_mobile');
+  var index = require('./../../controllers/index');
+  var registration = require('./../../controllers/registration');
 
-  app.all('/', index);
-  app.all('/registration', registration);
+  app.all('/', index.mobile);
+  app.all('/registration', registration.mobile);
 
 }
 

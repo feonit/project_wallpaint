@@ -6,8 +6,12 @@
 var loader = require('./../loader');
 var fs = loader.fs;
 
+exports.mobile = function(req, res){
+  var view = 'index_mobile';
+  res.render(view);
+};
 
-module.exports = function(req, res){
+exports.desctop = function(req, res){
 
 	//обои менять игрушка
   var path = __dirname + '/../../../frontend/src/images/background/',

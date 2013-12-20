@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href=”/public/images/favicon.ico” rel=”icon” type=”image/x-icon”/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  
+  <title>{{=dataUser.user}}</title>
+  <link rel="stylesheet" href="/public/style/style.css"/>
+  <link rel="stylesheet" href="/public/style/user.css"/>
+  <link rel="stylesheet" href="/public/style/themes/picker/cp-normal.css"/>
+  <link rel="stylesheet" href="/public/style/party/jquery-ui/jquery-ui.css"/>
+
+  <script data-main="/public/js/user.js" src="/public/js/lib/require.js"></script>
+
+</head>
+<body>
+  <img id="imageData" src={{=canvasImage}}/>
+  <div id='allCanvas'></div>
+  <nav>
+      <div id="color-picker" class="cp-normal"></div>
+  </nav>
+  
+</body>
+</html>

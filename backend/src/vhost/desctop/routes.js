@@ -29,15 +29,16 @@ module.exports = function(app){
     }
   });
   */
-  app.get('/', index);
-  app.get('/index', index);
-  app.get('/feonit/settings', settings);
-  app.get('/registration', registration);
-  app.post('/registration', registration);
-  app.post('/registration_result', registration_result);
-  app.get('/registration_continue', registration_continue);
-  app.get('/:name?', user);
+  app.get('/', index.desctop);
+  app.get('/index', index.desctop);
+  app.get('/feonit/settings', settings.desctop);
+  app.get('/registration', registration.desctop);
+  app.post('/registration', registration.desctop);
+  app.post('/registration_result', registration_result.desctop);
+  app.get('/registration_continue', registration_continue.desctop);
+  app.get('/:name?', user.desctop);
 
+  app.get('/mobile/feonit', require('./../../controllers/user').mobile);
 }
 
 

@@ -6,7 +6,7 @@
 
 var main = require('../main');
 
-module.exports = function(req, res) {
+exports.desctop = function(req, res) {
 
   var db = main.db;
 
@@ -31,3 +31,5 @@ module.exports = function(req, res) {
     });
   }
 };
+
+exports.mobile = null;

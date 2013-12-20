@@ -4,7 +4,12 @@
  *
  * */
 
-module.exports = function(req, res) {
+exports.desctop = function(req, res) {
   var view = 'registration';
+  res.render(view);
+};
+
+exports.mobile = function(req, res){
+  var view = 'registration_mobile';
   res.render(view);
 };

@@ -12,7 +12,9 @@ var eventapp = main.eventApp;
 var db = main.db;
 var regular = main.regular;
 
-module.exports = function(req, res) {
+exports.mobile = null;
+
+exports.desctop = function(req, res) {
 
   var data = req.body;       //todo no have data why
   var user = data['user']
