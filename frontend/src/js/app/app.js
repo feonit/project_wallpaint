@@ -15,7 +15,8 @@ require.config({
 		slider: 		'app/widgets/slider',
 		tools: 			'app/widgets/tools',
 		colorpicker:	'lib/colorpicker',
-		sockjs: 		'lib/sockjs'
+		sockjs: 		'lib/sockjs,
+		jquerymobile: 	'lib/jquery/jquery.mobile'
 	}
 });
 

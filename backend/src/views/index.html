@@ -17,27 +17,78 @@
 
   <div class="container">
 
-    <div class="row">
-      <div class=".col-xs-2 col-md-4">
-          <h1>Добро пожаловать!</h1>
-          <h2>Рисуйте друг другу на стене!</h2>
-      </div>
-      <div class=".col-xs-10 col-md-8">
-        <div>
-          <h3><b>Впервые здесь? </b><span>Присоединяйтесь</span></h3>
-          <form method="post" action="/registration">
-            <div class="user-div">
-              <input id="user" name="user" type="text" autocomplete="off"
-                     placeholder="Имя и фамилия" spellcheck="false">
-            </div>
-            <div class="email-div">
-              <input id="email" name="email" type="email" autocomplete="off"
-                     placeholder="Адрес электронной почты" spellcheck="false">
-            </div>
-            <input id="submit" title="" type="submit" value="Регистрация">
-          </form>
-        </div>
-      </div>
+	<div class="row">
+		<div class="col-xs-12 col-md-12">
+		
+			<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+			  <!-- Indicators -->
+			  <ol class="carousel-indicators">
+				<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+				<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+				<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+			  </ol>
+
+			  <!-- Wrapper for slides -->
+			  <div class="carousel-inner">
+				<div class="item active">
+				  <img src="/public/images/2.jpg" alt="...">
+				  <div class="carousel-caption">
+					<h3>Добро пожаловать!</h3>
+					<p>...</p>
+				  </div>
+				</div>
+				<div class="item">
+				  <img src="/public/images/3.jpg" alt="...">
+				  <div class="carousel-caption">
+					<h3>Рисуйте друг другу на стене!</h3>
+					<p>...</p>
+				  </div>
+				</div>
+				<div class="item">
+				  <img src="/public/images/1.jpg" alt="...">
+				  <div class="carousel-caption">
+					<h3>Впервые здесь?</h3>
+					<p>Присоединяйтесь</p>
+				  </div>
+				</div>
+			  </div>
+
+			  <!-- Controls -->
+			  <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+				<span class="glyphicon glyphicon-chevron-left"></span>
+			  </a>
+			  <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+				<span class="glyphicon glyphicon-chevron-right"></span>
+			  </a>
+			</div>
+			
+		</div><!-- /.col -->
+	</div><!-- /.row -->
+	
+	<div class="row sr-only">
+		<div class="col-xs-2 col-md-4">
+			<h1>Добро пожаловать!</h1>
+			<h2>Рисуйте друг другу на стене!</h2>
+		</div>
+		
+					<form class="navbar-form" method="post" action="/registration">
+				<h3>Впервые здесь? <span>Присоединяйтесь</span></h3>
+				<div class="input-group">
+					<span class="input-group-addon">@</span>
+					<label for="user" class="sr-only">Имя и фамилия</label>
+					<input type="text" class="form-control" id="user" name="user" placeholder="Имя и фамилия">
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon">@</span>
+					<label for="email" class="sr-only">Адрес электронной почты</label>
+					<input type="text" class="form-control" id="email" name="email" placeholder="Адрес электронной почты">
+				</div>
+				<input class="btn btn-default" id="submit" title="" type="submit" value="Регистрация">
+			</form>
+	</div><!-- /.row -->
+
+
+
     </div>
 
 
