@@ -10,11 +10,10 @@
     "express": "3.2.0",
     "mysql": "2.0.0-alpha7",
     "connect": "2.7.6",
-    "socket.io": "0.9.14",
+    "sockjs": "*",
     "ejs": "0.8.3",
     "nodemailer": "0.4.1",
-    "canvas": "*",
-    "ws": "0.4.x"
+    "canvas": "*"
   },
   "engines": {
     "node": "0.10.x",

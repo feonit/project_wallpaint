@@ -2,6 +2,7 @@ module.exports = new function () {
 
 	var db// = require('./db');
 
+
 	/**
 	 * Новая контрольная точка
 	 *
@@ -26,22 +27,22 @@ module.exports = new function () {
 	 *
 	 * */
 
-	 this.clearAllCanvas = function () {
-/*		this.get('pageName', function (err, pageName) {
+/*	 this.clearAllCanvas = function () {
+		this.get('pageName', function (err, pageName) {
 			if (err) throw new Error(err);
 			if (db) {
 				db.clearTableForUser(pageName);
 			}
 			io.sockets.emit('clearAllCanvas', pageName);
-		});*/
-	};
+		});
+	};*/
 
-	/**
+/*	*//**
 	 * Поиск юзера по базе
 	 *
 	 * Такие вещи нужно переделывать на AJAX
 	 *
-	 * */
+	 * *//*
 
 	this.searchUser = function (data) {
 		var self = this;
@@ -63,12 +64,12 @@ module.exports = new function () {
 		}
 	};
 
-	/**
+	*//**
 	 * Поиск мыла
 	 *
 	 * Такие вещи нужно переделывать на AJAX
 	 *
-	 * */
+	 * *//*
 
 	this.searchEmail = function (data) {
 		var self = this;
@@ -80,15 +81,15 @@ module.exports = new function () {
 			})
 		}
 
-	};
+	};*/
 
-
-	/**
+/*
+	*//**
 	 * Подгрузить точки для холста
 	 *
 	 * @deprecated
 	 *
-	 * */
+	 * *//*
 
 	this.uploadDraw = function (data) {
 		var pageName = data.nameFromPath;
@@ -103,7 +104,7 @@ module.exports = new function () {
 				}
 			});
 		}
-	}
+	}*/
 
 
 };

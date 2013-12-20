@@ -8,7 +8,7 @@ require.config({
 	paths: {
 		jquery: 		'lib/jquery/jquery',
 		jqueryui: 		'lib/jquery/jquery-ui',
-		socket: 		'app/modules/socket',
+		socketClient: 	'app/modules/socketClient',
 		curve: 			'app/modules/curve',
 		drawLine: 		'app/modules/drawLine',
 		picker: 		'app/widgets/picker',
@@ -34,16 +34,33 @@ var App = {
 	,HOST                : location.host.search('localhost')!==-1 ? "127.0.0.1:" + location.port : location.host
 };
 
-require(['jquery', 'jqueryui', 'socket', 'curve', 'drawLine', 'picker', 'slider', 'tools', 'colorpicker'],
+require(['jquery', 'jqueryui', 'socketClient', 'curve', 'drawLine', 'picker', 'slider', 'tools', 'colorpicker'],
 
-	function ($, jqueryui, socket, reDraw, drawLine, picker, slider, tools, colorpicker){
+	function ($, jqueryui, socketClient, reDraw, drawLine, picker, slider, tools, colorpicker){
 
+		//socket.emit('subscribe', {subscriber : App.PAGE});
 
-		App.socket = socket;
+		/**
+		 * Socket
+		 * */
+		var socketEvents = {};
 
+		socketEvents.draw = function (draw) {
+			App.drawLine(draw);
+		}
+		socketEvents.clearAllCanvas = function () {
+			App.refresh();
+		}
+		App.socketClient = socketClient;
+		App.socketClient.init(socketEvents);
+
+		/**
+		 * Draw
+		 * */
 		App.reDraw = reDraw;
-		
 		App.drawLine = drawLine;
+
+
 
 		App.createCanvas = function (login){
 			var canvas = $('<canvas>')
@@ -161,7 +178,7 @@ require(['jquery', 'jqueryui', 'socket', 'curve', 'drawLine', 'picker', 'slider'
 					y = mouse.y;
 
 				var draw = App.createDraw(x, y);
-				App.socket.emit('drawClick', draw);
+				App.socketClient.emit('drawClick', draw);
 				App.drawLine(draw);
 				mouseMove = true;
 			}
@@ -179,14 +196,14 @@ require(['jquery', 'jqueryui', 'socket', 'curve', 'drawLine', 'picker', 'slider'
 					y = mouse.y,
 					draw = App.createDraw(x, y);
 					
-				App.socket.emit('drawClick', draw);
+				App.socketClient.emit('drawClick', draw);
 				App.drawLine(draw);
 			}
 			
 			function onMouseup(){
 				var draw = App.createDraw(-100, -100);
 			
-				App.socket.emit('drawClick', draw);
+				App.socketClient.emit('drawClick', draw);
 				App.drawLine(draw);
 				mouseMove = false;
 			}
@@ -222,7 +239,6 @@ require(['jquery', 'jqueryui', 'socket', 'curve', 'drawLine', 'picker', 'slider'
 			body.bind('mousemove', onMousemove);
 			body.bind('mouseup', onMouseup);
 
-			//App.socket.emit('uploadDraw', {nameFromPath:App.PAGE});
 		});
 
 
