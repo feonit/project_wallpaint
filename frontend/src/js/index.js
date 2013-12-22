@@ -3,7 +3,13 @@ require.config({
 		jquery: 		'/public/js/lib/jquery/jquery',
 		jqueryCookie: 	'/public/js/lib/jquery/jquery.cookie',
 		bootstrap: 		'/public/js/lib/bootstrap'
-	}
+	},
+	shim: {
+        'bootstrap': {
+            deps: ['jquery'],
+            exports: 'bootstrap'
+        }
+    }
 });
 
 require(['jquery', 'jqueryCookie', 'bootstrap'],
