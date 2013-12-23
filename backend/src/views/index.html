@@ -1,106 +1,149 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset=utf-8>
-  <title>Нарисуй мне. Регистрация.</title>
-<!--  <link href="/public/style/style.css" rel="stylesheet" type="text/css"/>
-  <link href="/public/style/index.css" rel="stylesheet" type="text/css"/>-->
+	<meta charset=utf-8>
+	<title>Нарисуй мне. Регистрация.</title>
+	<!-- Bootstrap -->
+	<link href="/public/style/party/bootstrap/bootstrap.css" rel="stylesheet" type="text/css"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<script data-main="/public/js/index.js" src="/public/js/lib/require.js"></script>
+	<!--http://codemug.com/html/custom-scrollbars-using-css/-->
+	<style type="text/css">
+		.style-8::-webkit-scrollbar-track
+		{
+			border: 1px solid black;
+			background-color: #111111;
+		}
 
-  <!-- Bootstrap -->
-  <link href="/public/style/party/bootstrap/bootstrap.css" rel="stylesheet" type="text/css"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		.style-8::-webkit-scrollbar
+		{
+			width: 10px;
+			background-color: #F5F5F5;
+		}
 
-  <script data-main="/public/js/index.js" src="/public/js/lib/require.js"></script>
-
+		.style-8::-webkit-scrollbar-thumb
+		{
+			background-color: #000000;	
+		}
+	</style>
 </head>
+<!--http://cssdeck.com/labs/css3-webkit-vertical-scrollbars-->
+<body class="style-8" style='background:#000'>
+	<div class="panel panel-default" style='background:#000'>
+		<div class="panel-body">
+	<div class="container">
+		<nav class="navbar navbar-inverse" role="navigation">
+		  <!-- Brand and toggle get grouped for better mobile display -->
+		  <div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+			  <span class="sr-only">Toggle navigation</span>
+			  <span class="icon-bar"></span>
+			  <span class="icon-bar"></span>
+			  <span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">Mustang</a>
+		  </div>
 
-<body >
-
-  <div class="container">
-
-	<div class="row">
-		<div class="col-xs-12 col-md-12">
-		
-			<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-			  <!-- Indicators -->
-			  <ol class="carousel-indicators">
-				<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-				<li data-target="#carousel-example-generic" data-slide-to="1"></li>
-				<li data-target="#carousel-example-generic" data-slide-to="2"></li>
-			  </ol>
-
-			  <!-- Wrapper for slides -->
-			  <div class="carousel-inner">
-				<div class="item active">
-				  <img src="/public/images/2.jpg" alt="...">
-				  <div class="carousel-caption">
-					<h3>Добро пожаловать!</h3>
-					<p>...</p>
-				  </div>
-				</div>
-				<div class="item">
-				  <img src="/public/images/3.jpg" alt="...">
-				  <div class="carousel-caption">
-					<h3>Рисуйте друг другу на стене!</h3>
-					<p>...</p>
-				  </div>
-				</div>
-				<div class="item">
-				  <img src="/public/images/1.jpg" alt="...">
-				  <div class="carousel-caption">
-					<h3>Впервые здесь?</h3>
-					<p>Присоединяйтесь</p>
-				  </div>
-				</div>
+		  <!-- Collect the nav links, forms, and other content for toggling -->
+		  <div class="collapse navbar-collapse navbar-ex1-collapse">
+			<ul class="nav navbar-nav">
+			  <li class="active"><a href="#">Link</a></li>
+			  <li><a href="#">Link</a></li>
+			  <li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+				<ul class="dropdown-menu">
+				  <li><a href="#">Action</a></li>
+				  <li><a href="#">Another action</a></li>
+				  <li><a href="#">Something else here</a></li>
+				  <li><a href="#">Separated link</a></li>
+				  <li><a href="#">One more separated link</a></li>
+				</ul>
+			  </li>
+			</ul>
+			<form class="navbar-form navbar-left" role="search">
+			  <div class="form-group">
+				<input type="text" class="form-control" placeholder="Name">
 			  </div>
-
-			  <!-- Controls -->
-			  <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-				<span class="glyphicon glyphicon-chevron-left"></span>
-			  </a>
-			  <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-				<span class="glyphicon glyphicon-chevron-right"></span>
-			  </a>
-			</div>
-			
-		</div><!-- /.col -->
-	</div><!-- /.row -->
-	
-	<div class="row sr-only">
-		<div class="col-xs-2 col-md-4">
-			<h1>Добро пожаловать!</h1>
-			<h2>Рисуйте друг другу на стене!</h2>
-		</div>
-		
-					<form class="navbar-form" method="post" action="/registration">
-				<h3>Впервые здесь? <span>Присоединяйтесь</span></h3>
-				<div class="input-group">
-					<span class="input-group-addon">@</span>
-					<label for="user" class="sr-only">Имя и фамилия</label>
-					<input type="text" class="form-control" id="user" name="user" placeholder="Имя и фамилия">
-				</div>
-				<div class="input-group">
-					<span class="input-group-addon">@</span>
-					<label for="email" class="sr-only">Адрес электронной почты</label>
-					<input type="text" class="form-control" id="email" name="email" placeholder="Адрес электронной почты">
-				</div>
-				<input class="btn btn-default" id="submit" title="" type="submit" value="Регистрация">
+			  <div class="form-group">
+				<input type="text" class="form-control" placeholder="Password">
+			  </div>
+			  <button type="submit" class="btn btn-default">Login</button>
 			</form>
-	</div><!-- /.row -->
-
-
-
-    </div>
-
-
-
-
-    <!--  <select style="position:absolute;right:0;" size="4">
-      {{for (var i=0; i<files.length; i++){ }}
-        <option value="/public/images/background/{{= files[i]}}">{{= files[i]}}</option>
-      {{ } }}
-      </select>-->
-  </div>
-
+		  </div><!-- /.navbar-collapse -->
+		</nav>
+		<div class="row hidden-xs">
+			<div class="col-xs-12 col-md-12">
+				<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+					<!-- Indicators -->
+					<ol class="carousel-indicators">
+						<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+						<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+						<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+					</ol>
+					<!-- Wrapper for slides -->
+					<div class="carousel-inner">
+						<div class="item">
+							<img src="/public/images/2.jpg" alt="...">
+							<div class="carousel-caption">
+								<h3>Добро пожаловать!</h3>
+							</div>
+						</div><!-- /.item -->
+						<div class="item">
+							<img src="/public/images/3.jpg" alt="...">
+							<div class="carousel-caption">
+								<h3>Рисуйте друг другу на стене!</h3>
+							</div>
+						</div><!-- /.item -->
+						<div class="item active">
+							<img src="/public/images/1.jpg" alt="...">
+							<div class="carousel-caption">
+								<div class="row">
+									<div class="col-xs-12 col-md-12">
+										<h3>Впервые здесь?</h3>
+										<p>Присоединяйтесь</p>
+									</div>
+								</div>
+							</div><!-- /.caption -->
+						</div><!-- /.item -->
+					</div><!-- /.inner -->
+					<!-- Controls -->
+					<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+						<span class="glyphicon glyphicon-chevron-left"></span>
+					</a>
+					<a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+						<span class="glyphicon glyphicon-chevron-right"></span>
+					</a>
+				</div>
+			</div><!-- /.col -->
+		</div><!-- /.row -->
+	</div><!-- /.container -->
+	<br>
+	<div class="container" style="background:white">
+		<form class="text-center" role="form" method="post" action="/registration">
+			<h1>Заведите себе страницу прямо сейчас!</h1>
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					<div class="form-group">
+						<label for="user" >Имя и фамилия</label>
+						<input type="text" class="form-control" id="user" name="user" placeholder="Имя и фамилия">
+					</div>
+					<div class="form-group">
+						<label for="email" >Адрес электронной почты</label>
+						<input type="email" class="form-control"  id="email" name="email" placeholder="Адрес электронной почты">
+					</div>
+					<input class="btn btn-default" id="submit" title="" type="submit" value="Регистрация">
+				</div>
+			</div>
+		</form>
+	</div><!-- /.container -->
+	<div class="container">
+		<div class="visible-xs">Телефоны (<768px)</div>
+		<div class="visible-sm">Планшеты (≥768px)</div>
+		<div class="visible-md">Рабочие столы (≥992px)</div>
+		<div class="visible-lg">Рабочие столы (≥1200px))</div>
+	</div><!-- /.container -->
+	</div>
+	<div class="panel-footer">Panel footer</div>
+</div>
 </body>
 </html>
