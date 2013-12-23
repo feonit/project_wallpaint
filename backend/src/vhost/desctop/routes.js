@@ -11,6 +11,7 @@ module.exports = function(app){
 
   var user = require('./../../controllers/user');
   var index = require('./../../controllers/index');
+  var login = require('./../../controllers/login');
   var settings = require('./../../controllers/settings');
   var registration = require('./../../controllers/registration');
   var registration_result = require('./../../controllers/registration_result');
@@ -31,6 +32,7 @@ module.exports = function(app){
   */
   app.get('/', index.desctop);
   app.get('/index', index.desctop);
+  app.get('/login', login.desctop);
   app.get('/feonit/settings', settings.desctop);
   app.get('/registration', registration.desctop);
   app.post('/registration', registration.desctop);

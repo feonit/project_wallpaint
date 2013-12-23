@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset=utf-8>
+	<title>Нарисуй мне. Регистрация.</title>
+	<!-- Bootstrap -->
+	<link href="/public/style/party/bootstrap/bootstrap.css" rel="stylesheet" type="text/css"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<script data-main="/public/js/index.js" src="/public/js/lib/require.js"></script>
+	<!--http://codemug.com/html/custom-scrollbars-using-css/-->
+	<style type="text/css">
+		.style-8::-webkit-scrollbar-track
+		{
+			border: 1px solid black;
+			background-color: #111111;
+		}
+
+		.style-8::-webkit-scrollbar
+		{
+			width: 10px;
+			background-color: #F5F5F5;
+		}
+
+		.style-8::-webkit-scrollbar-thumb
+		{
+			background-color: #000000;	
+		}
+		
+		body{
+
+/* IE10 Consumer Preview */ 
+background-image: -ms-radial-gradient(center bottom, circle farthest-corner, #1C5A91 0%, #064366 100%);
+
+/* Mozilla Firefox */ 
+background-image: -moz-radial-gradient(center bottom, circle farthest-corner, #1C5A91 0%, #064366 100%);
+
+/* Opera */ 
+background-image: -o-radial-gradient(center bottom, circle farthest-corner, #1C5A91 0%, #064366 100%);
+
+/* Webkit (Safari/Chrome 10) */ 
+background-image: -webkit-gradient(radial, center bottom, 0, center bottom, 496, color-stop(0, #1C5A91), color-stop(1, #064366));
+
+/* Webkit (Chrome 11+) */ 
+background-image: -webkit-radial-gradient(center bottom, circle farthest-corner, #1C5A91 0%, #064366 100%);
+
+/* W3C Markup, IE10 Release Preview */ 
+background-image: radial-gradient(circle farthest-corner at center bottom, #1C5A91 0%, #064366 100%);
+		}
+/* RESPONSIVE CSS
+-------------------------------------------------- */
+
+@media (min-width: 768px) {
+
+}
+
+}
+
+@media (min-width: 992px) {
+
+}
+	</style>
+</head>
+
+<body class="style-8" style=''>
+	<div class="container">
+		<div class="container">
+			<div class="col-md-4 col-md-offset-4 col-xs-10 col-xs-offset-1">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="page-header text-center">
+							<h1>Авторизация</h1>
+						</div>
+						<form class="text-left" role="form" method="post" action="/login">
+							<label for="email" >Адрес электронной почты</label>
+							<input type="email" id="email" class="form-control" placeholder="">
+							<label for="pass">
+								Пароль
+								<div class="pull-right">
+									<a href="#">Forgot password?</a>
+								</div>
+							</label>
+							<input type="text" id="pass" class="form-control" placeholder="">
+							<label class="checkbox">
+								<input type="checkbox" value="remember-me"> Remember me
+							</label>
+							<button type="submit" class="btn btn-large btn-homepage-green btn-block">Вход</button>
+						</form>
+					</div>
+					<div class="panel-footer">
+						Нет своего аккаунта?
+						<a href="#">Присоединяйтесь сейчас</a>
+					</div>
+				</div>
+			</div>
+		</div><!-- /.container -->
+	</div>
+</body>
+</html>
