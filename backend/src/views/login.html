@@ -58,39 +58,49 @@ background-image: radial-gradient(circle farthest-corner at center bottom, #1C5A
 @media (min-width: 992px) {
 
 }
+
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+.form-signin .checkbox {
+  font-weight: normal;
+}
+
 	</style>
 </head>
 
 <body class="style-8" style=''>
-	<div class="container">
-		<div class="container">
-			<div class="col-md-4 col-md-offset-4 col-xs-10 col-xs-offset-1">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<div class="page-header text-center">
-							<h1>Авторизация</h1>
-						</div>
-						<form class="text-left" role="form" method="post" action="/login">
-							<label for="email" >Адрес электронной почты</label>
-							<input type="email" id="email" class="form-control" placeholder="">
-							<label for="pass">
-								Пароль
-								<div class="pull-right">
-									<a href="#">Forgot password?</a>
-								</div>
-							</label>
-							<input type="text" id="pass" class="form-control" placeholder="">
-							<label class="checkbox">
-								<input type="checkbox" value="remember-me"> Remember me
-							</label>
-							<button type="submit" class="btn btn-large btn-homepage-green btn-block">Вход</button>
-						</form>
-					</div>
-					<div class="panel-footer">
-						Нет своего аккаунта?
-						<a href="#">Присоединяйтесь сейчас</a>
-					</div>
+	<div class="container form-signin">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="page-header text-center">
+					<h1>Авторизация</h1>
 				</div>
+				<form class="text-left" role="form" method="post" action="/login">
+					<label for="email" >Адрес электронной почты</label>
+					<input type="email" id="email" class="form-control" placeholder="">
+					<label for="pass">
+							Пароль   <a href="#">Забыли пароль?</a>
+					</label>
+					<input type="text" id="pass" class="form-control" placeholder="">
+					<label class="checkbox">
+						<input type="checkbox" value="remember-me"> Запомнить меня
+					</label>
+					<button type="submit" class="btn btn-primary btn-large btn-homepage-green btn-block">Вход</button>
+				</form>
+			</div>
+			<div class="panel-footer">
+				Нет своего аккаунта?
+				<a href="/registration">Присоединяйтесь сейчас</a>
 			</div>
 		</div><!-- /.container -->
 	</div>
