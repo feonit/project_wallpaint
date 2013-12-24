@@ -15,9 +15,16 @@ require.config({
 		slider: 		'app/widgets/slider',
 		tools: 			'app/widgets/tools',
 		colorpicker:	'lib/colorpicker',
-		sockjs: 		'lib/sockjs,
+		sockjs: 		'lib/sockjs',
 		jquerymobile: 	'lib/jquery/jquery.mobile'
-	}
+	},
+	
+	shim: {
+        'jqueryui': {
+            deps: ['jquery'],
+            exports: 'jqueryui'
+        }
+    }
 });
 
 var App = {
@@ -150,7 +157,7 @@ require(['jquery', 'jqueryui', 'socketClient', 'curve', 'drawLine', 'picker', 's
 			
 			
 
-			function getXY(){
+			function getXY(event){
 				var canvas = getXY.canvas,
 				allCanvas = getXY.allCanvas;
 				
@@ -174,7 +181,7 @@ require(['jquery', 'jqueryui', 'socketClient', 'curve', 'drawLine', 'picker', 's
 					return;
 				}
 
-				var mouse = getXY(),
+				var mouse = getXY(event),
 					x = mouse.x,
 					y = mouse.y;
 
@@ -192,7 +199,7 @@ require(['jquery', 'jqueryui', 'socketClient', 'curve', 'drawLine', 'picker', 's
 					return;
 				}
 
-				var mouse = getXY(),
+				var mouse = getXY(event),
 					x = mouse.x,
 					y = mouse.y,
 					draw = App.createDraw(x, y);
