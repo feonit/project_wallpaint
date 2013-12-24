@@ -7,7 +7,7 @@
   <!--отключение зума-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="/public/style/themes/jquery-mobile/mytheme.css"/>
-<!--
+
 
   <title>{{=dataUser.user}}</title>
   <link rel="stylesheet" href="/public/style/style.css"/>
@@ -18,40 +18,24 @@
   <script data-main="/public/js/user.js" src="/public/js/lib/require.js"></script>
   
   
--->
+
 
 
   
 </head>
 <body style='font-size:30px ; height:400px'>
-first msg 
-<!--
+
   <img id="imageData" src={{=canvasImage}}/>
   <div id='allCanvas'></div>
-  <nav>
-      <div id="color-picker" class="cp-normal"></div>
-  </nav>
--->
+<!--  <nav>-->
+<!--      <div id="color-picker" class="cp-normal"></div>-->
+<!--  </nav>-->
+
 </body>
     <!--отсключение скрола-->
   <script>
   	document.body.addEventListener('touchmove', function(event) {
 	  event.preventDefault();
 	}, false);
-	
-	
-	document.body.addEventListener('touchstart', function(event) {
-		document.body.innerHTML+='  touchstart';
-	}, false);
-	document.body.addEventListener('click', function(event) {
-		document.body.innerHTML+='  click';
-	}, false);
-	document.body.addEventListener('touchmove', function(event) {
-		document.body.innerHTML+='  touchmove'
-	}, false);
-	document.body.addEventListener('touchend', function(event) {
-		document.body.innerHTML+='  touchend';
-	}, false);
-
   </script>
 </html>

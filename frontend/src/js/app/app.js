@@ -23,6 +23,10 @@ require.config({
         'jqueryui': {
             deps: ['jquery'],
             exports: 'jqueryui'
+        },
+        'jquerymobile': {
+            deps: ['jquery'],
+            exports: 'jquerymobile'
         }
     }
 });
@@ -42,7 +46,7 @@ var App = {
 	,HOST                : location.host.search('localhost')!==-1 ? "127.0.0.1:" + location.port : location.host
 };
 
-require(['jquery', 'jqueryui', 'socketClient', 'curve', 'drawLine', 'picker', 'slider', 'tools', 'colorpicker'],
+require(['jquery', 'jqueryui', 'socketClient', 'curve', 'drawLine', 'picker', 'slider', 'tools', 'colorpicker', 'jquerymobile'],
 
 	function ($, jqueryui, socketClient, reDraw, drawLine, picker, slider, tools, colorpicker){
 
@@ -136,7 +140,7 @@ require(['jquery', 'jqueryui', 'socketClient', 'curve', 'drawLine', 'picker', 's
 			if(pic){
 				ColorPicker(pic, function (hex, hsv, rgb) {
 					App.ctx.color = rgb;
-					App.demoPicker.redrawPicker();
+					//App.demoPicker.redrawPicker();
 				});
 			}
 
@@ -177,9 +181,10 @@ require(['jquery', 'jqueryui', 'socketClient', 'curve', 'drawLine', 'picker', 's
 			var mouseMove = false;
 			
 			function onMousedown(event){
-				if (event.button !== 0) {
-					return;
-				}
+				console.log('down')
+//				if (event.button !== 0) {
+//					return;
+//				}
 
 				var mouse = getXY(event),
 					x = mouse.x,
@@ -192,12 +197,13 @@ require(['jquery', 'jqueryui', 'socketClient', 'curve', 'drawLine', 'picker', 's
 			}
 			
 			function onMousemove(event){
+				console.log('move')
 				if(!mouseMove){
 					return;
 				}
-				if(event.button !== 0) {
-					return;
-				}
+//				if(event.button !== 0) {
+//					return;
+//				}
 
 				var mouse = getXY(event),
 					x = mouse.x,
@@ -209,6 +215,7 @@ require(['jquery', 'jqueryui', 'socketClient', 'curve', 'drawLine', 'picker', 's
 			}
 			
 			function onMouseup(){
+				console.log('up')
 				var draw = App.createDraw(-100, -100);
 			
 				App.socketClient.emit('drawClick', draw);
@@ -243,9 +250,9 @@ require(['jquery', 'jqueryui', 'socketClient', 'curve', 'drawLine', 'picker', 's
 
 			var body = $("body");
 				
-			body.bind('mousedown', onMousedown);
-			body.bind('mousemove', onMousemove);
-			body.bind('mouseup', onMouseup);
+			body.on('vmousedown', onMousedown);
+			body.on('vmousemove', onMousemove);
+			body.on('vmouseup', onMouseup);
 
 		});
 
