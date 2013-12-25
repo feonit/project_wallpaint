@@ -1,4 +1,4 @@
-define(['jquery'], function( $ ) {
+define(['jquery', 'app'], function( $ , App) {
 	return {
 		init : function(){
 			var sliderScale 	= $( "#sliderScale"),

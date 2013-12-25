@@ -1,14 +1,15 @@
 define(['curve'], function(curve) {
 
-		var cache = {}
-			
-			
-		function memberDomCanvas (login){
+	function memberDomCanvas (login){
+	
+		memberDomCanvas[login] = memberDomCanvas[login] || $('#_' + login)[0] || App.createCanvas("_" + login);
 		
-			memberDomCanvas[login] = memberDomCanvas[login] || $('#_' + login)[0] || App.createCanvas("_" + login);
-			
-			return memberDomCanvas[login];
-		}
+		return memberDomCanvas[login];
+	}
+		
+	return function(App){ // говно-инит
+	
+		var cache = {}
 			
 		return function (draw) {
 			var x = draw.x
@@ -89,4 +90,6 @@ define(['curve'], function(curve) {
 				}
 			}
 		}
+	}
+
 });

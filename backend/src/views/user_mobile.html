@@ -1,41 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href=”/public/images/favicon.ico” rel=”icon” type=”image/x-icon”/>
-  <meta charset="utf-8" />
-  
-  <!--отключение зума-->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="/public/style/themes/jquery-mobile/mytheme.css"/>
-
-
-  <title>{{=dataUser.user}}</title>
-  <link rel="stylesheet" href="/public/style/style.css"/>
-  <link rel="stylesheet" href="/public/style/user.css"/>
-  <link rel="stylesheet" href="/public/style/themes/picker/cp-normal.css"/>
-  <link rel="stylesheet" href="/public/style/party/jquery-ui/jquery-ui.css"/>
-
-  <script data-main="/public/js/user.js" src="/public/js/lib/require.js"></script>
-  
-  
-
-
-
-  
+<!-- Other sevice
+	=====================================================-->
+	<link href=”/public/images/favicon.ico” rel=”icon” type=”image/x-icon”/>
+	<meta charset="utf-8" />
+	<title>{{=dataUser.user}}</title>
+	<!--отключение зума-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	
+<!-- Styles
+	=====================================================-->
+	<link rel="stylesheet" href="/public/style/themes/jquery-mobile/jquery.mobile.css"/>
+	<link rel="stylesheet" href="/public/style/party/jquery-ui/jquery-ui.css"/>
+	<link rel="stylesheet" href="/public/style/canvas.css"/>
+	<link rel="stylesheet" href="/public/style/themes/picker/cp-normal.css"/>
+	<!--<link rel="stylesheet" href="/public/style/themes/picker/cp-normal.css"/>-->
+	
+<!-- JavaScripts
+	=====================================================-->
+	<script data-main="/public/js/user_mobile.js" src="/public/js/lib/require.js"></script>
+	
 </head>
-<body style='font-size:30px ; height:400px'>
+<body>
+<div data-role="page">
 
-  <img id="imageData" src={{=canvasImage}}/>
-  <div id='allCanvas'></div>
-<!--  <nav>-->
-<!--      <div id="color-picker" class="cp-normal"></div>-->
-<!--  </nav>-->
+	<div data-role="header">
+		<h1>External panels</h1>
+		<a href="#leftpanel" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-mini">Overlay</a>
+	</div><!-- /header -->
+	
+	<div role="main" class="ui-content jqm-content jqm-fullwidth">
+		<div id='allCanvas'></div>
+	</div><!-- /content -->
+
+	<div>
+	</div><!-- footer -->
+
+</div><!-- page -->
+
+<div data-role="panel" id="leftpanel" data-position="left" data-display="reveal" data-theme="a">
+	<h3>Left Panel: Выбор цвета</h3>
+	<nav>
+		<div id="color-picker" class="cp-normal"></div>
+	</nav>
+</div><!-- /leftpanel1 -->
+
+<!--<img id="imageData" src={{=canvasImage}}/>-->
+
 
 </body>
-    <!--отсключение скрола-->
-  <script>
-  	document.body.addEventListener('touchmove', function(event) {
-	  event.preventDefault();
-	}, false);
-  </script>
 </html>
