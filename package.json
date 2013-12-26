@@ -3,9 +3,17 @@
   "name": "wallpaint",
   "version": "0.0.1",
   "private": true,
+  "description": "a simple paint app",
   "scripts": {
-    "start": "node app"
+    "start": "node app",
+    "predeploy": "echo This will be run before deploying the app",
+    "postdeploy": "echo This will be run after deploying the app",
   },
+  "main": ".frontend/src/main.js",
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/feonit/wallpaint"
+  }
   "dependencies": {
     "express": "3.2.0",
     "mysql": "2.0.0-alpha7",
@@ -25,5 +33,6 @@
     "grunt-contrib-nodeunit": "~0.2.0",
     "grunt-contrib-uglify": "~0.2.2",
     "grunt-contrib-requirejs": "~0.4.1"
-  }
+  },
+  "license": "MIT"
 }

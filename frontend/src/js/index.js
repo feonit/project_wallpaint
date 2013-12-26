@@ -13,7 +13,7 @@ require.config({
 });
 
 require(['jquery', 'jqueryCookie', 'bootstrap'],
-		function( $ ){
+	function( $ ){
 
 		var submit = $('#submit')[0]
 		  , user = $('#user')[0]
