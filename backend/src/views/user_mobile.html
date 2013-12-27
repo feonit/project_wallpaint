@@ -23,28 +23,27 @@
 	
 </head>
 <body>
-<div data-role="page">
+<div data-role="page" class="ui-responsive-panel">
 
 	<div data-role="header">
 		<h1>External panels</h1>
-		<a href="#leftpanel" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-mini">Overlay</a>
-	</div><!-- /header -->
+        <a href="#leftpanel" class="ui-btn-right ui-shadow ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-gear">Options</a>
+    </div><!-- /header -->
 	
 	<div role="main" class="ui-content jqm-content jqm-fullwidth">
 		<div id='allCanvas'></div>
 	</div><!-- /content -->
 
+    <div data-role="panel" id="leftpanel" data-position="right" data-display="push" data-theme="a">
+        <nav>
+            <div id="color-picker" class="cp-normal"></div>
+        </nav>
+    </div><!-- /leftpanel1 -->
+
 	<div>
 	</div><!-- footer -->
 
 </div><!-- page -->
-
-<div data-role="panel" id="leftpanel" data-position="left" data-display="reveal" data-theme="a">
-	<h3>Left Panel: Выбор цвета</h3>
-	<nav>
-		<div id="color-picker" class="cp-normal"></div>
-	</nav>
-</div><!-- /leftpanel1 -->
 
 <!--<img id="imageData" src={{=canvasImage}}/>-->
 

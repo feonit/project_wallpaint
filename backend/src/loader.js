@@ -9,7 +9,7 @@
 exports.express     = require('express');
 exports.sockjs 		= require('sockjs');
 exports.crypto      = require('crypto');
-exports.Canvas      = require('canvas');
+//exports.Canvas      = require('canvas');
 exports.mysql       = require('mysql');
 exports.http        = require('http');
 exports.ejs         = require('ejs');
