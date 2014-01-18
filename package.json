@@ -7,13 +7,13 @@
   "scripts": {
     "start": "node app",
     "predeploy": "echo This will be run before deploying the app",
-    "postdeploy": "echo This will be run after deploying the app",
+    "postdeploy": "echo This will be run after deploying the app"
   },
   "main": ".frontend/src/main.js",
   "repository": {
       "type": "git",
       "url": "https://github.com/feonit/wallpaint"
-  }
+  },
   "dependencies": {
     "express": "3.2.0",
     "mysql": "2.0.0-alpha7",
