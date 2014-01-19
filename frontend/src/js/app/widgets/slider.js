@@ -1,4 +1,16 @@
 define(['jquery', 'app'], function( $ , App) {
+	var options;
+
+	options = {
+
+
+		DEFAULT_SCALE			: 100
+		,MIN_SCALE				: 10
+		,MAX_SCALE				: 400
+		,SCALE					: 10
+
+	};
+
 	return {
 		init : function(){
 			var sliderScale 	= $( "#sliderScale"),
@@ -22,7 +34,7 @@ define(['jquery', 'app'], function( $ , App) {
 			}
 
 			sliderOpacity.slider({
-				min:1, max:100, step:1, value:App.DEFAULT_OPACITY, animate:"fast", orientation:"horizontal", range:false,
+				min:1, max:100, step:1, value:options.DEFAULT_OPACITY, animate:"fast", orientation:"horizontal", range:false,
 				slide:function (event, ui) {
 					App.ctx.opacity = ui.value;
 					App.demoPicker.redrawPicker();
@@ -35,7 +47,7 @@ define(['jquery', 'app'], function( $ , App) {
 			});
 
 			sliderSize.slider({
-				min:1, max:100, step:1, value:App.DEFAULT_SIZE, animate:"fast", orientation:"horizontal", range:false,
+				min:1, max:100, step:1, value:options.DEFAULT_SIZE, animate:"fast", orientation:"horizontal", range:false,
 				slide:function (event, ui) {
 					var differenceWidth = place.offsetWidth/App.canvas.width;
 					var size = ui.value;
@@ -51,7 +63,7 @@ define(['jquery', 'app'], function( $ , App) {
 			});
 
 			sliderScale.slider({
-				min:10, max:400, step:1, value:App.DEFAULT_SCALE, animate:"fast", orientation:"horizontal", range:false,
+				min:10, max:400, step:1, value:options.DEFAULT_SCALE, animate:"fast", orientation:"horizontal", range:false,
 				change:changeScale,
 				slide:changeScale,
 				start:function(event){
@@ -62,6 +74,21 @@ define(['jquery', 'app'], function( $ , App) {
 					body.bind('mousedown', onMousedown);
 				}
 			});
+
+			//				function onMouseWheel(event){
+//					event.stopPropagation();
+//					event.preventDefault();
+//
+//					if (event.originalEvent instanceof WheelEvent) {
+//						var value = sliderScale.slider( "option", "value");
+//
+//						value += event.originalEvent.wheelDelta/120;
+//						if(value>options.MIN_SCALE && value < options.MAX_SCALE){
+//							sliderScale.slider( "option", "value", value );
+//						}
+//					}
+//					return false;
+//				}
 		}
 	}
 })

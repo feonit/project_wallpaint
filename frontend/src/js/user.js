@@ -13,7 +13,7 @@ require.config({
             exports: 'App'
         },
         'jqueryui': {
-            deps: ['jquery'],
+            deps: ['jquery']
             //exports: 'jqueryui'
         },
         'colorpicker': {
@@ -21,11 +21,11 @@ require.config({
             //exports: 'ColorPicker'
         },
         'picker': {
-            deps: ['jquery', 'app'],
+            deps: ['jquery', 'app']
             //exports: ''
         },
         'slider': {
-            deps: ['jquery', 'app'],
+            deps: ['jquery', 'app']
             //exports: ''sliderOpacity changeScale sliderSize //todo избавиться от этого гавна в глобали
         }
     }

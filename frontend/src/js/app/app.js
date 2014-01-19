@@ -1,243 +1,96 @@
-define( ['jquery'], function($){
-	require.config({
-		baseUrl: '/public/js/',
+require.config({
 
-		waitSeconds: 10000,
+	baseUrl:		'/public/js/',
+	waitSeconds:	10000,//urlArgs: "bust=" +  (new Date()).getTime(),
+	paths:			{
+		socketClient: 	'app/modules/socketClient',
+		drawLine: 		'app/modules/drawLine',
+		canvas: 		'app/modules/canvas',
+		sockjs: 		'lib/sockjs'
+	},
+	shim: 			{
+		socketClient	: 	{
+			deps: ['sockjs']
+		}
+	}
+});
 
-		//urlArgs: "bust=" +  (new Date()).getTime(),
+define( ['socketClient', 'drawLine', 'canvas'], function (socketClient, drawLine, api){
 
-		paths: {
-			socketClient: 	'app/modules/socketClient',
-			curve: 			'app/modules/curve',
-			drawLine: 		'app/modules/drawLine',
-			sockjs: 		'lib/sockjs',
-		},
-		shim: {
-			'socketClient': {
-				deps: ['sockjs'],
-				//exports: 'SockJS'
-			},
-			'drawLine': {
-				deps: ['curve'],
-				//exports: 'drawLine'
-			},
+	var options;
+
+	options = {
+
+		IMAGE_DATA_FIELD_NAME	: '#imageData'
+	};
+
+	$(function(){
+
+		api.init();
+
+		/**
+		отобразить картинку если будет
+*/
+		$(options.IMAGE_DATA_FIELD_NAME).on('load', function() {
+			api.canvas.ctx.drawImage(this,0,0);
+		});
+
+/**
+		http://php-zametki.ru/javascript-laboratoriya/66-drag-and-drop-krossbrauzerno.html
+*/
+		document.onselectstart = function () {
+			return false;
+		};
+
+		socketClient.init({
+			'draw' : drawLine,
+			'clearAllCanvas' : api.clear
+		});
+
+		//чтобы отследить очерёдность
+		var mouseMove = false;
+
+		function onMousedown(event){
+			var mouse = api.getMouse(event),
+				draw = api.createDraw(mouse.x, mouse.y);
+
+			socketClient.emit('drawClick', draw);
+			drawLine(draw);
+			mouseMove = true;
+		}
+
+		function onMousemove(event){
+			if(!mouseMove){
+				return;
+			}
+			var mouse = api.getMouse(event),
+				draw = api.createDraw(mouse.x, mouse.y);
+
+			socketClient.emit('drawClick', draw);
+			drawLine(draw);
+		}
+
+		function onMouseup(){
+			var draw = api.createDraw(-100, -100);
+
+			socketClient.emit('drawClick', draw);
+			drawLine(draw);
+			mouseMove = false;
+		}
+
+		var body = $("body");
+
+		if ($.mobile){
+			body.on('vmousedown', onMousedown);
+			body.on('vmousemove', onMousemove);
+			body.on('vmouseup', onMouseup);
+		} else {
+			body.on('mousedown', onMousedown);
+			body.on('mousemove', onMousemove);
+			body.on('mouseup', onMouseup);
 		}
 	});
 
-	var App = {
-		DEFAULT_COLOR        : { r:0, g:0, b:0 }
-		,DEFAULT_SIZE        : 3
-		,DEFAULT_OPACITY     : 100
-		,DEFAULT_HEIGHT      : 400
-		,DEFAULT_WIDTH       : 400
-		,DEFAULT_SCALE       : 100
-		,MIN_SCALE           : 10
-		,MAX_SCALE           : 400
-		,SCALE               : 10
-		,LOGIN               : "user" + new Date().getTime()
-		,PAGE                : location.pathname.replace("/", "")
-		,HOST                : location.host.search('localhost')!==-1 ? "127.0.0.1:" + location.port : location.host
-	};
 
-	require(['socketClient', 'curve', 'drawLine'],
-
-		function (socketClient, reDraw, drawLine){
-
-			//socket.emit('subscribe', {subscriber : App.PAGE});
-
-			/**
-			 * Socket
-			 * */
-			var socketEvents = {};
-
-			socketEvents.draw = function (draw) {
-				App.drawLine(draw);
-			}
-			socketEvents.clearAllCanvas = function () {
-				App.refresh();
-			}
-			App.socketClient = socketClient;
-			App.socketClient.init(socketEvents);
-
-			/**
-			 * Draw
-			 * */
-			App.reDraw = reDraw;
-
-			App.createCanvas = function (login){
-				var canvas = $('<canvas>')
-					.appendTo('#allCanvas')[0];
-				if ($('#allCanvas').children().length!==1);
-
-				canvas.id = login;
-				canvas.height = App.DEFAULT_HEIGHT;
-				canvas.width = App.DEFAULT_WIDTH;
-				canvas.mouseXY = {x:[], y:[]};
-				canvas.ctx = canvas.getContext("2d");
-				canvas.ctx.lineCap = "round";
-				canvas.ctx.lineJoin = "round";
-				return canvas;
-			}
-
-			App.refresh = function() {
-				App.ctx.clearRect(0, 0, App.canvas.width, App.canvas.height);
-				$('canvas:not(:first-child)').remove();
-			}
-
-			App.createDraw = function (x, y) {
-				return {
-					x:x
-					, y:y
-					, size:App.ctx.size
-					, r:App.ctx.color.r
-					, g:App.ctx.color.g
-					, b:App.ctx.color.b
-					, opacity:App.ctx.opacity
-					, nameFromPath:App.PAGE
-					, login:App.LOGIN
-				};
-			};
-
-
-			/*    onReady     */
-
-
-			$(function(){
-
-				App.canvas = App.createCanvas(App.LOGIN);
-				App.ctx    = App.canvas.ctx;
-				App.drawLine = drawLine(App); // хак инит говна зависящего жестко от App, todo! похоже на неразрешимую двухстороннюю зависимость, иначе говнокод
-
-				App.ctx.color   = App.DEFAULT_COLOR;
-				App.ctx.opacity = App.DEFAULT_OPACITY;
-				App.ctx.size    = App.DEFAULT_SIZE;
-
-				//App.tools = tools.init();
-
-				var allCanvas = $('#allCanvas');
-				var imageData = $('#imageData');
-
-				imageData.load(function() {
-					App.ctx.drawImage(imageData[0],0,0);
-				});
-
-
-				// http://php-zametki.ru/javascript-laboratoriya/66-drag-and-drop-krossbrauzerno.html
-				document.onselectstart = function () {
-					return false;
-				};
-
-
-				//переместить в функционал перемещения если будет
-				//allCanvas.draggable({ opacity: 1.0 });
-				//allCanvas.draggable( "option", "disabled", true );
-
-				//$('#slider-panel').draggable();
-				//$('#color-panel').draggable();
-				//$('#image-panel').draggable();
-			
-			
-
-				function getXY(event){
-					var canvas = getXY.canvas,
-					allCanvas = getXY.allCanvas;
-				
-					//todo доделать без натива
-					differenceWidth = canvas.offsetWidth/App.canvas.width,
-					differenceHeight = canvas.offsetHeight/App.canvas.height;
-
-					return {
-						x : Math.floor(((event.pageX - allCanvas.offsetLeft - canvas.offsetLeft)/differenceWidth)),
-						y : Math.floor(((event.pageY - allCanvas.offsetTop - canvas.offsetTop)/differenceHeight))
-					}
-				}
-				getXY.canvas = $('canvas')[0];
-				getXY.allCanvas = $('#allCanvas')[0];
-			
-				//чтобы отследить очерёдность
-				var mouseMove = false;
-			
-				function onMousedown(event){
-					console.log('down')
-	//				if (event.button !== 0) {
-	//					return;
-	//				}
-
-					var mouse = getXY(event),
-						x = mouse.x,
-						y = mouse.y;
-
-					var draw = App.createDraw(x, y);
-					App.socketClient.emit('drawClick', draw);
-					App.drawLine(draw);
-					mouseMove = true;
-				}
-			
-				function onMousemove(event){
-					console.log('move')
-					if(!mouseMove){
-						return;
-					}
-	//				if(event.button !== 0) {
-	//					return;
-	//				}
-
-					var mouse = getXY(event),
-						x = mouse.x,
-						y = mouse.y,
-						draw = App.createDraw(x, y);
-					
-					App.socketClient.emit('drawClick', draw);
-					App.drawLine(draw);
-				}
-			
-				function onMouseup(){
-					console.log('up')
-					var draw = App.createDraw(-100, -100);
-			
-					App.socketClient.emit('drawClick', draw);
-					App.drawLine(draw);
-					mouseMove = false;
-				}
-
-//				function onMouseWheel(event){
-//					event.stopPropagation();
-//					event.preventDefault();
-//				
-//					if (event.originalEvent instanceof WheelEvent) {
-//						var value = sliderScale.slider( "option", "value");
-//					
-//						value += event.originalEvent.wheelDelta/120;
-//						if(value>App.MIN_SCALE && value < App.MAX_SCALE){
-//							sliderScale.slider( "option", "value", value );
-//						}
-//					}
-//					return false;
-//				}
-
-
-
-//				allCanvas.bind('mousewheel', onMouseWheel);
-//				allCanvas.bind('mousewheel', onMouseWheel);
-//				allCanvas.bind('click', function (event){
-//					if(event.button==1){
-//						onDrag();
-//					}
-//				});
-
-				var body = $("body");
-				
-				if (jQuery.mobile){
-					body.on('vmousedown', onMousedown);
-					body.on('vmousemove', onMousemove);
-					body.on('vmouseup', onMouseup);
-				} else {
-					body.on('mousedown', onMousedown);
-					body.on('mousemove', onMousemove);
-					body.on('mouseup', onMouseup);
-				}
-			});
-
-	});
-	return App;
+	return {canvas : api.canvas};
 });

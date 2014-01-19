@@ -7,12 +7,10 @@ require.config({
 	},
 	shim: {
         'app': {
-            deps: ['jquery'],
-            exports: 'App'
+            deps: ['jquery']
         },
         'jquerymobile': {
-            deps: ['jquery'],
-            //exports: 'jquerymobile'
+            deps: ['jquery']
         }
     }
 });
@@ -26,11 +24,11 @@ require(['jquery', 'app', 'jquerymobile', 'colorpicker'], function($, App){
 			//init colorpicker
 			if(pic){
 				ColorPicker(pic, function (hex, hsv, rgb) {
-					App.ctx.color = rgb;
+					App.canvas.pencil.color = rgb;
 					//App.demoPicker.redrawPicker();
 				});
 			}
-			
+
 			// init panel
 			$( "body>[data-role='panel']" ).panel();
 			
